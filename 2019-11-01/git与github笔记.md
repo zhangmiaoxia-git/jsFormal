@@ -27,8 +27,8 @@
 + cat ~/.gitconfig  查看配置信息
 + git config --global user.name '自己的名字'（这个名字最好用英文，最好不要用中文） 设置用户名  
 + git config --global user.email '自己的邮箱'（能够收到邮件的邮箱） 设置邮箱
-+ git config --global credential.helper 'store' git push的时候记住用户名和密码
-+ git config --global push.default 'simple' 从Git 2.0之后，push.default的默认值由'matching'改为'simple'  (matching[所有分支]  simple[当前分支])
++ git config --global credential.helper 'store'      git push的时候记住用户名和密码
++ git config --global push.default 'simple'       从Git 2.0之后，push.default的默认值由'matching'改为'simple'  (matching[所有分支]  simple[当前分支])
 + 工作区到暂存区
     + git add 指定文件名
     + git add .  把当前目录下的所有文件都放到暂存区
