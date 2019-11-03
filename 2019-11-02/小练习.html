@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // +function(){
+        //     /*
+        //         形参赋值: ''
+        //         预解析:
+        //             // var a
+        //             a = function a(){}
+        //             b = function b(){}
+        //             var c
+        //         执行上下文:
+        //             function a(){}
+        //             a = 5   
+        //             b = 6
+        //             c = d = b      window.d = 6;
+
+        //     */
+        //     console.log(a) //执行最后一个函数function a(){}
+        //     var a=5;
+        //     function a(){}
+        //     console.log(a) //5   执行var a=5;
+        //     function b(){}
+        //     b=6
+        //     console.log(b) //6   执行b=6
+        //     var c=d=b
+                
+        // }()
+        // console.log(d) //6   window.d
+        // console.log(c) //拿不到 报错   c在函数中被定义了
+
+
+        //this
+        var obj = {
+            val:2,
+            dbl:function(){ 
+                var val = 45;
+                console.log(this); 
+                this.val *= 2;
+                console.log(val); 
+                console.log(this.val);
+            }
+        }
+
+        /*
+            对象下的this 就是.前面的主
+            console.log(this);   obj
+            console.log(val);    拿函数中的var val = 45;
+            console.log(this.val);    这个val是obj下的val，val=2，this.val=4
+        */
+        var ff = obj.dbl(); //obj  45 4   
+        /*
+            window  全局打印this  fn()  this是window
+            fn()  函数执行，输出this直接是window
+            console.log(this);    window
+            console.log(val);   45
+            console.log(this.val);   this是window，window.val*=2是非法运算   NaN
+        */ 
+        var fn = obj.dbl; //window  45  NaN
+        fn();
+
+
+        let obj2 = {
+            style:{
+                fn:function(){
+                    console.log(this);
+                }
+            }
+        }
+
+        // obj2.style.fn();  this是obj2下的style对象      
+
+        let f = obj2.style.fn();
+        // f();   //window
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        //window.onload  当页面的所有静态资源加载完成才执行里面的函数
+        window.onload = function(){
+            // console.log(document.getElementById('btn'));
+            var btn = document.getElementById('btn');
+            var i = 0;
+            btn.onclick = function(){
+                // alert(i);
+                i = null;   //将i赋值为null，是为了性能优化
+                console.dir(btn.onclick);
+            }
+
+            btn2.onclick = function(){
+                console.dir(btn.onclick);
+            }
+
+            console.dir(btn.onclick)
+        }
+    </script>
+</head>
+<body>
+    <button id="btn">1</button>
+    <button id="btn2">2</button>
+    <button>3</button>
+    <script>
+        // var i = 0;
+        // for(;i<10;i++){
+        //     function fn(i){
+        //         setTimeout(function(){
+        //             console.log(i);
+        //         },1000)
+        //     }
+        //     fn(i)
+        // }
+
+        const btns = document.querySelectorAll('button');
+        var i = 0;
+        for(;i<btns.length;i++){
+            console.log(i);
+            function fn(a){
+                btns[a].onclick = function(){
+                    alert(a);
+                }
+            }
+            fn(i)
+        }
+    </script>
+</body>
+</html>

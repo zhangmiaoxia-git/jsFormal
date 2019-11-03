@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <script>
+        var b = 20;   //全局变量对象（window）  window.b
+        alert(a);   //报错，这里输出的上面没有a这个变量
+        alert(1);   //不执行  上面已经报错，所以这里不会执行了
+    </script>  
+    <script>
+        alert(b);  //20   执行var b = 20;
+        var a = 10;
+        function a(){};
+    </script>   -->
+    <script>
+        // console.log(a);   //执行var a = 20;输出结果是undefined   执行let a = 20;会报错
+        // var a = 20;
+        // let a = 20;
+        // console.log(window);   //var a = 20;会在window上有一个a的属性
+
+        // function fn(){  //在函数内开辟一个执行栈
+        //     //形参赋值
+        //     //变量提升
+        //     //执行上下文
+        //     //销毁作用域
+        //     a = 30;
+        // }
+        // fn();
+        // alert(a);   //30   
+
+
+        // function fn(){
+        //     var a = 50;
+        //     function f(){
+        //         console.log(a);   //50   这里执行的是var a = 50;
+        //     }
+        //     f();
+        // }
+        // fn();
+        // console.log(a);   //报错   a是函数中的一个变量，在函数外是拿不到的
+
+
+        // var b = 10;
+        // function fn(){
+        //     alert(a);   //undefined   在这个函数中声明了一个变量a，这里是在变量a的上面弹出，所以是undefined
+        //     alert(b);   //undefined   在这个函数中声明了一个变量b，这里是在变量b的上面弹出，所以是undefined
+        //     var a = 20;
+        //     b = 50;
+        //     alert(a);   //20   在此执行的上面给a变量赋值了一个20，所以a现在是20，所以在这里弹出a是20
+        //     var b;
+        // };
+        // fn();
+        // alert(b);  //10  在函数外是拿不到函数中已经声明的变量，只能在函数外拿，所以b是10
+
+
+        // var b = 10;
+        // function fn(){
+        //     alert(a);  //undefined   这里是在定义a的上面弹出a，所以是undefined
+        //     var a = 20;
+        //     alert(b);  //undefined   这里是在定义b的上面弹出b，所以是undefined
+        //     window.b = 30;
+        //     alert(a);  //20  执行var a = 20;
+        //     b = 50;
+        //     var b;
+        // }
+        // fn();
+        // alert(b); //30   执行window.b = 30;
+
+        // var a = 20;
+        // function fn(a){   //var a = 20
+        //     alert(a);  //20  这里接收的是传的形参值
+        //     var b = 30;
+        //     a = 40;
+        //     alert(a);   //40  执行a = 40;
+        // };
+        // fn(a);
+        // alert(a);  //20   在函数中a变量已经被声明了，所以在函数外是拿不到的
+
+
+        /*
+            这个函数中虽然传了一个形参a，但是局部作用域（函数）中有一个函数，所以局部作用域（函数）中的函数先执行
+        */
+        /*
+            形参赋值   a=function(){console.log(4567890)};
+            预解析
+                var a  这里形参赋值已经把a这个变量声明了，所以a现在是一个变量
+                var b
+                a = function a(){alert(5);}
+            执行上下文
+                a = function a(){alert(5);}
+                b = 30
+                a = 40
+        */
+        // var a = function(){console.log(4567890)};
+        // function fn(a){   //var a = function(){console.log(4567890)}
+        //     alert(a);  //function a(){alert(5);}  这里会先执行函数中的函数
+        //     var b = 30;
+        //     a = 40;
+        //     alert(a);   //40  执行a = 40;
+        //     function a(){
+        //         alert(5);
+        //     }
+        // };
+        // fn(a);
+        // alert(a);  //function(){console.log(4567890)};   在函数中a变量已经被声明了，所以在函数外是拿不到的
+    </script>
+</body>
+</html>

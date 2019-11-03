@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // var a = 5;
+
+        function fn(){
+            var a = 10;
+            function f(){
+                ++a;
+                console.log(a);  //子函数调用父函数的变量
+            }
+            return f;
+        }
+
+        // var ff = fn(1);  //fn形成了一个闭包环境,fn中的参数或者变量就不会被浏览器垃圾回收机制回收
+        // fn()(); //11
+        // fn()(); //11
+        //ff();//11
+        // ff();//12
+        // console.dir(ff);
+    </script>
+</body>
+</html>

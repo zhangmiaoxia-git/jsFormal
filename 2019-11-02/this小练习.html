@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function fn(){
+            console.log(this);   //这里的this是window
+        }    
+        document.onclick = fn;   //这里的this是document
+        document.onclick = function(){
+            fn();   //这里的this是window
+        };
+        //匿名函数自执行this是window
+        document.onclick = (function(){
+            console.log(this); //window
+            return fn;    //这里是给document.onclick一个返回值，所以this是document
+        })();
+    </script>
+</body>
+</html>
