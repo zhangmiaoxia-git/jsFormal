@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            闭包的特性：
+                1、函数套函数
+                2、子函数引用父函数的参数或变量
+                3、子函数被外界所引用
+                4、父级会形成一个闭包环境（父级的执行栈不被销毁）
+                5、父级的参数或者变量不会被浏览器的垃圾回收机制回收
+                6、打印父级的返回值查看scopes下有个closure，closure就是闭包
+            闭包可以存储值，在子函数中可以直接拿来用
+        */
+        // function fn(){
+        //     var i = 0;
+        //     function f(){
+        //         i++;
+        //         console.log(i);
+        //     }
+        //     return f;
+        // }
+        // let ff = fn();
+        // ff();   //1
+        // ff();   //2
+
+        // function fff(){
+        //     var a = 10;
+        //     console.log(++a);
+        // }
+        // fff();
+        // fff();
+    </script>
+</body>
+</html>

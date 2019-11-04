@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <script>
+        // console.log(a);  //undefined  块级作用域中，var一个变量，在上面获取到的是undefined,var会进行预解析，会把a这个变量放在window下，所以在块级作用域的上面是可以拿到a这个变量
+        // {
+        //     var a = 10;
+        // }
+        // console.log(a);  //10  在块级作用域的下面可以拿到a这个变量的值
+
+        // console.log(a);  //报错 块级作用域中，let一个变量，在上面是拿不到a这个变量的，let不会进行预解析，它不会把a这个变量放在window下，所以在块级作用域的上面是拿不到a这个变量
+        // {
+        //     let a = 10;
+        // }
+        // console.log(a);  //报错   同样在下面也是拿不到的
+
+        // {
+        //     let a = 10;
+        //     console.log(a);  //let只能在块级作用域中拿到a这个变量，所以let是受块级作用域的限制，而var是不受块级作用域的限制
+        //     console.log(fn);  //undefined  同var的性质，在块级作用域上面拿到的是undefined
+        //     {
+        //         function fn(){console.log(1)}
+        //     }
+        //     console.log(fn);  //function fn(){console.log(1)}  在下面拿到的是函数,并且函数是就近原则
+        // }
+        // function fn(){}
+        
+        //let可以存储循环的索引
+        // let btn = document.querySelectorAll('button');
+        // for(let i=0;i<btn.length;i++){
+        //     btn[i].onclick = function(){
+        //         alert(i);
+        //     }
+        // }
+
+        // let btn = document.querySelectorAll('button');
+        // for(let i=0;i<btn.length;i++){
+        //     fn(i);
+        // }
+        // function fn(i){
+        //     btn[i].onclick = function(){
+        //         alert(i);
+        //     }
+        // }
+
+        // let a = 10;
+        // let a = 20;
+
+        // const a = 10;
+        // const a = 20;
+        
+        // var a = 10;
+        // var a = 20;
+
+        // const obj = {
+        //     b:0,
+        // }
+        // obj.b = 100;
+        // console.log(obj);
+
+        // let a = 10;   //window.a=undefined
+        // var a = 10;   //window.a=10
+        // console.log(window.a);
+
+        // let arr = [1,2,3,4];
+        // arr.length = 0;
+        // console.log(arr[0]);   //undefined
+
+        // let aa = {
+        //     aa:10,
+        // }
+        // let bb = {
+        //     bb:10,
+        // }
+        // let obj = {
+        //     aa:20,
+        // }
+        // obj[bb] = 30;
+        // //因为obj[bb]=30,bb转字符串是'[object Object]',同样aa也是，所以obj[aa] = 30
+        // console.log(obj[aa]);   //30
+
+        let ary = [];
+        for(var i=0;i<4;i++);{
+            ary.push(i+1);
+        }
+        console.log(ary)  //5   for有一个分号，说明for循环已经执行完成，所以在块级作用域中拿到的i是4
+    </script>
+</body>
+</html>

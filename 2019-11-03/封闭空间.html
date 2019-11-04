@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            封闭空间，函数名可以重复，并且函数名相同的函数都会执行，互不影响
+        */
+        function f(){
+            alert(5);
+        }
+        f();
+
+        ~function(){
+            function f(){
+                alert(6);
+            }
+            f();
+        }()
+    </script>
+</body>
+</html>

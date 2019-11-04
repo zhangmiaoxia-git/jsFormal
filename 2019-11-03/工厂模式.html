@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            工厂模式就是为了批量生产实例
+            函数的目的就是为了复用
+        */
+        function fn(name,age){
+            let obj = {};  //原材料
+            //加工
+            obj.name=name;
+            obj.age=age;
+            //出厂
+            return obj;
+        }
+        let obj = fn('珠峰',10);
+        console.log(obj);
+    </script>
+</body>
+</html>

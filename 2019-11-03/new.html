@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            new 是函数一元运算符，专门运算函数的
+
+            使用new之后会调用函数，就算不加()也会调用执行
+
+            使用new之后，this就变成了实例，实例就是一个对象（空白对象）
+
+            使用new之后，函数默认返回值为实例化对象，就不是undefined
+
+            如果return后面有值，为简单数据类型，返回结果还是实例，如果return后面的值为引用类型，返回的结果就是return后的引用类型
+
+            创建对象的几种方式
+                {}
+                new object
+                new 函数
+        */
+        function fn(){
+            //alert(this);  //window
+            // return 1;  //fn()
+            return [];  //[]
+        }
+        console.log(new fn());
+    </script>
+</body>
+</html>
