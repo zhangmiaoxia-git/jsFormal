@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body,
+			ul,
+			li {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.color{
+				background:lightcoral;
+			}
+			.changeColor{
+				background:darkorange;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="baidu.css" />
+	</head>
+
+	<body>
+		<div class="wrap">
+			<div class="baidu">
+				<ul id="list">
+					<li>
+						<div></div>
+						<span>泡沫</span>
+						<span>邓紫棋</span>
+					</li>
+					<li>
+						<div></div>
+						<span>说爱你</span>
+						<span>蔡依林</span>
+					</li>
+					<li>
+						<div></div>
+						<span>稻香</span>
+						<span>周杰伦</span>
+					</li>
+					<li>
+						<div></div>
+						<span>我的梦</span>
+						<span>张靓颖</span>
+					</li>
+					<li>
+						<div></div>
+						<span>怎么说我不爱你</span>
+						<span>萧敬腾</span>
+					</li>
+					<li>
+						<div>️</div>
+						<span>无处安放</span>
+						<span>白若溪</span>
+					</li>
+				</ul>
+				<div class="select">
+					<span class="selectAll"><span>全选</span></span>
+					<div class="others">
+						<span><em></em>收藏</span>
+						<span><em></em>添加</span>
+						<span><em></em>删除</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			//获取所有的li
+			const lists = document.querySelectorAll('#list li');
+			//获取全选框
+			let selectAll = document.querySelector('.selectAll');
+			let ary = [];
+			//循环li数组
+			lists.forEach((item,index)=>{
+				//获取每个li下的第一个字元素节点
+				const first = item.firstElementChild;
+				if(!(index%2)){
+					item.classList.add('color');
+				}
+				item.onmouseover = function(){
+					this.classList.add('changeColor');
+				}
+				item.onmouseout = function(){
+					this.classList.remove('changeColor');
+				}
+				//当点击每个多选框时改变内容，以及每一行的背景色
+				first.onclick = function(){
+					if(this.innerText){
+						this.innerText = '';
+						item.classList.remove('changeColor');
+					}else{
+						this.innerText = '√';
+						item.classList.add('changeColor');
+					}
+					//将每个多选框的内容放入一个新数组中
+					ary.push(this.innerText);
+				}
+			})
+
+			//判断每个多选框是否都选中，如果都选中，那么全选就选中，否则全选就不选中
+			let newAry = ary.every(function(item){
+				return (item === '√');
+			});
+			if(newAry){
+				selectAll.innerText = '√';
+			}else{
+				selectAll.innerText = '';
+			}
+
+			//点击全选的时候，改变每一行多选框是否被选中，并且改变每一行的颜色，否则每一行的多选框都不选中，每一行的颜色也不改变
+			selectAll.onclick = function(){
+				if(this.innerText){
+					selectAll.innerText = '';
+					lists.forEach((item)=>{
+						const first = item.firstElementChild;
+						item.classList.remove('changeColor');
+						if(first.innerText){
+							first.innerText = '';
+						}
+					})
+				}else{
+					selectAll.innerText = '√';
+					lists.forEach((item)=>{
+						const first = item.firstElementChild;
+						item.classList.add('changeColor');
+						if(!first.innerText){
+							first.innerText = '√';
+						}
+					})
+				}
+			}
+		</script>
+	</body>
+
+</html>
