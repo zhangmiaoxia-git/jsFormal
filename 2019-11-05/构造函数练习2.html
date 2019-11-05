@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            预解析：
+                Foo = function(){}
+                //var getName
+                getName = function(){}
+                var a,b,c
+        */
+        function Foo(){
+            //在函数中如果一个变量没有被定义，那么这个变量会在window，所以这里的getName是在window
+            getName = function(){console.log(1);};
+            return this;
+        }
+        Foo.getName = function(){console.log(2);};
+        Foo.prototype.getName = function(){console.log(3);}
+        var getName = function(){console.log(4);};
+        function getName(){console.log(5);};
+
+        Foo.getName();  //2  代码依次往下执行，执行Foo.getName = function(){console.log(2);};
+        getName();  //4  代码依次往下执行，会先执行function getName(){console.log(5);};，又给getName重新赋值var getName = function(){console.log(4);};，所以结果是4
+        Foo().getName();  //1  Foo()执行之后拿到的结果是window，window下的getName是getName = function(){console.log(1);};所以结果是1
+        getName();  //1  window下有一个getName，会把之前所有的getName覆盖，所以到这里只剩下一个getName，就是window下的getName，所以结果是1
+        var a = new Foo.getName(); //2  构造函数下的getName的实例   Foo.getName{}
+        var b = new Foo().getName(); //3  Foo实例下的getName函数   undefined  {}.getName()
+        var c = new new Foo().getName; //3  Foo实例下的getName的实例  Foo{}.getName
+        console.log(a,b,c)
+    </script>
+</body>
+</html>

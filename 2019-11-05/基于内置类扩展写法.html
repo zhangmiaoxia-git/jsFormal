@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let ary = [1,2,3];
+        //手写一个push，是写在Array的原型上的，这是一个隐藏的数组方法
+        Array.prototype.mypush = function(...arg){
+            console.log(this); //this是原数组
+            let nary = this.concat(arg);  //原数组拼接上新的数组
+            let len = nary.length; //新数组的长度
+            //for循环修改原数组，把新的数组中的数组拼接到原数组中
+            for(let i = 0;i<len.length;i++){
+                this[i] = nary[i];
+            }
+            return len;
+        }
+        console.log(ary.mypush(4,5,6));
+
+
+        //链式调用
+        Array.prototype.myconcat = function(...arg){
+            //将原数组与新数组拼接起来，原数组会变成一个新数组
+            return [...this,...arg.flat(Infinity)];
+        }
+        console.log(ary.myconcat([4,5],[7,8]))
+    </script>
+</body>
+</html>

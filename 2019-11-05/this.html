@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            1、window
+                全局打印this
+                函数+括号
+                定时器
+                (function(){})
+            2、事件触发的元素
+                只要是事件函数内的this都指向事件触发的元素
+            3、点前面的主（对象）
+            4、实例
+                构造函数下的this是实例  new Fn
+                构造函数原型的this也是实例（实例调用）  Fn.prototype.say()  this为Fn.prototype
+            5、箭头函数
+                指向的是声明箭头函数的上下文this
+                没有arguments，不能new
+        */
+        // document.onclick = fn();
+        // function fn(){
+        //     console.log(this);  //在上面函数已经执行了，所以this是wondow
+        // }
+
+        // document.onclick = (function(){
+        //     console.log(this); //window  匿名函数自执行，this直接是window
+        //     return function fn(){
+        //         console.log(this);//document  这里的return返回给document，所以this是document
+        //     }
+        // })();
+
+        // document.onclick = function(){
+        //     setTimeout(new fn,1000);
+        //     function fn(){
+        //         console.log(this);  //fn{}  报错   定时器中只能执行函数，其他的会报错，只要是定时器执行，就是window
+        //     }
+        // }
+
+        // var name = '小强';
+        // var obj = {
+        //     name:'zf',
+        //     getName:function(){
+        //         console.log(this.name);
+        //     }
+        // }
+        // setTimeout(obj.getName,1000);  //小强  定时器执行，this就是window
+
+        // obj.getName();  //zf  执行的是obj下面的getName函数，getName前面的主是obj，所以这里是zf
+
+        // function Fn(){
+        //     this.name1 = 'zf';
+        // }
+        // Fn.prototype.name1 = '小明';
+        // Fn.name1 = '小强';
+        // Function.prototype.name1 = '小花';
+        // /*
+        //     function Object(){} -> Function.prototype.name1
+        // */
+        // console.log(Object.name);  //Object是window下的object函数，在这个函数下有一个自带的name属性，属性值是Object
+        // console.log(Object.name1); //function Object(){} -> Function.prototype.name1   Object是一个实例化对象，而它的构造函数就是Function，Function的原型下有一个变量name1='小花'
+
+
+        // function Fn(){
+        //     // this.name1 = 'zf';
+        // }
+        // Fn.prototype.name1 = function(){
+        //     console.log(this);//new Fn().name1()   new Fn()的实例化对象是Fn{}
+        //     let fn = ()=> {
+        //         console.log(this);//Fn.prototype Fn{}  箭头函数的this就是它的上下文，同样这里是new Fn()的实例化对象Fn{}
+        //     }
+        //     fn();
+        // };
+        // Fn.name1 = function (){
+        //     console.log(this);
+        // }
+        // Function.prototype.name1 = function(){
+        //     console.log(this);
+        // } 
+        // new Fn().name1();//Fn{}   实例下的this就是实例化对象Fn{}
+        // Fn.prototype.name1();  //  Fn.prototype执行的结果是{name1: ƒ, constructor: ƒ}，所以这里this就是{name1: ƒ, constructor: ƒ}，this就是点前面的主
+
+        //箭头函数的this就是它的上下文，这里的上文就是document
+        // document.onclick = function(){
+        //     let fn = ()=> {
+        //         console.log(this);
+        //     }
+
+        //     fn();
+        // }
+
+        //这个函数执行之后输出1，2，3
+        // function add(){
+        //     var num = 0;
+        //     num += 1;
+        //     // console.log(num)
+        // }
+
+        // //第一种方法，将num=0定义为全局变量
+        // var num = 0;
+        // function add(){
+        //     num += 1;
+        //     console.log(num)
+        // }
+
+        // //第二种方法，使用闭包，闭包可以存值
+        // function add1(){
+        //     var num = 0;
+        //     return function(){
+        //         num += 1;
+        //         console.log(num)
+        //     }
+        // }
+        // let add = add1();
+        // add();//1
+        // add()//2
+        // add()//3
+
+        // 下面代码片段的输出结果是什么?
+        var name = "The Window"; //window.name = 'The Window'
+        var object = {
+            name : "My Object",  //obj.name = 'My Objec'
+            getNameFunc : function(){
+                return function(){
+                    return this.name;
+                }
+            }
+        };
+
+        let oo = object.getNameFunc();
+        console.log(oo())
+
+        //object.getNameFunc()第一次执行之后，this是obj，object.getNameFunc()()第二次执行之后，是getNameFunc下的return的那个函数直接执行，是在window下执行的，所以结果就是window下的name
+        alert(object.getNameFunc()());
+    </script>
+</body>
+</html>
