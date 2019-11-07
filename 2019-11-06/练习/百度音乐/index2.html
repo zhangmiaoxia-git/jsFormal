@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .zyf{
+            background:pink
+        }
+        .active{
+            background:skyblue
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="baidu.css" />
+</head>
+<body>
+    <div class="wrap">
+        <div class="baidu">
+            <ul id="list">
+                <li>
+                    <input type="checkbox"/>
+                    <span>泡沫</span>
+                    <span>邓紫棋</span>
+                </li>
+                <li>
+                    <input type="checkbox"/>
+                    <span>说爱你</span>
+                    <span>蔡依林</span>
+                </li>
+                <li>
+                    <input type="checkbox"/>
+                    <span>稻香</span>
+                    <span>周杰伦</span>
+                </li>
+                <li>
+                    <input type="checkbox"/>
+                    <span>我的梦</span>
+                    <span>张靓颖</span>
+                </li>
+                <li>
+                    <input type="checkbox"/>
+                    <span>怎么说我不爱你</span>
+                    <span>萧敬腾</span>
+                </li>
+                <li>
+                    <input type="checkbox"/>
+                    <span>无处安放</span>
+                    <span>白若溪</span>
+                </li>
+            </ul>
+            <div class="select">
+                <span><input type="checkbox" id="all"/><span>全选</span></span>
+                <div class="others">
+                    <span><em></em>收藏</span>
+                    <span><em></em>添加</span>
+                    <span><em></em>删除</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        //获取所有的复选框
+        const checkboxs = document.querySelectorAll('#list input');
+        //获取所有的li
+        const lis = document.querySelectorAll('#list li');
+        //创建一个新数组
+        let ary = [];
+        lis.forEach((ele,index)=>{
+            //给每个li都增加一个状态，默认是未选中状态，是为了判断是否选中全选按钮
+            ary[index] = false;
+            //隔行变色
+            if(index%2)ele.classList.add('zyf');
+            ele.onmouseover = function(){
+                this.classList.add('active');
+            }
+            ele.onmouseout = function(){
+                //鼠标滑出的时候，判断复选框是否被选中，如果没有被选中，就删除class
+                if(!checkboxs[index].checked){
+                    this.classList.remove('active');
+                }
+            }
+            //点击复选框的时候，修改复选框的状态为选中状态，并且每个li都选中之后，让全选按钮选中
+            checkboxs[index].onclick = function(){
+                ary[index] = this.checked;
+                all.checked = ary.every(item=>item);
+            }
+
+            //点击全选按钮选中
+            all.onclick = function(){
+                checkboxs.forEach((ele,index)=>{
+                    ele.checked = this.checked;
+                    this.checked?lis[index].classList.add('active'):lis[index].classList.remove('active');
+                    ary[index] = this.checked;
+                })
+            }
+        })
+    </script>
+</body>
+</html>

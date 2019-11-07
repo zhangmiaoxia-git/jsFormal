@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .zyf{
+            background:pink
+        }
+        .active{
+            background:skyblue
+        }
+        img{
+            width:14px;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="baidu1.css" />
+</head>
+<body>
+    <div class="wrap">
+        <div class="baidu">
+            <ul id="list">
+                <li>
+                    <div></div>
+                    <span>泡沫</span>
+                    <span>邓紫棋</span>
+                </li>
+                <li>
+                    <div></div>
+                    <span>说爱你</span>
+                    <span>蔡依林</span>
+                </li>
+                <li>
+                    <div></div>
+                    <span>稻香</span>
+                    <span>周杰伦</span>
+                </li>
+                <li>
+                    <div></div>
+                    <span>我的梦</span>
+                    <span>张靓颖</span>
+                </li>
+                <li>
+                    <div></div>
+                    <span>怎么说我不爱你</span>
+                    <span>萧敬腾</span>
+                </li>
+                <li>
+                    <div>️</div>
+                    <span>无处安放</span>
+                    <span>白若溪</span>
+                </li>
+            </ul>
+            <div class="select">
+                <span class="selectAll" id="all"><span>全选</span></span>
+                <div class="others">
+                    <span><em></em>收藏</span>
+                    <span><em></em>添加</span>
+                    <span><em></em>删除</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        //获取所有的li
+        const lis = document.querySelectorAll('li');
+        //创建的一个新数组，存储所有li是否被选中的状态，用新数组中的状态判断每个li的复选框是否被选中，如果全都被选中，那么下面的全选按钮要被选中
+        let ary = [];
+        //给全选按钮添加状态，默认是未选中的状态
+        all.onoff = false; 
+        lis.forEach((ele,index)=>{
+            //给存li状态的数组都添加一个未选中状态（布尔值）
+            ary[index] = false;
+            //给每个li添加一个是否选中状态，默认是未选中状态，这个是为了判断是否选中当前点击的复选框
+            ele.onoff = false;
+            //隔行变色
+            if(index%2)ele.classList.add('zyf');
+            ele.onclick = function(){
+                //点击li的时候，当前li的复选框如果是未选中的状态，那么就让复选框选中
+                if(this.onoff){
+                    ele.children[0].innerHTML = '';
+                }else{
+                    ele.children[0].innerHTML = '<img src="./2.png">';
+                }
+                //修改当前点击复选框的状态，修改为true
+                this.onoff = !this.onoff;
+                //修改存储li状态的数组的布尔值
+                ary[index] = this.onoff;
+                //判断存储li的数组中的每一项是否为tru，如果是true，那么就让全选按钮选中
+                if(ary.every(item=>item)){
+                    //如果所有的li是全选状态，创建img标签，给img标签加图片，再插入到span标签中
+                    let img = document.createElement('img');
+                    img.src = '2.png';
+                    all.insertBefore(img,all.children[0]);
+                    all.onoff = true;
+                }else{
+                    //如果所有的li没有全部选中，那么查看all的第一个子元素是否为img，如果是就删除
+                    if(all.children[0].nodeName === 'IMG'){
+                        all.removeChild(all.children[0]);
+                    }
+                    all.onoff = false;
+                }
+            }
+            ele.onmouseover = function(){
+                this.classList.add('active');
+            }
+            ele.onmouseout = function(){
+                //如果当前li的复选框是未选中的状态，就还原成刚才的颜色，如果是选中的状态，那么就是移入的颜色
+                if(!this.onoff){
+                    this.classList.remove('active');
+                }
+            }
+
+            all.onclick = function(){
+                this.onoff = !this.onoff;
+                //循环所有的li，把所有li的状态修改为与全选按钮一样的状态
+                lis.forEach((ele,index)=>{
+                    ele.onoff = this.onoff;
+                    //判断所有的li的复选框是否为选中状态，如果是选中状态，那么就删除class，如果是未选中状态，就添加class
+                    ele.children[0].innerHTML = this.onoff?'<img src="./2.png">':'';
+                    this.onoff?ele.classList.add('active'):ele.classList.remove('active');
+                    ary[index] = this.onoff;
+                });
+
+                //判断全选按钮是否被选中，如果是被选中状态，那么就修改为未选中状态，如果是未选中状态，那么就修改为选中状态
+                if(this.onoff){
+                    //如果所有的li是全选状态，创建img标签，给img标签加图片，再插入到span标签中
+                    let img = document.createElement('img');
+                    img.src = '2.png';
+                    all.insertBefore(img,all.children[0]);
+                    all.onoff = true;
+                }else{
+                    //如果所有的li没有全部选中，那么查看all的第一个子元素是否为img，如果是就删除
+                    if(all.children[0].nodeName === 'IMG'){
+                        all.removeChild(all.children[0]);
+                    }
+                    all.onoff = false;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

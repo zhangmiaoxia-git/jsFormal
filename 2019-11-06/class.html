@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            class 类名{
+                constructor{
+                    给自身添加属性或者方法，就必须要写constructor
+                }
+            }
+        */
+        class Person{
+            constructor(name){
+                this.name = name;
+            }
+            say(){
+                console.log(this.name);
+            }
+        }
+        // Person.prototype.haha = 10;
+        Person.prototype = {
+            haha:10,  //如果使用类，是不能修改类的原型地址，修改了结果就是undefined
+        }
+
+        let p = new Person('哈哈');
+        console.log(p.name);
+        console.log(p.haha);  //undefined 
+
+        function fn(){
+            console.log(3);
+        } 
+
+        let obj = {
+            fn:function(){
+                console.log(1);
+            },
+            fn(){
+                console.log(2);
+            },
+            fn //如果key值和value值是一样的，那么可以只写一个
+        };
+        obj.fn();
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+    <script>
+        //Object.prototype.toString.call  检测数据类型最好的方式
+        // console.log(Object.prototype.toString.call([1,2,3]))  //'[object Array]'
+
+        /*
+            所有的数据都有一个toString的方法，但是写法是不一样的，唯独Object的toString能够去检测当前的数据类型，所以可以把this改变，达到我们的目的
+        */
+
+        console.log(Array.prototype.toString.call('1234'))
+        //Array的toString，除了数组本身别的也能检测数据类型
+
+        //slice返回一个新的数组，不传参就是把整个数组返回
+        Array.prototype.mySlice = function(){
+            return [...this];
+        }
+        let ary2 = [1,2,3,4];
+        console.log(ary2.mySlice());
+
+        //Array.from()  把类数组转数组
+        var lis = document.getElementsByTagName('li');
+        var arr = Array.from(lis)
+        // console.log(lis);
+        // console.log(arr);
+        arr.forEach((item,index)=>{
+            item.onclick = function(){
+                alert(index);
+            }
+        })
+    </script>
+</body>
+</html>

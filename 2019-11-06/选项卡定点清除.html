@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .active{
+            background: yellow;
+        }
+        #box div{
+            width:200px;
+            height:100px;
+            border:1px solid #000;
+            display: none;
+        }
+        #box div.show{
+            display: block;
+        }
+    </style>
+<body>
+    <div id="box">
+        <button class="active" index="0">按钮一</button>
+        <button index="1">按钮二</button>
+        <button index="2">按钮三</button>
+        <div class="show">11111</div>
+        <div>22222</div>
+        <div>33333</div>
+    </div>
+    <script>
+        //获取要操作的元素
+        const btns = document.querySelectorAll('button');
+        const div = document.querySelectorAll('#box div');
+        
+        //声明一个变量，索引从0开始
+        let prevIndex = 0;
+        //循环button按钮的每一项
+        btns.forEach((item,index)=>{
+            //点击每个按钮的相关事件
+            item.onclick = function(){
+                //每次点击清空上一次点击按钮的class，以及关联的div的class，再给本次点击button按钮以及div加上class，并且修改prevIndex，修改为索引
+                btns[prevIndex].className = '';
+                div[prevIndex].className = '';
+                this.className = 'active';
+                div[index].className = 'show';
+                prevIndex = index;
+            }
+        })
+    </script>
+</body>
+</html>

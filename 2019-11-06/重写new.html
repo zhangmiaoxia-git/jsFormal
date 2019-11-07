@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            call(that，多个参数)
+            apply(that，两个参数（第一个参数是修改this指向，第二个参数是数组）)
+            bind(that,多个参数)
+
+            这三个方法的共同点是，第一个参数都是改变this指向的，是函数天生自带的
+
+            new：
+                1、this是实例
+                2、默认return实例，如果return为引用类型就为引用类型
+                3、实例的原型链 === 构造函数的原型
+                4、可以不急括号调用
+        */
+        /*
+            重写new：
+                1、首先创建一个实例对象
+                2、修改构造函数的this指向
+                3、使实例的原型链与构造函数的原型全等
+                4、最后结果要么输出函数，要么输出对象类型
+        */
+        function Fn(name){
+            this.name = name;
+        }
+
+        let f = New(Fn,'小花');
+
+        function New(fn,...arg){
+            //创建一个实例化对象
+            let obj = new Object;
+            //使用call函数把构造函数的this修改为实例
+            let callBack = fn.call(obj,...arg);
+
+            //使实例(obj)的原型链等于构造函数(fn)的原型
+            obj.__proto__ === fn.prototype;
+
+            //输出的结果要么是个函数，要么是个实例对象
+            if(callBack !== null && typeof callBack === 'object' || typeof callBack === 'function'){
+                return callBack;
+            }
+            return obj;
+        }
+    </script>
+</body>
+</html>

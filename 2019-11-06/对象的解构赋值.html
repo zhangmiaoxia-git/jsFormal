@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            let {key1,key2} = {key1:val1,key2:val2}
+            在声明的时候使用块声明，块中放的对象的key值，这里的key值一定要和解构对象的key值名字要一致
+
+            如果要取别名，使用新定义的名字即可，在以下代码中，key1已经访问不到了，要访问就报错，只能访问k，k就代表key1，名字跟声明变量规则一致
+            let {key1:k,key2} = {key1:val1,key2:val2}
+
+            如果加了:不报错，那么可以先解构一次，再重命名
+            let {
+                f,  先把f解构出来，这样就可以访问f了
+                f:x
+            } = {
+                f:{
+                    name:'11',
+                    age:22
+                }
+            }
+        */
+        // let obj = {
+        //     type:'sug',
+        //     sa:'s_2',
+        //     q:'12',
+        //     s:'34',
+        // }
+        // let {type:t,q,s} = obj;
+        // console.log(type);  //此时访问type会报错，type已经被新定义了一个名字t
+        // console.log(t)
+
+        // let obj = {
+        //     p: [
+        //         'Hello',
+        //         {
+        //             y: 'World',
+        //             z:{
+        //                 x:[
+        //                     {
+        //                         j:0
+        //                     }
+        //                 ]
+        //             }
+        //         }
+        //     ]
+        // };
+        // let {p:[x,{y,z:{x:[{j}]}}]} = obj
+        // console.log(j);  //0
+
+        // const node = {
+        //     loc: {
+        //         start: {
+        //             line: 1,
+        //             column: 5
+        //         }
+        //     }
+        // };
+
+        // let { loc, loc: { start }, loc: { start: { line }} } = node;
+        // console.log(loc); //start: {line: 1,column: 5}
+
+        // let obj = {};
+        // let arr = [];
+        // ({ foo: obj.prop, bar: arr[0] } = { foo: 123, bar: true });
+        //foo: 123 -> obj.prop = 123,bar: true -> arr[0] = true
+
+        // function fn({age:{b}}){
+        //     console.log(b);  //2
+        // }
+        // fn({name:'haha',age:{s:1,b:2}})
+        
+        //传了对象那么就按照传的对象来解析，不传按照默认的来解析
+        function move({x,y} = {x:0,y:0}){
+            return [x,y];
+        }
+        const {log} = console;
+        log(move({x:3,y:8})); //3,8
+        log(move({x:3})); // 3 undefined
+        log(move({}))  //undefined  undefined
+        log(move())  //undefined  undefined
+    </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .zyf{
+            background:pink
+        }
+        .active{
+            background:skyblue
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="baidu.css" />
+</head>
+<body>
+    <div class="wrap">
+        <div class="baidu">
+            <ul id="list">
+                <li>
+                    <input type="checkbox"/>
+                    <span>泡沫</span>
+                    <span>邓紫棋</span>
+                </li>
+                <li>
+                    <input type="checkbox"/>
+                    <span>说爱你</span>
+                    <span>蔡依林</span>
+                </li>
+                <li>
+                    <input type="checkbox"/>
+                    <span>稻香</span>
+                    <span>周杰伦</span>
+                </li>
+                <li>
+                    <input type="checkbox"/>
+                    <span>我的梦</span>
+                    <span>张靓颖</span>
+                </li>
+                <li>
+                    <input type="checkbox"/>
+                    <span>怎么说我不爱你</span>
+                    <span>萧敬腾</span>
+                </li>
+                <li>
+                    <input type="checkbox"/>
+                    <span>无处安放</span>
+                    <span>白若溪</span>
+                </li>
+            </ul>
+            <div class="select">
+                <span><input type="checkbox" id="all"/><span>全选</span></span>
+                <div class="others">
+                    <span><em></em>收藏</span>
+                    <span><em></em>添加</span>
+                    <span><em></em>删除</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        class Fn{
+            constructor(){
+                //this是实例Fn{}
+                //获取复选框
+                this.checkboxs = document.querySelectorAll('#list input');
+                //获取所有的li
+                this.lis = document.querySelectorAll('#list li');
+                //创建一个新数组，存储每个li的复选框的选中状态
+                this.ary = [];
+                //获取全选按钮的id
+                this.all = document.getElementById('all');
+            }
+            init(){
+                //this是实例Fn{}
+                this.setColor();
+                this.events();
+            }
+            //隔行变色
+            setColor(){
+                //this是实例Fn{}
+                this.lis.forEach((ele,index)=>{
+                    if(index%2)ele.classList.add('zyf');
+                })
+            }
+            //绑定点击事件
+            events(){
+                const _this = this; //this是shiliFn{}
+                this.lis.forEach(  //this是实例Fn{}
+                (ele,index)=>{
+                    this.ary[index] = false; //this是实例Fn{}
+                    ele.onmouseover = function(){
+                        //this是操作事件的项ele
+                        _this.mouseover(this,'active')
+                    }
+                    ele.onmouseout = function(){
+                        //this是操作事件的项ele
+                        _this.mouseout(this,'active',index);
+                    }
+                    this.checkboxs[index].onclick = function(){  //this是实例Fn{}
+                        _this.ary[index] = this.checked;  //this是实例Fn{}
+                        _this.all.checked = _this.ary.every(item=>item);
+                    }
+                });
+                this.all.onclick = function(){  //this是实例Fn{}
+                    _this.allChange(this);  //this是点击事件的项all
+                }
+            }
+            //鼠标滑入事件
+            mouseover(that,color){
+                that.classList.add(color);
+            }
+            //鼠标滑出事件
+            mouseout(that,color,index){
+                if(!this.checkboxs[index].checked){
+                    that.classList.remove(color);
+                }
+            }
+            //点击全选按钮是否被选中
+            allChange(that){
+                this.checkboxs.forEach((ele,index)=>{  //this是实例Fn{}
+                    ele.checked = that.checked;
+                    //this是实例Fn{}
+                    that.checked?this.lis[index].classList.add('active'):this.lis[index].classList.remove('active');
+                    this.ary[index] = that.checked;
+                })
+            }
+        }
+        new Fn().init();
+    </script>
+</body>
+</html>

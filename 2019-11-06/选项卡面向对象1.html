@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .active{
+            background: yellow;
+        }
+        #box div,#box2 div{
+            width:200px;
+            height:100px;
+            border:1px solid #000;
+            display: none;
+        }
+        #box div.show,#box2 div.show{
+            display: block;
+        }
+    </style>
+<body>
+    <div id="box">
+        <button class="active" index="0">按钮一</button>
+        <button index="1">按钮二</button>
+        <button index="2">按钮三</button>
+        <div class="show">11111</div>
+        <div>22222</div>
+        <div>33333</div>
+    </div>
+    <div id="box2">
+        <button class="active" index="0">按钮一</button>
+        <button index="1">按钮二</button>
+        <button index="2">按钮三</button>
+        <div class="show">11111</div>
+        <div>22222</div>
+        <div>33333</div>
+    </div>
+    <script>
+        /*
+            面向对象选项卡：
+                将可以共用的代码拿出来封装在一个方法里，每次使用的时候，直接调用公共方法即可
+        */
+        //获取要操作的元素
+        function Tab(id){
+            // console.log(this);  //Tab{}
+            //this就是实例
+            //获取box
+            this.box = document.getElementById(id);
+            //通过box获取button按钮
+            this.btns = this.box.querySelectorAll('button');
+            //通过box获取div
+            this.div = this.box.querySelectorAll('div');
+            //给增加一个prevIndex属性，每一项的索引
+            this.prevIndex = 0;
+        }
+
+        //绑定相应的点击事件，此方法写在Tab函数的原型下
+        Tab.prototype.events = function(){
+            const that = this;  //this是实例Tab{}，点击事件中要调用的方法是实例的changeTab函数，所以在这里把this重新赋了一个值
+            this.btns.forEach((item,index)=>{
+                // console.log(this);  //this是实例Tab{}
+                item.onclick = function(){
+                    //在点击事件中this就是item，this是触发点击事件项（item）
+                    //在这里要调用的是实例Tab{}下的changeTab方法
+                    that.changeTab(this,index);
+                }
+            });
+        }
+
+        //操作className
+        //that是触发点击事件的项（item）
+        Tab.prototype.changeTab = function(that,index){
+            // console.log(this);  //this是实例Tab{},btns、div、
+            this.btns[this.prevIndex].className = '';
+            this.div[this.prevIndex].className = '';
+            that.className = 'active';
+            this.div[index].className = 'show';
+            this.prevIndex = index;
+        }
+        let t = new Tab('box');
+        let t2 = new Tab('box2');
+        t.events();
+        t2.events();
+    </script>
+</body>
+</html>

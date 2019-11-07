@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .active{
+            background: yellow;
+        }
+        #box div,#box2 div{
+            width:200px;
+            height:100px;
+            border:1px solid #000;
+            display: none;
+        }
+        #box div.show,#box2 div.show{
+            display: block;
+        }
+    </style>
+    <div id="box">
+        <button class="active" index="0">按钮一</button>
+        <button index="1">按钮二</button>
+        <button index="2">按钮三</button>
+        <div class="show">11111</div>
+        <div>22222</div>
+        <div>33333</div>
+    </div>
+    <div id="box2">
+        <button class="active" index="0">按钮一</button>
+        <button index="1">按钮二</button>
+        <button index="2">按钮三</button>
+        <div class="show">11111</div>
+        <div>22222</div>
+        <div>33333</div>
+    </div>
+    <button id="btn1">让第二个停</button>
+    <button id="btn2">让第一个开</button>
+    <button id="btn3">让开的关，关的开</button>
+    <script>
+        function Tab(id){
+            //获取box
+            this.box = document.getElementById(id);
+            //获取button按钮
+            this.btn = this.box.querySelectorAll('button');
+            //获取div
+            this.div = this.box.querySelectorAll('div');
+            //增加属性prevIndex，存储索引，默认是0
+            this.prevIndex = 0;
+            this.timer;
+            this.num = 0;
+        }
+
+        //绑定点击事件
+        Tab.prototype.events = function(){
+            const that = this; //this是实例Tab{}，为了在点击事件中调用实例下的Tab的原型中changeTab方法
+            //循环button按钮的每一项,len=btn.length，加这一项，是为了在for循环的时候不用每次都计算button的长度
+            for(let i=0,len=this.btn.length;i<len;i++){
+                this.btn[i].onclick = function(){
+                    that.changeTab(i);
+                }
+            }
+        }
+
+        //操作className
+        Tab.prototype.changeTab = function(index){
+            //每次清空上一次点击的button与div，并且给本次点击的button以及div加上className，并且修改prevIndex
+            this.btn[this.prevIndex].className = this.div[this.prevIndex].className = '';
+            this.btn[index].className = 'active';
+            this.div[index].className = 'show';
+            this.prevIndex = index;
+        }
+
+        //定时执行
+        Tab.prototype.play = function(){
+            this.timer = setInterval(()=>{
+                this.num++;
+                this.num %= this.btn.length;
+                this.changeTab(this.num);
+            },500)
+        }
+
+        //暂停
+        Tab.prototype.stop = function(){
+            clearInterval(this.timer);
+            this.timer = null;
+        }
+
+        //返回timer，判断timer是true，还是false
+        Tab.prototype.isAutoPlay = function(){
+            return this.timer;
+        }
+
+        let t = new Tab('box');
+        let t2 = new Tab('box2');
+        t.events();
+        t2.events();
+        // t.play();
+        t2.play();
+
+        btn1.onclick = function(){
+            t2.stop();
+        }
+        btn2.onclick = function(){
+            t.play();
+        }
+
+        btn3.onclick = function(){
+            if(t.isAutoPlay()){
+                t.stop();
+            }else{
+                t.play();
+            }
+
+            if(t2.isAutoPlay()){
+                t2.stop();
+            }else{
+                t2.play();
+            }
+        }
+    </script>
+</body>
+</html>

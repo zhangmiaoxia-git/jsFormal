@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Fn(){
+            // this.a = '小花';
+        }
+        Fn.prototype.a = function(){console.log('1');};
+        Fn.a = function(){console.log('3');};
+        Function.a = function(){console.log('4');};
+        Function.prototype.a = function(){console.log(5)}
+        Object.a = function(){console.log('6');};
+        Object.prototype.a = function(){console.log('7');};
+        let f = new Fn();
+
+        // Fn.prototype.a();  //1    执行Fn.prototype.a = function(){console.log('1');};
+        //console.log(f.a);  //小花   直接取构造函数中的a='小花'
+        // Fn.a();  //3  执行Fn.a = function(){console.log('3');};
+        // Function.a();  //4  执行Function.a = function(){console.log('4');};
+        // Object.a();  //6   执行Object.a = function(){console.log('6');};
+        // Function.prototype.a();  //5  执行Function.prototype.a = function(){console.log(5)} 
+        f.a();
+    </script>
+</body>
+</html>
