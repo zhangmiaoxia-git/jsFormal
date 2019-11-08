@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            Object.assign  浅拷贝
+            Object.assign(obj2,obj1,obj0)   从右往左浅拷贝对象的属性，可以放若干对象
+        */
+        let prototype1 = {
+            say(){
+                console.log('我叫xxx');
+            }
+        }
+        let prototype2 = {};
+
+        //赋址关系
+        // prototype2 = prototype1;
+        // Object.prototype.aaa = 10;
+        // for(let attr in prototype1){
+        //     if(prototype1.hasOwnProperty(attr)){
+        //         prototype2[attr] = prototype1[attr];
+        //     }
+        // }
+        // console.log(prototype2);
+        //浅克隆，会把父级的方法克隆到子类中，子类中有相同方法名的函数，可以覆盖父级的方法
+        // Object.assign(prototype2,prototype1);
+        // prototype2.say = function(){
+        //     console.log('我是警察');
+        // }
+        // console.log(prototype2.say());
+
+        //浅克隆
+        // let ary = [1,2,3,[1]];
+        // let ary2 = [];
+        // for(let i=0;i<ary.length;i++){
+        //     ary2[i] = ary[i];
+        // }
+        // ary2.push(5);
+        // console.log(ary);  //[1, 2, 3, [1]]
+        // console.log(ary2); //[1, 2, 3, [1], 5]
+
+        let ary = [1,2,3,[1,2,3,{name:[1,2,3]}]];
+        //深度克隆
+        function deepClone(obj){
+            //判断传进来的参数是不是一个对象并且是不是存在
+            if(!obj && typeof obj !== 'object')return null;
+            //确定传进来的参数是数组还是对象
+            let o = obj.push?[]:{};
+            for(let attr in obj){
+                //如果是引用数据类型，就继续进行循环，递归，如果是原始类型就直接赋值
+                if(typeof obj[attr] === 'object'){
+                    o[attr] = deepClone(obj[attr]);
+                }else{
+                    o[attr] = obj[attr];
+                }
+            }
+            return o;
+        }
+
+        let ary2 = deepClone(ary);
+        console.log(ary2);
+    </script>
+</body>
+</html>

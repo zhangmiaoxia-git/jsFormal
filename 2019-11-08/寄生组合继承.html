@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Person(name,age){
+            this.name = name;
+            this.age = age;
+        }
+        Person.prototype.say = function(){
+            alert(`我的名字叫`+this.name);
+        }
+
+        function Police(name,age){
+            //call  属性继承
+            Person.call(this,name,age);
+        }
+
+        //Object.creat  寄生式继承
+        Police.prototype = Object.create(Person.prototype);
+
+        Police.prototype.say = function(){
+            alert(`我叫`+this.name);
+        }
+
+        let p2 = new Police('小红',20);
+        let p = new Person('小花',10);
+        p2.say();
+        p.say();
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Person(name,age){
+            this.name = name;
+            this.age = age;
+        }
+        Person.prototype.say = function(){
+            alert(`我的名字叫`+this.name);
+        }
+
+        function Police(name,age){
+            Person.call(this,name,age);
+        }
+
+        //中间函数，如果修改B不会影响A，并且性能会优化
+        // function Paohui(){}
+        // Paohui.prototype = Person.prototype;
+        // Police.prototype = new Paohui;
+
+        //如果直接将new Person赋给Police.prototype，会将Police的构造函数修改，所以需要手动将Police的构造函数修改为它本身，构造函数中的constructor一般不要被修改
+        Police.prototype = new Person;
+        Police.prototype.constructor = Police;
+
+        Police.prototype.say = function(){
+            alert(`我是`+this.name);
+        }
+
+        let p2 = new Police('小红',20);
+        let p = new Person('小花',22);
+        p2.say();
+        p.say(); 
+
+        console.log(p2.constructor);   
+    </script>
+</body>
+</html>

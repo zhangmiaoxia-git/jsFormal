@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Person(name,age){
+            this.name = name;
+            this.age = age;
+        }
+        Person.prototype.say = function(){
+            alert(`我的名字叫`+this.name);
+        }
+
+
+        function Police(name,age){
+            //call  属性继承
+            Person.call(this,name,age);
+        }
+        Police.prototype.say = function(){
+            alert(`我是警察`);
+        }
+        //这种写法不可取，这2个原型赋址了，修改A就会影响B
+        // Police.prototype = Person.prototype;
+
+        //Object.assign  浅克隆，将父级原型下的方法克隆到子类下
+        Object.assign(Police.prototype,Person.prototype);
+
+        let p2 = new Police('小花',100);
+        let p = new Person('小红',20);
+        p2.say();
+        p.say();
+    </script>
+</body>
+</html>
