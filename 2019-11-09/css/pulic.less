@@ -1,0 +1,60 @@
+@px:1px;
+.global{
+    height:100vh;
+}
+.mau(@a){
+    margin:@a*@px auto;
+}
+.w(@a){
+    width:@a*@px;
+}
+.h(@a){
+    height:@a*@px;
+}
+.bg(@a){
+    background:@a;
+}
+.mt(@a,@b,@c,@d){
+    margin:@a*@px @b*@px @c*@px @d*@px;
+}
+.pd(@a,@b,@c,@d){
+    padding:@a*@px @b*@px @c*@px @d*@px;
+}
+.por(){
+    position:relative;
+}
+.poa(@a,@b,@c,@d){
+    position:absolute;
+    top:@a*@px;
+    bottom:@b*@px;
+    right:@c*@px;
+    left:@d*@px;
+}
+.bor(@a,@c){
+    border:@a*@px solid @c;
+}
+.ft(@a){
+    font-size:@a*@px;
+}
+.lh(@a){
+    line-height:@a*@px;
+}
+.tac(){
+    text-align:center;
+}
+.fl(){
+    float:left;
+}
+.fr(){
+    float:right;
+}
+.md(){
+    .w(964);
+    .mau(0);
+}
+.box(){
+    box-sizing:border-box;
+}
+.ma(@a){
+    margin-top:@a*@px;
+}

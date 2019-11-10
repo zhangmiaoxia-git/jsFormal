@@ -1,0 +1,108 @@
+@import './pulic.less';
+@color:rgba(0,0,0,.1);
+@navBg:skyblue;
+.mdi{
+    .md();
+}
+body{
+    background:@color;
+}
+.box nav{
+    .h(50);
+    .lh(50);
+    .ft(16);
+    .bg(@navBg);
+    .pd(0,60,0,63);
+    .box();
+    color:#fff;
+    display:flex;
+    justify-content:space-between;
+    .left a{
+        color:#fff;
+        .mt(0,0,0,25);
+        .por();
+        i{
+            .bor(4,#000);
+            .w(0);
+            .h(0);
+        }
+        .up{
+            border-color:transparent transparent #fff transparent;
+            .poa(2,0,0,35);
+        }
+        .down{
+            border-color:#fff transparent transparent transparent;
+            .poa(13,0,0,35);
+        }
+        .upTime{
+            .poa(2,0,0,68);
+        }
+        .downTime{
+            .poa(13,0,0,68);
+        }
+        .activet{
+            border-bottom:4px solid rgb(255,0,0);
+        }
+        .activeb{
+            border-top:4px solid rgb(255,0,0);
+        }
+    }
+    .right{
+        display:flex;
+        #sele,#search,#init{
+            .h(25);
+            .mt(12.5,10,0,0);
+        }
+        #search{
+            .mt(12.5,10,0,12);
+        }
+        #search,#init{
+            .w(47);
+            .h(25);
+            .bg(#FAEBD7);
+            color:#483D8B;
+            border-radius:4px;
+            cursor:pointer;
+            .por();
+            span{
+                .poa(-13,0,0,7);
+            }
+        }
+        .hide input,.show input{
+            .w(130);
+        }
+        .show{
+            display:block;
+        }
+        .hide{
+            display:none;
+        }
+    }
+}
+.box #ul{
+    .ma(20);
+    li{
+       .w(226);
+       .h(348); 
+       .pd(10,10,10,10);
+       .box();
+        box-shadow:.5px 1px 5px #5f5f5f;
+        .ft(16);
+        .por();
+        .mt(0,15,20,0);
+        .fl();
+        img{
+            .w(204);
+            .poa(18,0,0,11);
+        }
+        .bg(#fff);
+        .text{
+            .poa(227,0,0,18);
+            color:#666666;
+            .lh(27);
+        }
+    }
+}
+.box #ul li:last-child{
+    margin-right:0;
+}
