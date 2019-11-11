@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body,
+			ul,
+			li {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="price.css" />
+	</head>
+
+	<body onselectstart="return false;">
+		<div class="wrap">
+			<div class="box">
+				<ul class="list">
+					<li>
+						<i></i>
+						<em>0</em>
+						<i></i>
+						<span>
+							单价：<strong>12.5元 </strong> 小计：<strong>0元</strong>
+						</span>
+					</li>
+					<li>
+						<i></i>
+						<em>0</em>
+						<i></i>
+						<span>
+							单价：<strong>10.5元 </strong> 小计：<strong>0元</strong>
+						</span>
+					</li>
+					<li>
+						<i></i>
+						<em>0</em>
+						<i></i>
+						<span>
+							单价：<strong>8.5元 </strong> 小计：<strong>0元</strong>
+						</span>
+					</li>
+					<li>
+						<i></i>
+						<em>0</em>
+						<i></i>
+						<span>
+							单价：<strong>8元 </strong> 小计：<strong>0元</strong>
+						</span>
+					</li>
+					<li>
+						<i></i>
+						<em>0</em>
+						<i></i>
+						<span>
+							单价：<strong>14.5元 </strong> 小计：<strong>0元</strong>
+						</span>
+					</li>
+				</ul>
+				<div class="info">
+					<span>商品共合计：<em>0</em>件</span>
+					<span>共花费了：<em>0</em>元</span>
+					<br />
+					<br />
+					<span>其中最贵的商品单价是：<em>0</em>元</span>
+				</div>
+			</div>
+		</div>
+		<script>
+			//获取要操作的元素
+			//获取ul下的所有li
+			const lis = document.querySelectorAll('.list li');
+			//获取商品共合计info
+			let totalInfo = document.querySelector('.info');
+			//总计件数
+			let shopTotalNum = Number(totalInfo.children[0].children[0].innerHTML);
+			//总价
+			let shopTotalPrice = Number(totalInfo.children[1].children[0].innerHTML);
+			let ary = [];
+			//循环li
+			lis.forEach((item,index)=>{
+				//单件件数
+				let single = item.children[1].innerHTML;
+				//加号
+				let addNum = item.children[2];
+				//减号
+				let reduceNum = item.children[0];
+				//单价
+				let singlePrice = item.children[3].children[0].innerHTML;
+				let singlePriceNum = singlePrice.substr(0,singlePrice.length-1-1);
+				//点击加号
+				addNum.onclick = function(){
+					//最贵单价
+					let mostExpensive = Number(totalInfo.children[4].children[0].innerHTML);
+					single++;
+					item.children[1].innerHTML = single;
+					item.children[3].children[1].innerHTML = (single * Number(singlePriceNum))+'元';
+					shopTotalNum++;
+					totalInfo.children[0].children[0].innerHTML = shopTotalNum;
+					shopTotalPrice+=Number(singlePriceNum);
+					totalInfo.children[1].children[0].innerHTML = shopTotalPrice;
+					for (let i = 0; i < index+1; i++) {
+						if(i === index){
+							ary[i] = Number(singlePriceNum);
+						}else{
+							ary[i] = ary[i] ? ary[i] : 0;
+						}
+					}
+					let max = Math.max(...ary);
+					totalInfo.children[4].children[0].innerHTML = max;
+				}
+				//点击减号，当单件件数大于等于0的时候，才可以减
+				reduceNum.onclick = function(){
+					//最贵单价
+					let mostExpensive = Number(totalInfo.children[4].children[0].innerHTML);
+					single--;
+					if(single >= 0){
+						item.children[1].innerHTML = single;
+						item.children[3].children[1].innerHTML = (single * Number(singlePriceNum))+'元';
+						shopTotalNum--;
+						totalInfo.children[0].children[0].innerHTML = shopTotalNum;
+						shopTotalPrice-=Number(singlePriceNum);
+						totalInfo.children[1].children[0].innerHTML = shopTotalPrice;
+						for (let i = 0; i < index+1; i++) {
+							if(i === index){
+								ary[i] = single === 0 ? 0 : Number(singlePriceNum);
+							}else{
+								ary[i] = ary[i] ? ary[i] : 0;
+							}
+						}
+						let max = Math.max(...ary);
+						totalInfo.children[4].children[0].innerHTML = max;
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>

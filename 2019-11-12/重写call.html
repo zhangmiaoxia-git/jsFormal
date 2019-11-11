@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            call:
+                第一个参数：修改this指向
+                第二个参数以及之后：实参
+
+                如果传null和undefined都属于window
+
+                核心：只要让一个函数地址，等于一个对象下的方法，那么this就是这个对象
+        */
+        Function.prototype.mycall = function(that,...arg){
+            let type = typeof that;
+            if(that === null || that === undefined){
+                that = window;
+            }else{
+                switch(type){
+                    case 'string':
+                        that = new String(that);
+                        break;
+                    case 'boolean':
+                        that = new Boolean(that);
+                        break;
+                    case 'number':
+                        that = new Number(that);
+                }
+            }
+            that.fn = this;
+            that.fn(...arg);
+            // console.log(that);
+        }
+
+        function fn(a,b){
+            delete this.fn;
+            console.log(this);
+            console.log(a+b);
+        }
+        console.log(fn.mycall({},1,2));
+
+
+        // function fn(){
+        //     console.log(this);
+        //     console.log(1);
+        // }
+        // function fn2(){
+        //     console.log(2,this);
+        // }
+        // // fn.call(fn2);
+        // fn.call.call(fn2,document);
+        /*
+            如果有多个call，最后一个call的第一个参数为调用的那个函数，第二个参数是this指向，之后才是实参
+        */
+    </script>
+</body>
+</html>

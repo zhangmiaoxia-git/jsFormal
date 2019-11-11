@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            函数 -> 也是局部作用域
+            局部作用域下，let，var，参数，函数在正常情况下是在局部作用域中的
+
+            在函数内如果没有变量声明、函数、参数，当前的变量就是window下的变量
+
+            函数
+                形参赋值
+                变量提升（预解析）
+                执行上下文
+                销毁作用域
+        */
+        // function Foo(){
+        //     getName = function(){console.log(1);};  //这个是window下的getName
+        //     return this;  //如果函数执行的话，this就是window，如果new的话，this就是实例
+        // }
+
+        // Foo.getName = function(){console.log(2);};
+        // Foo.prototype.getName = function(){console.log(3);};
+        // var getName = function(){console.log(4);};
+        // function getName(){console.log(5);};
+
+        // Foo.getName(); //2  执行Foo.getName = function(){console.log(2);};
+        // getName();  //4  作用域的情况下，这里会先执行function getName(){console.log(5);};，最后会执行var getName = function(){console.log(4);};
+        // Foo().getName();  //1  函数执行，函数返回结果是this，this是window，所以执行的是window下的getName，执行getName = function(){console.log(1);};
+        // getName(); //1  作用域的情况下，最后一个getName会覆盖之前的，所以还是执行getName = function(){console.log(1);};
+        // var a = new Foo.getName(); //2 Foo.getName{}
+        // var b = new Foo().getName(); //3 undefined
+        // var c = new new Foo().getName; //3 Foo{}.getName{}
+
+        // console.log(a,b,c);
+
+
+        let obj = {
+            name:'小红',
+        }
+        let num = 10;
+        function fn(o){ //var o = 10
+            // o++;
+            // console.log(o);  //11
+            o.name = '小花';
+        }
+        // fn(num);
+        fn(obj);
+        // console.log(num);  //10  函数中，简单数据类型的修改是不会影响外面的
+        console.log(obj); //'小花' 参数是引用类型，在函数中修改会影响外面的引用类型的值
+    </script>
+</body>
+</html>

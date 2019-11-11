@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //深度克隆
+        let ary = [1,2,3,{name:123}];
+        function deepClone(obj){
+            //判断传进来的参数时候存在
+            if(!obj && obj !== 'object')return null;
+            //判断传进来的参数是数组还是对象
+            let o = obj.push?[]:{};
+            //循环处理ary
+            for(let attr in obj){
+                //判断ary中的数据是否是对象类型，如果是对象类型，那么就继续调用deepClone执行
+                if(typeof obj[attr] === 'object'){
+                    o[attr] = deepClone(obj[attr]);
+                }else{
+                    o[attr] = obj[attr];
+                }
+            }
+            return o;
+        }
+        let ary2 = deepClone(ary);
+        ary2.push(100);
+        console.log(ary2);
+        console.log(ary);
+
+
+        function Fn(name){
+            this.name = name;
+        }
+
+        let f = New(Fn,'小花');
+
+        function New(fn,...arg){
+            //创建一个实例
+            let obj = new Object;
+            //修改this指向，new之后实例的指向是Fn{}
+            let callBack = fn.call(obj,...arg);
+            //实例的原型链与构造函数的原型全等
+            obj.__proto__ === fn.prototype;
+            //判断callBack的结果是否为对象或函数，如果是对象或函数的话，直接返回callBack，除非返回obj
+            if(callBack !== null && typeof callBack === 'object' || typeof callBack === 'function'){
+                return callBack;
+            }
+            return obj;
+        }
+    </script>
+</body>
+</html>
