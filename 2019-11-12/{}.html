@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            {}代表量词
+            描述{}前面字符的数量
+            {m,} 最少m个，最多不限
+            {m,n} 最少m个，最多n个
+            {m} 最少出现m次，最多出现m次
+            ?最少可以没有，最多出现一次
+            * 最少可以没有，最多无限
+        */
+        let str = 'a12ca456ca6789ca123456caca1ca78c';
+        //查找字符串中数字出现0个或3个的匹配项
+        console.log(str.match(/a\d{0,3}c/g));
+        //查找字符串中出现2个数字的匹配项
+        console.log(str.match(/a\d{2}c/g));
+        //查找字符串中数字出现0个或1个的匹配项
+        console.log(str.match(/a\d?c/g));
+        console.log(str.match(/a\d{0,1}c/g));
+        //查找字符串中所有数字的匹配项
+        console.log(str.match(/a\d*c/g));
+        console.log(str.match(/a\d{0,}c/g))
+    </script>
+</body>
+</html>

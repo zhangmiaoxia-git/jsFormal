@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            .exec(字符串)：找到正则匹配的字符串（首次出现的字符【就一次】），并且放到数组中，返回值是一个数组
+
+            .test(字符串)：查看字符串中是否有规则匹配项，如果有就返回true，否则就返回false
+
+            \d：特殊转义字符   一个0-9的数字
+
+            量词：
+                +  至少出现1次，最多不限
+
+            修饰符：
+                g -> global  全局查找
+        */
+
+        let str = 'dh8137289371299dx1';
+        console.log(/\d+/.exec(str));  //查看字符串中是否有匹配的数字，\d+只能查找到连续的数字
+
+        console.log(/z/.test(str)); //字符串中有z的话返回结果是true，没有的话返回结果是false
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            把下列字符串中的数字挑出来，放到一个数组中
+        */
+        let str = 'xh271y5rc74 326rgb087yr23n6x832321';
+        let temp = '';
+        let ary = [];
+        for(let i=0;i<str.length;i++){
+            //判断如果是数字的话，拼接到一个空的变量中
+            if(!isNaN(parseInt(str[i]))){
+                //如果当前项是数字，那么就将数字拼接起来
+                //最后一次循环的时候如果字符为数字，那么只做了拼接，没有往数组中push
+                temp+=str[i];
+            }else{
+                //清空temp，
+                ary.push(temp);
+                temp = '';
+            }
+        }
+        // console.log(temp);
+        //for循环完之后，temp不是一个空字符串，说明最后几项为数字，需要把最后几项push到数组中
+        if(temp){
+            ary.push(temp);
+            temp = '';
+        }
+        console.log(ary);
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            string.replace(''或正则，'替换字符'或函数)   替换
+        */
+
+        // let str = '1珠234风56';
+        // console.log(str.replace(/\d+/g,'')); //把字符串中的数字全都替换为''
+
+        let str = '暖暖和大喵在奇迹大陆';
+        console.log(str.replace(/暖暖|大喵/g,function($0){
+            let temp = '';
+            for(let i=0;i<$0.length;i++){
+                temp+='*';
+            }
+            return temp;
+        }))
+    </script>
+</body>
+</html>
