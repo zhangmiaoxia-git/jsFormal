@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    /*
+       把下面str的name，age，say换成obj中的value值
+    */  
+    let obj = {
+        name:'小明',
+        age:18,
+        say:'好好学习，天天向上'
+    }  
+    let str = '我的名字叫{name},年龄是{age}岁,我想说:{say}';
+    let ary = str.match(/\{[a-z]+\}/g);
+    let ary2 = [];
+    for(let i=0;i<ary.length;i++){
+        let index = ary[i].indexOf('{');
+        let lastIndex = ary[i].lastIndexOf('}');
+        let str3 = ary[i].substring(index+1,lastIndex);
+        ary2.push(obj[str3]);
+    }
+    console.log(ary2);
+    console.log(str.replace('{name}',ary2[0]).replace('{age}',ary2[1]).replace('{say}',ary2[2]));
+    
+    
+
+    
+
+
+
+</script>
+</body>
+</html>

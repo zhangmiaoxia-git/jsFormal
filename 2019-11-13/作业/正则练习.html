@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .box{
+            width:460px;
+            height:400px;
+            border:1px solid lightcoral;
+            margin:0 auto;
+            margin-top:30px;
+            border-radius:32px;
+        }
+        .contain{
+            margin-top:20px;
+            margin-left:65px;
+            line-height:69px;
+            font-size:20px;
+            font-family:Georgia, serif;
+        }
+        input{
+            outline:none;
+            height:37px;
+            width:226px;
+            padding-left:11px;
+            box-sizing:border-box;
+            border:1px solid lawngreen;
+            border-radius:8px;
+            font-size:18px;
+            font-family:'Comic Sans MS', cursive, sans-serif;
+        }
+        .qq{
+            margin-left:31px;
+        }
+        .email{
+            margin-left:9px;
+        }
+        .date{
+            margin-left:19px;
+        }
+        .button{
+            width:70px;
+            height:50px;
+            background-color:lightpink;
+            position:relative;
+            left:134px;
+            margin-top:11px;
+            border-radius:10px;
+            cursor:pointer;
+        }
+        .button span{
+            width:100%;
+            height:100%;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+        .button:hover{
+            box-shadow:1px 1px 3px lightpink;
+            position:relative;
+            top:-2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="contain">
+            <div>
+                <span>QQ : </span>
+                <input class="qq" id="qq" type="text" placeholder="请输入QQ号">
+            </div>
+            <div>
+                <span>Email : </span>
+                <input class="email" id="email" type="text" placeholder="请输入邮箱">
+            </div>
+            <div>
+                <span>Mobile : </span>
+                <input class="phone" id="mobile" type="text" placeholder="请输入手机号">
+            </div>
+            <div>
+                <span>Date : </span>
+                <input class="date" id="date" type="text" placeholder="请输入日期">
+            </div>
+            <div class="button" id="button">
+                <span>注册</span>
+            </div>
+        </div>
+    </div>
+<script>
+    const qq = document.getElementById('qq');
+    const email = document.getElementById('email');
+    const mobile = document.getElementById('mobile');
+    const date = document.getElementById('date');
+    const button = document.getElementById('button');
+    //qq的验证方式
+    const qqReg = /^[1-9]\d{4,10}$/;
+    //其他邮箱除qq邮箱的验证方式
+    const emailReg = /^[a-zA-Z][\w.-]{5,17}@[0-9a-zA-Z]{2,10}.c(om|n)$/;
+    //qq邮箱的验证方式
+    const qqEmailReg = /^[1-9]\d{4,10}@qq.com$/;
+    //手机的验证方式
+    const phoneReg = /^1[3-9]\d{9}$/;
+    //日期的验证方式
+    const dateReg = /^\d{4}(-|\/)\d{1,2}(-|\/)\d{1,2}$/;
+    
+    //onblur  失去焦点时触发
+    //验证qq号
+    qq.onblur = function(){
+        let {value} = qq;
+        if(!qqReg.test(value)){
+            qq.style.border = "1px solid red";
+            button.style.cursor = 'defalut';
+        }else{
+            qq.style.border = "1px solid lawngreen";
+            button.style.cursor = 'pointer';
+        }
+    }
+
+    //验证邮箱
+    email.onblur = function(){
+        let {value} = email;
+        //获取@的索引
+        let index = value.indexOf('@');
+        //获取最后一个点的所用
+        let lastIndex = value.lastIndexOf('.');
+        //截取@与最后一个索引之前的值
+        let qq1 = value.substring(index+1,lastIndex);
+        //判断邮箱如果是qq邮箱的话，是一种验证，其他的是另一种验证
+        if(qq1 === 'qq'){
+            if(!qqEmailReg.test(value)){
+                email.style.border = "1px solid red";
+                button.style.cursor = 'default';
+            }else{
+                email.style.border = "1px solid lawngreen";
+                button.style.cursor = 'pointer';
+            }
+        }else{
+            if(!emailReg.test(value)){
+                email.style.border = "1px solid red";
+                button.style.cursor = 'default';
+            }else{
+                email.style.border = "1px solid lawngreen";
+                button.style.cursor = 'pointer';
+            }
+        }
+    }
+
+    //验证手机号
+    mobile.onblur = function(){
+        let {value} = mobile;
+        if(!phoneReg.test(value)){
+            mobile.style.border = "1px solid red";
+            button.style.cursor = 'default';
+        }else{
+            mobile.style.border = "1px solid lawngreen";
+            button.style.cursor = 'pointer';
+        }
+    }
+
+    //验证日期
+    /*
+        1、验证日期格式，三种格式：年月日、-、/，剩下的都是数字，年份是4位数，月份是一到两位数，日期是一到两位数
+        2、使用正则分组拿到字符串中的数字
+        3、获取当前年月日，判断第一个数字是否小于等于当前年份，判断第二个数字是否小于等于当前月份，判断第三个数字是否小于等于当前日
+        4、判断第二个数字是否是2月份，如果月份是2月份的话，获取年份下的2月份的天数，判断填写的天是否小于等于最后一天
+    */
+    date.onblur = function(){
+        let {value} = date;
+        if(dateReg.test(value)){
+            //将填写的日期转换为数组，为了下面的判断使用年月日
+            let datef = value.match(/(\d+)\D+(\d+)\D+(\d+)/);
+            // console.log(datef);
+            //获取当前时间
+            let nowDate = new Date();
+            //获取当前时间的年份
+            let nowYear = nowDate.getFullYear();
+            //获取当前时间的月份
+            let nowMonth = nowDate.getMonth()+1;
+            //获取当前时间的日期
+            let nowDay = nowDate.getDate();
+            //判断填写的时间是否小于等于当前年份并且填写的时间是否大于等于1970
+            if(datef[1] <= nowYear && datef[1] >= 1970){
+                //判断填写的月份是否小于等于当前月份并且大于等于1
+                // if(datef[2] <= nowMonth && datef[2] >= 1){
+                    //判断月份是否是2月份
+                    if(Number(datef[2]) === 2){
+                        // console.log(value);
+                        let time = new Date(value);
+                        // console.log(time);
+                        time.setMonth(2);
+                        time.setDate(0);
+                        //获取填写的2月份的天数
+                        let twoDay = time.getDate();
+                        //判断填写的2月份的天数是不是小于等于准确的2月份的天数
+                        if(Number(datef[3]) <= twoDay && Number(datef[3]) >= 1){
+                            date.style.border = "1px solid lawngreen";
+                            button.style.cursor = 'pointer';
+                        }else{
+                            date.style.border = "1px solid red";
+                            button.style.cursor = 'default';
+                        }
+                    }else if(Number(datef[2]) === nowMonth){
+                        if(Number(datef[3]) <= nowDay && Number(datef[3]) >= 1){
+                            date.style.border = "1px solid lawngreen";
+                            button.style.cursor = 'pointer';
+                        }else{
+                            date.style.border = "1px solid red";
+                            button.style.cursor = 'default';
+                        }
+                    }else{
+                        if(Number(datef[2]) === 4 || Number(datef[2]) === 6 || Number(datef[2]) === 9 || Number(datef[2]) === 11){
+                            if(Number(datef[3]) <= 30 && Number(datef[3]) >= 1){
+                                date.style.border = "1px solid lawngreen";
+                                button.style.cursor = 'pointer';
+                            }else{
+                                date.style.border = "1px solid red";
+                                button.style.cursor = 'default';
+                            }
+                        }else{
+                            if(Number(datef[3]) <= 31 && Number(datef[3]) >= 1){
+                                date.style.border = "1px solid lawngreen";
+                                button.style.cursor = 'pointer';
+                            }else{
+                                date.style.border = "1px solid red";
+                                button.style.cursor = 'default';
+                            }
+                        }
+                    }
+            }else{
+                date.style.border = "1px solid red";
+                button.style.cursor = 'default';
+            }
+        }else{
+            date.style.border = "1px solid red";
+            button.style.cursor = 'default';
+        }
+    }
+</script>
+</body>
+</html>

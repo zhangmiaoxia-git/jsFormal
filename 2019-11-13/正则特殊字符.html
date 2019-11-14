@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            \d  0-9的任意一个数字
+            \D  非数字
+            \n  换行
+            \s  一个空格（可以去除字符串前后的空格）
+            \S  一个非空格（查找字符串中非空格的字符）
+            \b  一个边界符
+            \B  一个非边界符
+            \w  一个数字、字母、下划线
+            \W  一个非数字、字母、下划线
+        */
+
+        //验证手机号：11位，都是数字，1开头，13、14、15、16、17、18、19开头，后面是9位数
+        // let str = '18911111231';
+        // console.log(/^1[3-9]\d{9}$/.test(str));
+
+        //验证QQ号：不能以0开头，不能为字母，最少5位，最多11位
+        // let str = '3458192';
+        // console.log(/^[1-9]\d{4,10}$/.test(str));
+
+        
+        let str = '    d n s 中文 12 —_^  ';
+        //去除字符串前后的空格
+        console.log(str.replace(/^\s+|\s$/g,''));
+        //查找字符串中开头或者结尾的空格
+        console.log(str.match(/^\s+|\s+$/g));
+        //查找字符串中的非空格字符
+        console.log(str.match(/\S+/g));
+    </script>
+</body>
+</html>

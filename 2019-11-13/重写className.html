@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li class="li clear li1">1</li>
+        <li>2</li>
+        <li class="li">3</li>
+    </ul>
+    <script>
+        /*
+            1、获取页面中所有的标签
+            2、从所有的标签中获取class为li的元素
+            3、把所有class为li的元素放到数组中
+        */
+        let lis = getByClass('li');
+        // console.log(lis);
+
+        for(let i=0;i<lis.length;i++){
+            lis[i].style.background="red";
+        }
+
+        function getByClass(cname){
+            //获取页面中所有的元素
+            let elements = document.getElementsByTagName('*');
+            // console.log(elements);
+            //创建一个新数组
+            let ary = [];
+
+            let re = new RegExp('\\b'+cname+'\\b');
+            // console.log(re);
+            for(let i=0;i<elements.length;i++){
+                // console.log(elements[i]);
+                if(re.test(elements[i].className)){
+                    ary.push(elements[i]);
+                }
+            }
+            return ary;
+        }
+    </script>
+</body>
+</html>
