@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            () ->重复子项
+            \数字(子项的个数) -> \1 \2  代表第N个子项
+
+            数字代表的是第几项，\数字就是复制\数字前面的一项
+        */
+        // let str = 'aaaacbcccbbb';
+        // console.log(str.match(/(a)\1\1\1(c)(b)(\2+)(\3+)/));
+        //$2是分组项
+        // console.log(str.replace(/(a)(\1+)(c)(b)(\2+)(\3+)/,function($0,$1,$2){
+        //     // console.log($0);
+        //     // console.log($1);
+        //     console.log($2);
+        // }));
+        // console.log(str.replace(/(a)(b)(c)\2/,function($0,$1){
+        //     console.log($0);
+        // }))
+        /*
+            验证合法的url
+            获取url中的参数，转换为对象格式的
+        */
+        
+        let str = 'https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=js';
+        // console.log('https://'.match(/(http)s?:\/\//));
+        // console.log('www.baidu.com/s?'.match(/w{3}\.[a-z]{2,18}(\.[a-z]{2,3}){1,2}\/[a-z]{1,10}\?/));
+        // console.log('ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=js'.match(/(([a-z]\w{0,10})=([\w=%-]+)&?)+/));
+        // //验证是否为一个合法的url
+        /*
+            https: ->  (http)s?:
+
+            // -> \/\/
+
+            www.baidu.com -> w{3}\.[a-z]{2,18}(\.[a-z]{2,3}){1,2}
+
+            /s? -> \/[a-z]{1,10}\?
+
+            ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=js  ->  ([a-z]\w{0,10})=([\w=%-]+)/g
+        */
+        console.log(str.match(/^(http)s?:\/\/w{3}\.[a-z]{2,18}(\.[a-z]{2,3}){1,2}\/[a-z]{1,10}\?(([a-z]\w{0,10})=([\w=%-]+)&?)+$/));
+
+        //queryUrlParams
+        let str2 = 'ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=js';
+        let re = /([a-z]\w{0,10})=([\w=%-]+)/g;
+        let obj = {};
+        str2.replace(re,function(...arg){
+            let a = arg[1];
+            let b = arg[2];
+            obj[a] = b;
+        })
+        console.log(obj);
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div{
+            padding:100px;
+        }
+        #box{
+            background: red;
+            _position: relative;
+        }
+        #box1{
+            background: green;
+            position: relative;
+            border:50px solid #000;
+        }
+        #box2{
+            background: skyblue;
+            position: absolute;
+            top:150px;
+            border:50px solid #000;
+        }
+    </style>
+    <div id="box">
+        <div id="box1">
+            <div id="box2"></div>
+        </div>
+    </div>
+    <script>
+        /*
+            offsetLeft/offsetTop在实际中（页面复杂的情况下，要慎用，获取的距离是根据定位父级来决定的）
+
+            绝对定位才是最稳的一个距离（当前元素到页面顶部的距离）
+
+            思路：
+                求绝对位置，就是把当前元素的所有祖先节点的距离计算一遍，求和即可
+
+            解决方案：
+                1、先定义一个元素（作为当前元素）
+                2、先求当前元素的距离（包含定位距离和边框距离）
+                3、把这次的定位父级变成下一次循环的当前
+        */
+        class Tools{
+            position(nowEle){
+                // console.log(nowEle);
+                let l = 0;
+                let t = 0;
+                //获取当前元素的左边框
+                let cl = nowEle.clientLeft;
+                // console.log(cl);
+                let ct = nowEle.clientTop;
+                // console.log(ct);
+                //只要有当前元素就一直循环
+                while(nowEle){
+                    //当前元素的边框加上当前元素的左外边框到定位父级的左内边框的距离
+                    console.log(nowEle.offsetLeft);
+                    l += (nowEle.offsetLeft + nowEle.clientLeft);
+                    // console.log(l);
+                    console.log(nowEle.offsetLeft);
+                    t += (nowEle.offsetLeft + nowEle.clientTop);
+                    // console.log(t);
+                    nowEle = nowEle.offsetParent;
+                }
+                l = l - cl;
+                // console.log(l);
+                t = t - ct;
+                // console.log(t);
+                return {
+                    l,
+                    t
+                }
+            }
+        }
+        let t1 = new Tools;
+        let {l,t} = t1.position(box2);
+        // console.log(l,t);
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

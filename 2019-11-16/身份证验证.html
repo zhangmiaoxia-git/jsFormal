@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            验证身份证号
+            1、省份、城市、区县
+                11  34  56
+                [1-8]\d{5}
+            2、生日
+                年：1920-2019
+                19[2-9]\d|20[01]\d
+
+                月：01-09  10-12
+                0[1-9]|1[0-2]
+
+                日：01-09  10-29  30-31
+                0[1-9]|[12]\d|3[01]
+                
+            3、派出所编号2位,男女（单是男，双是女）
+            \d{3}
+
+            5、校验码（0-9|X）
+            \d|X
+        */
+        let str = '53010320190808291X';
+        console.log(/^[1-8]\d{5}(19[2-9]\d|20[01]\d)(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/.test(str));
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            在字符串中，从后往前找，每3个数字前的数字后加一个逗号
+        */
+        let str = '1000000';
+        // let temp = '';
+        // let num = 0;
+        // //循环处理
+        // for(let i=str.length-1;i>=0;i--){
+        //     // console.log(num);
+        //     // console.log(temp.length-num);
+        //     // console.log(str.length);
+        //     // console.log(i);
+        //     //判断length%3是否等于0，如果等于0，说明是三位数，后面加一个逗号，如果不是那么就直接拼接，放到temp中
+        //     if((temp.length-num)%3){
+        //         temp+=str[i];
+        //     }else{
+        //         temp+=','+str[i];
+        //         num++;
+        //     }
+        // }
+        // // console.log(temp);
+        // temp = temp[0] === ','?temp.substring(1):temp;
+        // temp = temp.split('').reverse().join('');
+        // console.log(temp);
+
+        //正则匹配
+        console.log(str.match(/(\d)(?=(\d{3})+$)/g));
+        console.log(str.replace(/(\d)(?=(\d{3})+$)/g,'$1,'));
+    </script>
+</body>
+</html>
