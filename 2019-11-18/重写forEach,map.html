@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            forEach(function(item,index,all){},that)  ->  返回值是undefined
+
+            map(function(item,index,all){},that)  -> 返回的是一个新数组，长度和旧数组一样
+
+            replace:
+                有2个参数
+                    第一个参数可以为正则也可以为字符串
+                    第二个参数可以为字符串也可以为函数
+        */    
+       let ary = [1,2,3,4];
+
+    //    Array.prototype.myForEach = function(callBack,that){
+    //        console.log(callBack);
+    //        console.log(that);
+    //         for(let i=0;i<this.length;i++){
+    //             callBack.call(that,this[i],i,this);
+    //         }
+    //    }
+
+    //    let r = ary.myForEach(function(item,index,all){
+    //         // console.log(item,index,all);
+    //    },document);
+
+       Array.prototype.myMap = function(callBack,that){
+            let ary1 = [];
+            for(let i=0;i<this.length;i++){
+                ary1.push(callBack.call(that,this[i],i,this));
+            }
+            return ary1;
+       }
+
+       let r1 = ary.myMap(function(item,index,all){
+           console.log(this);
+            console.log(item,index,all);
+       },document);
+    </script>
+</body>
+</html>

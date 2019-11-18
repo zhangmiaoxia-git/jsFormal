@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function fn(str,cb,re){
+            let o = true;
+            let rep = '';
+            let str2 = str;
+            while(o){
+                o = re.exec(str);
+                if(o){
+                    let {index,input} = o;
+                    rep = cb(o[0],index,input);
+                    let i = str2.indexof(o[0]);
+                    str2 = str2.substring(0,i) + rep + str2.substring(i+o[0].length);
+                }
+            }
+            return str2;
+        }
+
+
+        String.prototype.myReplace = function(...arg){
+            let [a,b] = arg;
+            //字符串初始值
+            let str = this.valueOf();
+            //判断a如果不是字符串或正则，判断b如果不是字符串或函数，就直接返回字符串初始值
+            if(typeof a !== 'string' && a.constructor !== RegExp || typeof b !== 'string' && typeof b !== 'function'){
+                return str;
+            }
+            //如果是字符串，就查找一次，如果是正则就按照规则来
+            let s = '';
+            if(typeof a === 'string'){
+                //截取查找字符的索引
+                let i = str.indexOf(a);
+                //判断要查找的字符的索引不存在，就直接返回字符串初始值，否则就按照规则进行
+                if(i === -1){
+                    return str;
+                }else{
+                    //判断b是字符串，就进行截取，拼接成新的字符串返回
+                    if(typeof b === 'string'){
+                        //截取要查找的字符前面的，不包括它本身
+                        let aa = str.substring(0,i);
+                        //截取要查找的字符后面的
+                        let bb = str.substring(i+a.length);
+                        //拼接成新的字符
+                        return aa+b+bb;
+                    }else if(typeof b === 'function'){
+                        let aa = str.substring(0,i);
+                        let bb = str.substring(i+a.length);
+                        //a是要查找的字符，i是要查找的字符的索引，str是整个字符串
+                        return aa+ b(a,i,str)+bb;
+                    }
+                }
+            }else if(a.constructor === RegExp){
+                //正则匹配，是一个数组
+                let ary = str.match(a);
+                //判断匹配的结果是null，就直接返回字符串原始值，否则就按照规则进行
+                if(ary === null){
+                    return str;
+                }
+                //查找字符的第一次索引
+                let i = str.search(a);
+                if(typeof b === 'string'){
+                    //判断数组的长度是否大于1，如果大于1，就按照要查找的字符将字符串分割为数组，然后拼接上要替换的字符，否则就按照字符串来处理
+                    if(ary.length > 1){
+                        return str.split(aty[0]).join(b);
+                    }else{
+                        let aa = str.substring(0,i);
+                        let bb = str.sustring(i+ary[0].length);
+                        return aa+b+bb;
+                    }
+                }else if(typeof b === 'function'){
+                    if(ary.length > 1){
+                        return fn(str,b,a);
+                    }else{
+                        let aa = str.substring(0,i);
+                        let bb = str.substring(i+ary[0].length);
+                        return aa+b(ary[0],i,str)+bb;
+                    }
+                }   
+            }
+        }
+        
+
+        let str = 'abababababab';
+        console.log(str.replace('a','c'));
+        // console.log(str.myReplace(/a/g,($0,$1,$2)=>{
+        //     console.log($0,$1,$2);
+        //     return 'A';
+        // }));            
+    </script>
+</body>
+</html>
