@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body style="height:3000px">
+<script>
+    /*
+        防抖：（停下来才触发）
+            当触发事件的频率很高的时候都不执行函数中的代码，只有停下来的时候再执行
+
+            debounce(回调函数，延迟时间)
+
+        节流：（降低请求频率）
+            每隔固定时间执行一次事件函数中的代码
+            比如每隔200秒执行一次
+    */    
+    // window.onscroll = debounce(fn,200);
+    window.onscroll = throttling(fn,2000);
+
+    function fn(){
+        console.log('触发');
+    }
+
+    //防抖
+    function debounce(callBack,time){
+        // console.log(callBack);
+        // console.log(time);
+        let timer;
+        // console.log(timer);
+        return function(...arg){
+            // console.log(arg);
+            // console.log(timer);
+            //当事件触发的时候就先关闭上次的timer
+            if(timer){
+                clearTimeout(timer);
+            }
+            // console.log(timer);
+            timer = setTimeout(()=>{
+                callBack.call(this,...arg);
+            },time);
+            // console.log(timer);
+        }
+    }
+
+    //节流
+    function throttling(callBack,time){
+        //设置上一次的时间
+        let prevTime = 0;
+        return function(...arg){
+            //获取当前时间
+            let nowTime = +new Date;
+            // console.log(nowTime);
+            // console.log(prevTime);
+            //判断当前时间减去上一次的时间是否大于设置的时间，如果大于，则执行函数
+            // console.log(nowTime - prevTime);
+            if(nowTime - prevTime > time){
+                callBack.call(this,...arg);
+            }
+            //把当前时间赋值为下一次的上一次时间
+            // console.log(nowTime);
+            prevTime = nowTime;
+        }
+    }
+</script>
+</body>
+</html>
