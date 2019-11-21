@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box{
+            width:50px;
+            height:50px;
+            background:lightpink;
+            position:absolute;
+            top:0;
+            left:0;
+            transition:1s;
+        }
+        .box2{
+            width:5px;
+            height:5px;
+            background:limegreen;
+            border-radius:50%;
+            position:absolute;
+            top:0px;
+            left:22px;
+            transition:1s;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div id="box2"></div>
+    </div>
+    <script>
+        document.onkeydown = function(ev){
+            switch(ev.keyCode){
+                case 87:  //W
+                    box.style.top = box.offsetTop - 15 + 'px';
+                    break;
+                case 83:  //S
+                    box.style.top = box.offsetTop + 15 + 'px';
+                    break;
+                case 65:  //A
+                    box.style.left = box.offsetLeft - 15 + 'px';
+                    break;
+                case 68:  //D
+                   box.style.left = box.offsetLeft + 15 + 'px';
+                   break;
+                case 13:
+                    let div = document.createElement('div'); 
+                    div.className = 'box2';
+                    box.append(div);
+                    setTimeout(()=>{
+                        div.style.top = -1000 + 'px';
+                    });
+                    break;
+                default:
+                    break;
+            }
+            console.log(ev);
+            console.log(ev.keyCode);
+        }
+    </script>
+</body>
+</html>
