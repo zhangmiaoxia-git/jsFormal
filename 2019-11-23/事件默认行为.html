@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        #ul{
+            width:100px;
+            border:1px solid hotpink;
+            display:none;
+            position:absolute;
+            top:0;
+            left:0;
+        }
+        #ul li{
+            height:20px;
+            line-height:20px;
+            text-align:center;
+            border-bottom:1px dashed plum;
+        }
+        #ul li:hover{
+            background:hotpink;
+            color:#fff;
+        }
+    </style>
+</head>
+<body style="height:3000px">
+    <!-- <input type="text" id="txt"> -->
+    <!-- <img id="img" src="./timg.jpg" alt=""> -->
+    <!-- <ul id="ul">
+        <li>我的帖子</li>
+        <li>用户管理</li>
+        <li>我的关注</li>
+        <li>我的好兄弟</li>
+    </ul> -->
+    <a href="http://www.baidu.com" id="aa">百度</a>
+    <script>
+        /*
+            浏览器默认行为：某些行为并不是人为做的，而是浏览器悄悄做的
+
+            阻止方式：
+                DOM0的方式
+                要阻止默认行为要知道是什么事件触发的这种行为
+
+                ev.returnValue = false  阻止默认行为（灵活）
+                return false
+                ev.preventDefault()  
+
+                事件绑定可以使用ev.preventDefault()或returnValue
+
+            oncontextmenu  鼠标右键
+        */
+
+        // document.onkeydown = function(ev){
+        //     // console.log(ev.keyCode);
+        //     if(ev.keyCode === 32){
+        //         // ev.returnValue = false;
+        //         return false;
+        //     }
+        //     // return false;
+        // }
+        // txt.onkeydown = function(ev){
+        //     // console.log(1);
+        //     ev.cancelBubble = true;
+        // }
+
+        // img.onmousedown = function(ev){
+        //     ev.returnValue = false;
+        //     // return false;
+        //     // ev.preventDefault();
+        // }
+
+        // document.oncontextmenu = function(ev){
+        //     // console.log(ev.clientY);  基于可视区的高度
+        //     // console.log(ev.pageY);  基于页面的高度
+        //     ul.style.cssText = `display:block;top:${ev.clientY}px;left:${ev.clientX}px`;
+        //     return false;
+        // }
+        // ul.onclick = function(ev){
+        //     ev.stopPropagation();
+        // }
+        // document.onclick = function(){
+        //     ul.style.display = 'none';
+        // }
+
+        // let yan = true;
+        // aa.addEventListener('click',function(ev){
+        //     ev.preventDefault();
+        // });
+
+        // aa.onclick = function(){
+        //     if(yan){
+        //         return false;
+        //     }
+        // }
+    </script>    
+</body>
+</html>

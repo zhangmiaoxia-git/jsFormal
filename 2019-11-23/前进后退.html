@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box{
+            width:50px;
+            height:50px;
+            background:orange;
+            position:absolute;
+            top:0;
+            left:0;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <script>
+        let timer;
+        let e = 0;
+        let obj = {};
+        document.onkeydown = function(ev){
+            //获取事件中的键码
+            e = ev.keyCode;
+            // console.log(e);
+            //当键盘按下的时候键码默认为true
+            obj[e] = true;
+            //当键盘按下的时候开启一个定时器
+            if(!timer){
+                timer = setInterval(fn,16.7);
+            }
+        }
+
+        let fn = () =>{
+            if(obj['87']){  //w  上
+                box.style.top = box.offsetTop - 5 + 'px';
+            }
+            if(obj['83']){  //s  下
+                box.style.top = box.offsetTop + 5 + 'px';
+            }
+            if(obj['65']){  //a  左
+                box.style.left = box.offsetLeft - 5 + 'px';
+            }
+            if(obj['68']){  //d  右
+                box.style.left = box.offsetLeft + 5 + 'px';
+            }
+        }
+
+        document.onkeyup = function(ev){
+            e = ev.keyCode;
+            obj[e] = false;
+            // clearInterval(timer);
+            // timer = null;
+            // console.log(Object.values(obj));
+            // Object.values(obj).every(function(item){
+            //     console.log(item);
+            //     // return !item;
+            // });
+            if(Object.values(obj).every(item=>!item)){
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        html,body{
+            overflow: hidden;
+        }
+        #ul{
+            position:absolute;
+            list-style:none;
+            top:0;
+            left:0;
+            transition:1s;
+        }
+    </style>
+</head>
+<body>
+    <ul id="ul"></ul>
+    <script>
+        //定义一个数组，存放所有颜色
+        let ary = ['green','pink','skyblue','hotpink','yellow'];
+
+        //可视区的宽度
+        const w = window.innerWidth;
+        //可视区的高度
+        const h = window.innerHeight;
+        //每个颜色占可视区的宽高即可
+        let html = ary.map(item=>`<li style="width:${w}px;height:${h}px;background:${item}"></li>`).join('');
+        ul.innerHTML = html;
+        // console.log(ary.length-1);
+
+        let num = 0;
+        addWheel(document,throttling(fn,1000))
+
+        function fn(o){
+            //向上滚，让高度减少，向下滚，让高度增加
+            if(o){
+                num --;
+                //往上滚，高度减少，但是不能为负数，如果是负数，那么滚动到最上面会超出当前的ul，所以如果为负数了，就需要判断一下，最上面的需要等于0
+                //这是第一个的位置
+                if(num < 0){
+                    num = 0;
+                }
+            }else{
+                num ++;
+                //往下滚，高度会增加，但是不能超出最后一个ul，如果超出了，就需要判断一下，不能超出最后一个
+                //这是最后一个的位置
+                if(num > ary.length-1){
+                    num = ary.length-1;
+                }
+            }
+            // console.log(num);
+            // console.log(h);
+            // console.log(num * h);
+            ul.style.top = - num * h + 'px';
+        }
+
+        function addWheel(obj,cb){
+            // console.log(this);
+            //判断box是否有滚轮事件，如果有，说明box这个元素有滚轮事件，如果没有，则需要给box这个元素添加滚轮事件
+            if(obj.onmousewheel === null){
+                //一个事件等于一个函数，这个函数中写的是需要操作事件的逻辑
+                obj.onmousewheel = listen;
+            }else{  //addEventListener 第二个参数是函数
+                obj.addEventListener('DOMMouseScroll',listen);
+            }
+
+            //这个函数是为了改变方向，这个函数是一个过渡
+            function listen(ev){
+                // console.log(this);
+                // console.log(ev.wheelDelta);
+                let o = false;  //默认是向下，true是向上
+                // console.log(o);
+                if(ev.wheelDelta){  //chrome浏览器
+                    o = ev.wheelDelta > 0?true:false;
+                }else{  //火狐浏览器
+                    o = ev.detail < 0?true:false;
+                }
+                // console.log(o);
+                cb.call(this,o);
+            }
+            // cb.call(this);
+        }
+
+        //节流
+        function throttling(cb,time){
+            //设置一个上一次的时间
+            let prevTime = 0;
+            //返回一个函数
+            return function(...arg){
+                //获取当前的时间
+                let nowTime = +new Date;
+                //判断当前时间减去上一次的时间是否大于设置的时间，如果大于，就加载
+                if(nowTime - prevTime > time){
+                    cb.call(this,...arg);
+                }   
+                //把当前时间作为下一次的上一次的时间
+                prevTime = nowTime;
+            }
+        }
+
+    </script>
+</body>
+</html>

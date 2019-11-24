@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box{
+            width:100px;
+            height:100px;
+            background:lightskyblue;
+            position:absolute;
+            top:0;
+            left:0;
+        }
+    </style>
+</head>
+<body _style="height:3000px">
+    <div id="box"></div>
+    <script>
+        /*
+            onscroll  滚动条改变的时候触发
+            onmousewheel   滚轮事件
+                ev.wheelDelta  检测滚动的方向
+                    大于0就是向上的
+                    小于0就是向下的
+            firefox:DOMMouseScroll
+                注意：这个事件只能使用事件绑定的方式去写
+                ev.detail
+                    大于0就是向下的
+                    小于0就是向上的
+        */
+        // onscroll = function(){
+        //     console.log(1);
+        // }
+
+        // window.onmousewheel = function(ev){
+        //     // console.log(1);
+        //     // console.log(ev.wheelDelta);
+        //     if(ev.wheelDelta > 0){
+        //         // console.log('上');
+        //         // console.log(box.offsetTop);
+        //         box.style.top = box.offsetTop - 5 + 'px';
+        //     }else{
+        //         // console.log('下');
+        //         box.style.top = box.offsetTop + 5 + 'px';
+        //     }
+        //     console.log(box.style.top);
+        // }
+
+        // window.addEventListener('DOMMouseScroll',function(ev){
+        //     // console.log(1);
+        //     // console.log(ev);
+        //     if(ev.detail > 0){
+        //         console.log('下');
+        //     }else{
+        //         console.log('上');
+        //     }
+        // });
+
+        //兼容谷歌、火狐浏览器
+        function addWheel(obj,cb){
+            // console.log(this);
+            //判断box是否有滚轮事件，如果有，说明box这个元素有滚轮事件，如果没有，则需要给box这个元素添加滚轮事件
+            if(obj.onmousewheel === null){
+                //一个事件等于一个函数，这个函数中写的是需要操作事件的逻辑
+                obj.onmousewheel = listen;
+            }else{  //addEventListener 第二个参数是函数
+                obj.addEventListener('DOMMouseScroll',listen);
+            }
+
+            //这个函数是为了改变方向，这个函数是一个过渡
+            function listen(ev){
+                // console.log(this);
+                // console.log(ev.wheelDelta);
+                let o = false;  //默认是向下，true是向上
+                // console.log(o);
+                if(ev.wheelDelta){  //chrome浏览器
+                    o = ev.wheelDelta > 0?true:false;
+                }else{  //火狐浏览器
+                    o = ev.detail < 0?true:false;
+                }
+                // console.log(o);
+                cb.call(this,o);
+            }
+            // cb.call(this);
+        }
+
+        addWheel(box,function(o){
+            // console.log(1);
+            // console.log(this);
+            //获取box的宽高
+            let {width,height} = getComputedStyle(this);
+            //如果o成立，宽高是放大，否则就是缩小
+            if(o){
+                this.style.width = parseFloat(width) + 5 + 'px';
+                this.style.height = parseFloat(height) + 5 + 'px';
+            }else{
+                this.style.width = parseFloat(width) - 5 + 'px';
+                this.style.height = parseFloat(height) - 5 + 'px';
+            }
+        });
+    </script>
+</body>
+</html>
