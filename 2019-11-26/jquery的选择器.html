@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box"></div>
+    <ul id="ul">
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+    </ul>
+
+    <input type="button" value="按钮" class="am">
+    <input type="button" value="按钮" class="am">
+    <input type="button" value="按钮" class="am">
+    <input type="button" value="按钮" class="am">
+    <input type="text" class="ag">
+    <input type="checkbox" class="ac" checked>
+    <input type="radio" class="ab">
+    <input type="password" class="aba">
+    <input type="time" class="b">
+    <input type="date" class="ab">
+<script src="../../node_modules/jquery/dist/jquery.js"></script>
+<script>
+    // console.log($);
+    //获取的是一个jquery对象，因为jquery对象就可是使用jquery的内置方法
+    // console.log($('#box'));
+
+    //给ul下的每个li设置样式
+    // $('#ul li').css({
+    //     width:100,
+    //     height:100,
+    //     background:'red',
+    // }).click(function(){
+    //     // console.log(this);  //this就是li，原生对象，包含给它里边添加的样式
+    //     //animate  自定义动画
+    //     $(this).animate({
+    //         width:300,
+    //     });
+    // });
+
+    // console.log($('input[type="button"]'));
+    // $('input[type="button"]').click(function(){
+    //     // console.log(this.value);
+    //     // console.log($(this));
+    //     // console.log($(this).val());
+    //     //修改button的value值
+    //     $(this).val('按钮2');
+    // });
+
+    // $('input[type!="button"]').click(function(){
+    //     alert($(this).val());
+    // });
+    
+    //^  开头
+    // console.log($('input[class^="a"]'));
+    //结尾
+    // console.log($('input[class$="b"]'));
+    //全部
+    // console.log($('input[class*="g"]'));
+
+    //隔行变色
+    //even偶数，但是js是从0开始计数，所以表面上看上去是奇数
+    // $('#ul li:even').css('background','red');
+    // $('#ul li:odd').css('background','green');
+
+    //伪类选择器
+    // $(':button').click(function(){
+    //     $(this).val('222');
+    // });
+    
+    //点击按钮获取被选中的input框
+    $(':button').click(function(){
+        console.log($(':checked'));
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    //构造函数
+    //不能在外面new，但是如果在里面new就会出现递归
+    function myQuery(){
+        //因为不能new自己，所以创建了一个$函数作为替身，这个替身拥有myQuery的所有方法和属性
+        // return new myQuery();  //递归
+        return $;
+    }
+
+    function $(){
+
+    }
+
+    
+
+    myQuery.prototype = {
+        v:'x.0',  //版本
+        constructor:myQuery,  //修改constructor指向
+        //jquery下的css方法
+        css:function(){
+            console.log(1);
+        }
+    }
+
+    //让$的实例化对象拥有myQuery的方法
+    $.prototype = myQuery.prototype;
+
+    // fn.init=function $(){
+    //     return new myQuery();
+    // }
+
+    // let $ = myQuery();
+    // let $ = $();
+    myQuery().css();
+
+    // console.log($.css());
+</script>
+</body>
+</html>

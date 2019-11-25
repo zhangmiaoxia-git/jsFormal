@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+    <div id="box"></div>
+<script>
+    ;(function(global,factory){
+        factory(global);
+    })(this,function(global,NoGlobal){
+        function myQuery(selector){
+            // console.log(selector);
+            return new fn.init(selector);
+        }
+
+        let fn = myQuery.prototype = {
+            constructor:myQuery,
+            isObject(val){
+                return val !== null && typeof val === 'object';
+            },
+            css:function(...arg){
+                // console.log(arg);
+                //获取arg的长度
+                let len = arg.length;
+                // console.log(len);
+                //设置不带单位的属性
+                let re = ['background','color','opacity','position','display'];
+                let ary = Object.values(this);
+                // console.log(this);
+                // console.log(ary);
+
+                //判断arg的长度，如果是2，那么是设置属性，如果是1，那么可能是获取属性，也可能是批量添加属性
+                if(len === 1){
+                    //要么是获取，要么是批量添加
+                    if(typeof arg[0] === 'string'){
+                        // console.log(this[0]);
+                        // console.log(arg[0]);
+                        // console.log(getComputedStyle(this[0])[arg[0]]);
+                        return getComputedStyle(this[0])[arg[0]];
+                    }else if(this.isObject(arg[0])){
+                        // console.log(Object.keys(arg[0]));
+                        //如果是对象类型的，那么获取key值
+                        let ary2 = Object.keys(arg[0]);
+                        //给每个li都添加属性样式
+                        ary.forEach((ele,i)=>{
+                            // console.log(ele)
+                            ary2.forEach((attr)=>{
+                                // console.log(attr)
+                                // console.log(arg[0][attr])
+                                if(typeof arg[0][attr] === 'number'){
+                                    if(new RegExp(re.join('|')).test(attr)){
+                                      ele.style[attr] = arg[0][attr];  
+                                    }else{
+                                        ele.style[attr] = arg[0][attr] + 'px';
+                                    }
+                                }else{
+                                    ele.style[attr] = arg[0][attr];
+                                }
+                            });
+                        });
+                    }
+                }else if(len === 2){
+                    //直接设置
+                    // console.log(arg,this,Object.keys(this));
+                    // console.log(Object.values(this));
+                    ary.forEach((ele,i)=>{
+                        if(typeof arg[1] === 'number'){
+                            // console.log(new RegExp(re.join('|')));
+                            if(new RegExp(re.join('|')).test(arg[0])){
+                                ele.style[arg[0]] = arg[1];
+                            }else{
+                                ele.style[arg[0]] = arg[1] + 'px';
+                            }
+                        }else{
+                            ele.style[arg[0]] = arg[1];
+                        }
+                    });
+                }
+            }
+        };
+
+        fn.init = function(selector){
+            //获取元素
+            let ele = document.querySelectorAll(selector);
+            // console.log(ele);
+            ele.forEach((ele,i)=>{
+                // console.log(this);
+                // console.log(ele);
+                return this[i] = ele;
+            });
+        }
+
+        fn.init.prototype = fn;
+
+        window.$ = myQuery;
+    });
+    // $('li').css('width');  //获取width
+    // $('li').css('width',200);  //设置width
+    $('li').css({
+        width:200,
+        height:'200px',
+        background:'red',
+        opacity:.5,
+    });
+</script>
+</body>
+</html>

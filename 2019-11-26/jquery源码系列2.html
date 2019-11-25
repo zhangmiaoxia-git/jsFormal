@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    /*
+        global为了找this
+        typeof this !== 'undefined'?window:this
+    */
+    (function(global,factory){
+        factory(global);
+    })(this,function(global,NoGlobal){
+        function myQuery(){
+            return new fn.init;
+        }
+
+        let fn = myQuery.prototype = {
+            v:'x.0',
+            constructor:myQuery,
+            css:function(){
+                console.log(1);
+            }
+        };
+
+        fn.init = function(){
+
+        }
+
+        fn.init.prototype = myQuery.prototype;
+
+        window.myQuery = $ = myQuery;
+    });
+
+    /*
+        低版本浏览器中undefined会被修改
+    */
+    // console.log($);
+    $().css();
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">添加</button>
+    <ul id="ul"></ul>
+<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    /*
+        DOM  ->  文档对象模型
+
+        增删改查
+        关系：父子、祖先、子孙关系
+        回流和重绘
+        盒子模型
+
+        事件中的this，默认是原生对象
+        jquery元素都可以链式调用
+
+        parent.prepend(child)  等同于insertBefore
+    */
+    let num = 0;
+    $('#btn').click(function(){
+        //创建一个li，li元素中有内容以及样式，把这个li插入到ul中
+        let $li = $('<li>'+ ++num +'</li>').css({
+            width:30,
+            height:30
+        });
+
+        //点击li删除当前li
+        $li.click(function(){
+            // console.log($(this));
+            $(this).remove();
+        });
+
+        //css样式是添加在ul上的
+        //append   是给父级元素增加
+        // $('#ul').append($li).css('border','1px solid #000');
+        //css样式是添加在li上的
+        //appendTo   是个子级元素增加
+        $li.appendTo($('#ul')).css('border','1px solid #000');
+    });
+</script>
+</body>
+</html>
