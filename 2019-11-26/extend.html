@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <textarea id="txt"></textarea>
+<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    /*
+        $.extend可以进行深浅拷贝、扩展工具方法、扩展功能方法
+
+        $.extend  工具方法   -> $.xx()
+        $.fn.extend  功能方法  ->  $().xx()
+    */
+    // $.fn.extend({
+    //     scrollH:function(){
+    //         // console.log(this);
+    //         return this[0].scrollHeight;
+    //     }
+    // });
+
+    // $(document).click(function(){
+    //     // console.log($('#txt').height());
+    //     // console.log($('#txt').innerHeight());
+    //     console.log($('#txt').scrollH());
+    // });
+
+    $.extend({
+        trimLeft:function(str){
+            // console.log(str);
+            //\s代表一个空格
+            return str.replace(/\s+/,'');
+        }
+    });
+
+    console.log($.trimLeft('    12345'));
+</script>
+</body>
+</html>

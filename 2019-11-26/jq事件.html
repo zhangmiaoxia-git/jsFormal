@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box{
+            width:100px;
+            height:100px;
+            background:red;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <button>按钮</button>
+        <ul>
+            <!-- <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li> -->
+        </ul>
+    </div>
+    <!-- <button>按钮</button> -->
+<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    /*
+        jq事件：
+            click
+            mouseover
+            mouseout
+        
+        事件的三大部分：
+            1、事件流
+            2、有哪些事件，是做什么的
+            3、事件对象
+        
+        hover:是onmouseenter与onmouseleave的组合
+
+        jq中的所有事件，都是on来二次封装，jq中的事件全部都是事件绑定
+
+        jq的事件对象都是二次封装的，如果要拿到真正的原生事件对象使用ev.originalEvent
+
+        jq中阻止冒泡和默认行为，直接return false即可
+    */
+    // $('#box').hover(function(){
+    //     console.log('移入');
+    // },function(){
+    //     console.log('移出');
+    // });
+
+    //事件监听
+    // $('#box').delegate('li','click',function(){
+    //     //这里的$(this)代表的是li
+    //     console.log($(this).text());
+    // });
+    
+    //click点击事件
+    // $('#box').on('click','li',function(){
+    //     console.log('点击'+$(this).text());
+    // });
+
+    //mouseover与mouseout有穿透的效果
+    // $('#box').mouseover(function(){
+    //     $(this).css('background','skyblue');
+
+    //     $('button').click(function(){
+    //         console.log('发起了一次请求');
+    //     });
+    // });
+    // $('#box').mouseout(function(){
+    //     $(this).css('background','red');
+    // });
+
+    /*
+        触发一次hover，就绑定一次click，触发的越多，绑定的就越多，触发一次click就会执行多次click事件
+
+        解决方案就是绑定一次，解绑一次，这样就能保证只触发一次click事件，使用off可以解绑事件
+    */
+    // $('#box').hover(function(){
+    //     $(this).css('background','skyblue');
+
+    //     //off解绑一次，再重新绑定一次
+    //     $('button').off().click(function(){
+    //         console.log('发起了一次请求');
+    //     });
+    // },function(){
+    //     $(this).css('background','red');
+    // });
+    
+    //jq同样有冒泡事件
+    // $('#box').on('click.a',function(){
+    //     console.log(1111);
+    // });
+
+    // $('button').on('click',function(ev){
+    //     // console.log(ev);
+    //     //off解绑可以阻止冒泡事件的发生
+    //     // $('#box').off('click.a');
+    //     console.log(222);
+    //     //return false也可以阻止冒泡事件的发生
+    //     // return false;
+    // });
+
+    // //阻止默认行为
+    // $('button').mousedown(function(){
+    //     return false;
+    // });
+
+
+    //jq事件可以存储数据
+    let ary = ['a','b','c','d','e'];
+    ary.forEach((item,i)=>{
+        let $li = $('<li>'+(i+1)+'</li>');
+        $li.on('click',{aa:item},function(ev){
+            // console.log(ev);
+            console.log('我的名字叫'+ev.data.aa);
+        });
+        $('ul').append($li);
+    });
+</script>
+</body>
+</html>

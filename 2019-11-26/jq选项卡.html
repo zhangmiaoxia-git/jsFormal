@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .active{
+            background:yellow;
+        }
+        #box div{
+            width:200px;
+            height:200px;
+            border:1px solid #000;
+            display:none;
+        }
+        #box div.show{
+            display:block;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <button class="active">按钮一</button>
+        <button>按钮二</button>
+        <button>按钮三</button>
+        <div class="show">11111</div>
+        <div>2222</div>
+        <div>3333</div>
+    </div>
+<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    //获取id为box的div
+    const $box = $('#box');
+    // console.log($box);
+    //获取button按钮
+    const $btns = $box.find('button');
+    // console.log($btns);
+    //获取div
+    const $divs = $box.find('div');
+    // console.log($divs);
+
+    //点击button按钮切换
+    $btns.click(function(){
+        //添加当前的class，并且把它的兄弟元素的class清除
+        $(this).addClass('active').siblings('button').removeClass('active');
+
+        //添加对应div的class，并且把当前div的兄弟元素的class清除
+        $divs.eq($(this).index('button')).addClass('show').siblings('div').removeClass('show');
+    });
+</script>
+</body>
+</html>

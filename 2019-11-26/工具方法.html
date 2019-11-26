@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="ul"></ul>
+<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    /*
+        工具方法的使用  $.
+        $.each
+        $.ajax
+    */
+
+    // let ary = [1,2,3,4];
+    // $.each(ary,function(i,item){
+    //     console.log(i,item);
+    // });
+
+    // let obj = {
+    //     name:'小明',
+    // };
+    // let obj2 = $.extend({},obj);  //浅克隆
+    // console.log(obj2);
+
+    // let ary = [1,2,[3,4]];
+    // $.extend要深度克隆，第一个参数要写true
+    // let ary2 = $.extend(true,[],ary);
+    // ary2[2].push(5);
+    // console.log(ary2);
+
+    //$.ajax
+    $.ajax({
+        url:'https://www.baidu.com/sugrec?',
+        data:{
+            prod:'pc',
+            sugsid:'1462,21099,18560,29567,29700,29220,26350',
+            wd:'今天多少度',
+        },
+        dataType:'jsonp',
+        success:function(data){
+            // console.log(data);
+            data.g.forEach((item)=>{
+                $('#ul').append($('<li>'+item.q+'</li>'));
+            });
+        }
+    });
+</script>
+</body>
+</html>

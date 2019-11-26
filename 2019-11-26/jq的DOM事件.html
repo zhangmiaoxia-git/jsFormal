@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="pb">
+        <div class="pb">
+            <div id="box">1</div>
+        </div>
+    </div>
+    <div class="pb">4</div>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    /*
+        插入到某个元素的前面
+        $('#box').before($('<div>2</div>'))
+
+        parent()  等同于  parentNode
+        prev()  等同于  previousElementSibling
+        next()  等同于  nextElementSibling
+
+        parents()  获取某个元素的所有祖先节点，括号中可以精确匹配
+
+        $('div').siblings()   当前元素的上兄弟节点和下兄弟节点
+
+        index('元素')  获取某个元素的索引，顺序默认基于父级，也可以精确匹配
+    */
+
+    //在id为box的元素前添加一个div
+    $('#box').before($('<div>2</div>'));
+    //获取id为box的元素的所有class为pb的祖先级节点
+    console.log($('#box').parents('.pb'));
+
+    //获取button的索引，获取的页面中实际存在的元素的索引，在script中创建的元素的索引是获取不到的
+    $('button').click(function(){
+        // console.log(this);
+        console.log($(this).index());
+    });
+</script>
+</body>
+</html>

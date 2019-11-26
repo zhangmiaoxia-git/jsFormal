@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box{
+            width:100px;
+            height:100px;
+            background:red;
+            position:absolute;
+            top:0;
+            left:0;
+        }
+        #boxShadow{
+            width:100px;
+            height:100px;
+            background:red;
+            position:absolute;
+            top:0;
+            left:0;
+            opacity:.3;
+        }
+    </style>
+</head>
+<body id="body">
+    <div id="box"></div>
+<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    /*
+        offset()  ->  绝对位置
+        position()  ->  基于父级的
+    */
+    // $('#box').mousedown(function(ev){
+    //     let disX = ev.pageX - $('#box').offset().left;
+    //     // console.log(disX);
+    //     let disY = ev.pageY - $('#box').offset().top;
+    //     // console.log(disY);
+
+    //     $(document).mousemove(function(ev){
+    //         $('#box').css({
+    //             left:ev.pageX - disX,
+    //             top:ev.pageY - disY,
+    //         });
+    //     });
+
+    //     $(document).mouseup(function(){
+    //         $(document).off('mouseup');
+    //         $(document).off('mousemove');
+    //     });
+    // });
+
+
+    $('#box').mousedown(function(ev){
+        //创建一个id为boxShadow的div元素
+        let $box2 = $('<div id="boxShadow"></div>');
+        //box2的定位距离
+        $box2.css({
+            left:$('#box').offset().left,
+            top:$('#box').offset().top,
+        });
+        $(body).append($box2);
+
+        let disX = ev.pageX - $('#box').offset().left;
+        let disY = ev.pageY - $('#box').offset().top;
+
+        $(document).mousemove(function(ev){
+            $box2.css({
+                left:ev.pageX - disX,
+                top:ev.pageY - disY,
+            });
+        });
+
+        $(document).mouseup(function(){
+            $(document).off('mouseup');
+            $(document).off('mousemove');
+
+            $('#box').css({
+                left:$box2.offset().left,
+                top:$box2.offset().top,
+            });
+            $box2.remove();
+        });
+    });
+</script>
+</body>
+</html>
