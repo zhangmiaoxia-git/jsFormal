@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    /*
+        JS按理来说是从上往下解读代码，它是单线程的（同一事件只能做一件事情）
+
+        事件调用 ->  把任务交给了事件引擎（所有的js事件全部都是异步的）
+
+        同步：代码从上往下依次执行，如果一个地方卡住了，下面的代码就不执行了
+
+        异步：虽然从上往下依次执行，如果一个地方卡住了，是不会阻止下面的代码执行
+
+        事件循环：js先执行主线程的代码，如果主线程有异步代码，比如定时器，promise或事件，那么会把异步代码放到异步队列中存储，当异步代码的条件成立的时候，把异步代码压入到主线程中执行，压入的方式是如果有微任务，就先执行微任务，执行完微任务再执行宏任务，主线程会执行压入的代码，执行完之后再从异步队列中压入异步代码到主线程中
+
+        执行完微任务是第一层，如果在宏任务中开个微任务，那么先执行宏任务，再执行宏任务中的微任务
+
+        promise是解决异步编程顺序问题的（让异步代码同步执行）
+    */
+    let a = 10;
+    setTimeout(()=>{
+        a = 20;
+    },0);
+    // console.log(a);  //只能拿到10
+    
+    setTimeout(()=>{
+        console.log(a,'2秒');
+    },2000);
+
+    setTimeout(()=>{
+        console.log(a,'定时器');
+    },0);
+
+    //promise是个异步，promise是个微任务，所以会先执行promise，再执行上面的定时器，定时器是宏任务
+    let p = new Promise((resolve,reject)=>{
+        resolve(5);
+    });
+
+    p.then((d)=>{
+        console.log(d,'promise');
+    });
+</script>
+</body>
+</html>

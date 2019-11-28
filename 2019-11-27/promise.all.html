@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='box'></div>
+<script>
+    function promisePic(url){
+        return new Promise((resolve,reject)=>{
+            let img = document.createElement('img');
+            img.src = url;
+            img.onload = function(){
+                resolve(img);
+            }
+            img.onerror = function(){
+                reject('错误');
+            }
+        });
+    }
+
+    let p1 = promisePic('http://img1.imgtn.bdimg.com/it/u=3608155120,1630233151&fm=26&gp=0.jpg');
+    let p2 = promisePic('http://b-ssl.duitang.com/uploads/item/201208/30/20120830173930_PBfJE.jpeg');
+    Promise.all([p1,p2]).then(([a,b])=>{
+        // console.log(a,b);
+        box.append(a);
+        box.append(b);
+        return promisePic('http://b-ssl.duitang.com/uploads/item/201210/03/20121003220216_xTBdK.jpeg');
+    },()=>{
+        console.log('错误');
+    }).then((img)=>{
+        box.append(img);
+    });
+</script>
+</body>
+</html>

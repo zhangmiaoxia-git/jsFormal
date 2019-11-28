@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    /*
+        promise使用的方式
+            new Promise(function(resolve,reject){
+                //主线程代码
+                //当异步代码执行完，通过异步代码的结果调用resolve或reject
+
+                //异步代码有可能会报错或直接的错误，如果报错或直接的错误会执行reject
+
+                //一般都是resolve(放异步的结果)
+            })
+            它有一个返回值，返回值是promise对象，这个对象有then方法
+
+            then(成功函数，失败函数)
+            第一个then  （微任务）
+                成功函数里面的参数就是异步的结果
+            第二个then   （微任务）
+                第一个then的返回值
+
+        虽然promise可以解决异步编程的问题，但是在then外面还是异步的
+        then中有2个函数，第一个函数是成功之后的回调，第二个函数是失败之后的回调
+
+        finally：不管是成功还是失败都会进回调函数
+
+        如果代码有可能报错，下面的代码是不会执行的，如果使用try、catch，那么try中的代码报错会进catch，报错是不会影响后面的代码执行的
+        try{
+
+        }catch(e){
+
+        }
+
+        JSON   长得像对象和数组的字符串，本质是字符串
+        JSON取值是不方便的，可以使用JSON.parse()，把JSON转成对象
+        parse必须为标准的JSON格式才能成功转换
+        对象转JSON
+            JSON.stringify()   这个方法的副作用是会把函数和undefined过滤掉
+    */
+
+    let a = 10;
+    // setTimeout(()=>{
+    //     a = 20;
+    // });
+    // console.log(a);
+    //如果想拿到定时器中的20，那么可以使用回调函数拿到
+    // function fn(cb){
+    //     setTimeout(()=>{
+    //         a = 20;
+    //         cb(a);
+    //     },3000);
+    // }
+    // fn(function(a){
+    //     console.log(a);
+    // })
+
+    //另外一种方式，promise
+    // let p = new Promise((resolve,reject)=>{
+    //     setTimeout(()=>{
+    //         a = 20;
+    //         resolve(a);
+    //         setTimeout(()=>{
+    //             b=10;
+    //         },0);
+    //         try{
+    //             b
+    //         }catch(e){
+    //             reject(e);
+    //         }
+    //     },3000);
+    // });
+    // p.then((d)=>{
+    //     console.log(d);
+    // },()=>{
+    //     console.log('失败');
+    // }).finally(function(){
+    //     console.log('都来')
+    // });
+
+    let p = new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+            resolve({
+                data:'{"name":"珠峰"}',
+                json:function(){
+                    return JSON.parse(this.data);
+                }
+            });
+        });
+    });
+    p.then(function(d){
+        return d.json();
+    }).then(function(a){
+        console.log(a.name);
+    });
+</script>
+</body>
+</html>

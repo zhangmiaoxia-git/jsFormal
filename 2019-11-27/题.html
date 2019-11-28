@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    /*
+        then里面才是微任务
+    */
+    //执行结果：1243
+    //先执行主线程的代码，主线程的代码是124，then里面是异步队列中的代码，主线程中的代码执行完成之后，才会执行异步队列的代码
+    // const promise = new Promise((resolve,reject)=>{
+    //     console.log(1);
+    //     resolve();
+    //     console.log(2);
+    // });
+    // promise.then(()=>{
+    //     console.log(3);
+    // });
+    // console.log(4);
+
+    //执行结果：'then:success1'
+    //promise  状态凝固，只要有一个状态固定了，其他的都不会执行
+    // const promise = new Promise((resolve,reject)=>{
+    //     resolve('success1');
+    //     reject('error');
+    //     resolve('success2');
+    // });
+    // promise.then((res)=>{
+    //     console.log('then:',res);
+    // }).catch((err)=>{
+    //     console.log('catch:',err);
+    // });
+
+    // console.log(Promise.resolve(3));  //3
+    // //then如果不是函数就会穿透，直到函数为止
+    // Promise.resolve(1)
+    // .then(2)
+    // .then(_=>6)
+    // .then(console.log)  //6
+
+    //用promise实现红灯3秒亮一次，绿灯1秒亮一次，黄灯2秒亮一次，三个灯不断交替重复亮灯
+    // function red(){
+    //     console.log('red');
+    // }
+    // function green(){
+    //     console.log('green');
+    // }
+    // function yellow(){
+    //     console.log('yellow');
+    // }
+
+    // function fn(){
+    //     let p = new Promise((resolve,reject)=>{
+    //         setTimeout(()=>{
+    //             resolve();
+    //         },3000);
+    //     });
+
+    //     p.then(()=>{
+    //         red();
+    //         return new Promise((resolve,reject)=>{
+    //             setTimeout(()=>{
+    //                 resolve();
+    //             },1000);
+    //         });
+    //     }).then(()=>{
+    //         green();
+    //         return new Promise((resolve,reject)=>{
+    //             setTimeout(()=>{
+    //                 resolve();
+    //             },2000);
+    //         });
+    //     }).then(()=>{
+    //         yellow();
+    //     });
+    // }
+
+    // fn();
+
+    /*
+        以下代码输出结果为123done[1,2,3]
+    */
+    // const timeout = ms => new Promise((resolve,reject)=>{
+    //     setTimeout(()=>{
+    //         resolve();
+    //     },ms);
+    // });
+
+    // const ajax1 = () => timeout(2000).then(()=>{
+    //     console.log('1');
+    //     return 1;
+    // });
+    // const ajax2 = () => timeout(1000).then(()=>{
+    //     console.log('2');
+    //     return 2;
+    // });
+    // const ajax3 = () => timeout(2000).then(()=>{
+    //     console.log('3');
+    //     return 3;
+    // });
+
+    // const mergePromise = ajaxArray => {
+    //     //创建一个成功的promise对象
+    //     let r = Promise.resolve();
+    //     // console.log(r);
+    //     let ary = [];
+    //     ajaxArray.forEach((item)=>{
+    //         // console.log(item);
+    //         //item放在第一个then中会拿到上面函数执行的结果，第二个then拿到第一个then返回的结果
+    //         r = r.then(item).then((d)=>{
+    //             // console.log(d);  //这里拿到的是上面函数执行的结果1 2 3
+    //             ary.push(d);
+    //             return ary;
+    //         });
+    //     });
+    //     return r;
+    // };
+
+    // mergePromise(([ajax1,ajax2,ajax3])).then((data)=>{
+    //     console.log('done');
+    //     console.log(data);
+    // });
+
+    // const first = () =>(new Promise((resolve,reject)=>{
+    //     console.log(3);
+    //     let p = new Promise((resolve,reject)=>{
+    //         console.log(7);
+    //         //宏任务
+    //         setTimeout(()=>{
+    //             console.log(5);  //最后执行这里
+    //             resolve(6);
+    //         },0);
+    //         resolve(1);  
+    //     });
+    //     resolve(2);
+    //     p.then((arg)=>{  //微任务
+    //         console.log(arg);  //1
+    //     });
+    // }));
+
+    // first().then((arg)=>{  //微任务
+    //     console.log(arg);  //2
+    // });
+    // console.log(4);
+    // //374125
+
+
+    // var urls = ['https://www.kkkk1000.com/images/getImgData/getImgDatadata.jpg', 'https://www.kkkk1000.com/images/getImgData/gray.gif', 'https://www.kkkk1000.com/images/getImgData/Particle.gif', 'https://www.kkkk1000.com/images/getImgData/arithmetic.png', 'https://www.kkkk1000.com/images/getImgData/arithmetic2.gif', 'https://www.kkkk1000.com/images/getImgData/getImgDataError.jpg', 'https://www.kkkk1000.com/images/getImgData/arithmetic.gif', 'https://www.kkkk1000.com/images/wxQrCode2.png'];
+
+    // console.log(urls);
+    // function loadImg(url){
+    //     return new Promise((resolve,reject)=>{
+    //         const img = new Image();
+    //         img.onload = function(){
+    //             console.log('一张图片加载完成');
+    //             resolve();
+    //         };
+    //         img.onerror = reject;
+    //         img.src = url;
+    //     });
+    // }
+
+    // function fn(n=0,m=3){
+    //     for(let i=n;i<m;i++){
+    //         // console.log(urls[i]);
+    //         // if(!urls[i])return;
+    //         loadImg(urls[i]).then(()=>{
+    //             // console.log(i);
+    //             if(i == 2 || i == 5 || i==7){
+    //                 // console.log(i);
+    //                 fn(m,m+3);
+    //             }
+    //         });
+    //     }
+    // }
+    // fn(0,3);
+
+    // const promise1 = new Promise((resolve,reject)=>{
+    //     setTimeout(()=>{
+    //         resolve('success');
+    //     },1000);
+    // });
+    // const promise2 = promise1.then(()=>{
+    //     throw new Error('error!!!');  //因为promise1 then执行结果了，所以会把then中的错粗信息抛出
+    // });
+    // console.log('promise1',promise1);  //promise1对象  pending
+    // console.log('promise2',promise2);  //promise2对象  pending
+    // setTimeout(()=>{
+    //     console.log('promise1',promise1);  //promise1对象  success
+    //     console.log('promise2',promise2);  //promise2对象
+    // },2000);
+    
+    //状态凝固
+    // const promise = new Promise((resolve,reject)=>{
+    //     resolve('success1');
+    //     reject('error');
+    //     resolve('success2');
+    // });
+    // promise.then((res)=>{
+    //     console.log('then:',res);  //'then:success1'
+    // }).catch((err)=>{
+    //     console.log('catch:',err);
+    // });
+
+    // Promise.resolve(1)
+    // .then((res)=>{
+    //     console.log(res);   //1
+    //     return 2;
+    // })
+    // .catch((err)=>{
+    //     return 3;
+    // })
+    // .then((res)=>{
+    //     console.log(res);  //2
+    // });
+
+    // const promise = new Promise((resolve,reject)=>{
+    //     setTimeout(()=>{
+    //         console.log('once');  //'once'
+    //         resolve('success');
+    //     },1000);
+    // });
+    // const start = Date.now();
+    // promise.then((res)=>{
+    //     console.log(res+'1',Date.now()-start);//success  >1000
+    // });
+    // promise.then((res)=>{
+    //     console.log(res+'2',Date.now()-start); //success  2比1大
+    // });
+    
+    //throw是抛出异常，说明代码错误，会进catch，如果是return new Error('error!!!')，所以不会进catch
+    // Promise.resolve()
+    // .then(()=>{
+    //     return new Error('error!!!');
+    // })
+    // .then((res)=>{
+    //     console.log('then:',res);  //'then:Error:error!!!'
+    // })
+    // .catch((err)=>{
+    //     console.log('catch:',err);
+    // })
+    // .then((res)=>{
+    //     console.log(res)  //undefined  由于241行没有return返回值，所以这里是undefined
+    // });
+    
+    //.then或.catch返回的值不能是promise本身，否则会造成死循环
+    // const promise = Promise.resolve()
+    // .then(()=>{
+    //     return promise;
+    // });
+    // promise.catch(console.error);
+    
+    //then如果不是函数，会进行穿透，所以结果是1
+    // Promise.resolve(1)
+    // .then(2)
+    // .then(Promise.resolve(3))
+    // .then(console.log)
+    
+    //throw抛出错误，所以会进catch，抛出错误信息
+    // Promise.resolve()
+    // .then(function success(res){
+    //     throw new Error('error')
+    // },function fail1(e){
+    //     console.error('fail1:',e);
+    // })
+    // .catch(function fail2(e){
+    //     console.error('fail2:',e);
+    // });
+</script>
+</body>
+</html>
