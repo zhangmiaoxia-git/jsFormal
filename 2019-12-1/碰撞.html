@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box{
+            width:100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            top:0;
+            left:0;
+        }
+        #box2{
+            width:100px;
+            height: 100px;
+            background: skyblue;
+            position: absolute;
+            top:300px;
+            left:300px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <div id="box2"></div>
+<script>
+    /*
+        DOM2绑定事件   addEventListener
+            解除事件   removeEventListener('事件',要解除的函数,布尔值)
+            解除绑定必须是一个有名函数（要和绑定的函数对应）
+    */
+    box.addEventListener('mousedown',function(ev){
+        // console.log(this.getBoundingClientRect());
+        //获取box的绝对位置
+        let {left,top:t} = this.getBoundingClientRect();
+        // console.log(left,t);
+        //求box移动的距离
+        let disX = ev.pageX - left;
+        let disY = ev.pageY - t;
+        // console.log(disX,disY);
+
+        //求移动box之后的绝对位置
+        function m(ev){
+            //box的绝对位置
+            // console.log(box.getBoundingClientRect());
+            let {left:l,top:t,bottom:b,right:r} = box.getBoundingClientRect();
+            //box2的绝对位置
+            // console.log(box2.getBoundingClientRect());
+            let {left:l2,top:t2,bottom:b2,right:r2} = box2.getBoundingClientRect();
+            // console.log(r,l2);
+            if(r < l2 || b < t2 || l > r2 || t > b2){
+                console.log('没碰到');
+                box2.style.background = 'yellowgreen';
+            }else{
+                console.log('碰到');
+                box2.style.background = 'pink';
+            }
+
+
+            //修改box的样式中的绝对位置
+            box.style.cssText = `left:${ev.pageX - disX}px;top:${ev.pageY - disY}px;`
+        }
+
+        function up(ev){
+            document.removeEventListener('mousemove',m);  //解除函数
+            document.removeEventListener('mouseup',up);  //解除函数
+        }
+
+        document.addEventListener('mousemove',m);
+        document.addEventListener('mouseup',up);
+        //阻止默认行为
+        ev.preventDefault();
+    });
+</script>
+</body>
+</html>

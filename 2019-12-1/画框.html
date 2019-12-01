@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box{
+            width:0;
+            height:0;
+            background:rgba(200,210, .3);
+            border:1px dashed green;
+            position: absolute;
+            left:0;
+            top:0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+<script>
+    class Drag{
+        constructor(id){
+            //获取id
+            this.box = document.getElementById(id);
+            this.disX = this.disY = 0;
+        }
+        init(){
+            document.addEventListener('mousedown',this.d = this.down.bind(this));
+        }
+        down(ev){
+            //获取box的绝对位置
+            let {left,top} = this.box.getBoundingClientRect();
+            // console.log(left,top);
+            //鼠标移动的距离，让box的绝对位置等于鼠标移动的距离
+            this.disX = ev.pageX;
+            this.disY = ev.pageY;
+            // console.log(this.disX,this.disY);
+            this.box.style.display = 'block';
+
+            //按下的时候让box的绝对位置等于鼠标按下的位置
+            this.box.style.top = this.disX + 'px';
+            this.box.style.left = this.disY + 'px';
+
+            //移动事件
+            document.addEventListener('mousemove',this.mv = this.move.bind(this));
+            //抬起事件
+            document.addEventListener('mouseup',this.u = this.up.bind(this));
+        }
+        move(ev){
+            /*
+                往右移动left和top是不动的，往左移动的时候才需要改变left和top值
+
+                如果按下的值比移动的值大，那么left，top值就是移动的值
+                如果移动的值比按下的值大，那么left，top值就是按下的值，那box的宽高就是移动了多少距离
+            */
+           this.box.style.top = Math.min(ev.pageY,this.disY) + 'px';
+           this.box.style.left = Math.min(ev.pageX,this.disX) + 'px';
+
+           //box的宽高就是移动了多少距离
+           //移动的距离-按下的距离 = 移动了多少距离
+           this.box.style.width = Math.abs(ev.pageX - this.disX) + 'px';
+           this.box.style.height = Math.abs(ev.pageY - this.disY) + 'px';
+        }
+        up(){
+            this.box.style.display = 'none';
+            document.removeEventListener('mousemove',this.mv);
+            document.removeEventListener('mouseup',this.u);
+        }
+    }
+    let d = new Drag('box');
+    d.init();
+</script>
+</body>
+</html>

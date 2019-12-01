@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            font-size:12px;
+        }
+        .box1{
+            margin-top:10px;
+            margin-left:20px;
+        }
+        #btn{
+            padding:2px 8px 2px 8px;
+            margin-bottom:16px;
+            margin-left:7px;
+        }
+        #folder{
+            width:167px;
+            height:153px;
+            padding:10px;
+            box-sizing:border-box;
+            text-align:center;
+            float:left;
+            margin-right:36px;
+            border:1px solid #eee;
+            border-radius:10px;
+        }
+        img{
+            width:110px;
+            height:100px;
+            margin-bottom:3px;
+        }
+        input{
+            display:block;
+            margin:0 auto;
+            width:123px;
+            height:19px;
+            outline:none;
+            text-align:center;
+        }
+        p{
+            text-align:center;
+            margin-top:3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box1">
+        <button id="btn">新建文件夹</button>
+        <div id="box">
+            <!-- <div id="folder">
+                <img src="./img/folder-b.png" alt="">
+                <input type="text">
+                <p>新建文件夹</p>
+            </div> -->
+        </div>
+    </div>
+<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    let ary = [
+        {
+            id:1,
+            title:'新建文件夹',
+        },
+        {
+            id:2,
+            title:'新建文件夹(1)',
+        }
+    ];
+    
+    //展示新建的所有的文件夹
+    function render(arr){
+        $('#box').html('');
+        $.each(arr,(i,item)=>{
+            //创建文件夹
+            let $folder = $(`
+                <div id="folder">
+                    <img src="./img/folder-b.png" alt="">
+                    <input type="text">
+                    <p>${item.title}</p>
+                </div>
+            `);
+            //隐藏input框
+            $folder.find('input').hide();
+            //将创建的文件夹插入到box中，展示在页面中
+            $('#box').append($folder);
+        });
+    }
+    render(ary);
+
+    //点击创建文件夹
+    //先在box中创建一个folder的div元素，然后当folder中的input框失焦之后再添加数据到ary中
+    //最后将新的数据再渲染在页面中
+    $('#btn').click(function(){
+        //创建文件夹
+        let $folder = $(`
+            <div id="folder">
+                <img src="./img/folder-b.png" alt="">
+                <input type="text" placeholder="请设置文件名" value="新建文件夹">
+            </div>
+        `);
+        //将创建的文件夹插入到bx中
+        $('#box').append($folder);
+        //获取input框
+        let $txt = $folder.find('input');
+        //input框中的文字聚焦
+        $txt.select();
+        //当input框失焦的时候把新的数据push到ary中，并且把新的数据渲染在页面上
+        $txt.blur(function(){
+            //获取input框中的内容
+            let val = $txt.val();
+            console.log(val);
+            //判断是否重名
+            let bool = ary.map(item=>item.title).includes(val);
+            console.log(bool);
+            let nval = '';
+            let num = 1;
+            //把input中value给最新的value（最新的value就是最后的结果）
+            nval = val;
+            while(bool){
+                //已经存在的话，就将后面的数组替换为空，并且num在上次的基础上加1
+                let s = val.replace(/\(\d\)$/,'') + '('+ num++ +')';
+                console.log(s);
+                bool = ary.map(item=>item.title).includes(s);
+                console.log(bool);
+                nval = s; 
+                console.log(nval);
+            }
+            ary.push({
+                id:+new Date,
+                title:nval,   //拿到的是最后一次的value值
+            });
+            render(ary);
+        });
+    });
+</script>
+</body>
+</html>

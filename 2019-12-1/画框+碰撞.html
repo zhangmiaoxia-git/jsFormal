@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box{
+            width:0;
+            height:0;
+            background:rgba(200,210, .3);
+            border:1px dashed green;
+            position: absolute;
+            left:0;
+            top:0;
+            display: none;
+        }
+        #box2{
+            width:100px;
+            height: 100px;
+            background: skyblue;
+            position: absolute;
+            top:300px;
+            left:300px;
+        }
+        #box3{
+            width:100px;
+            height: 100px;
+            background: skyblue;
+            position: absolute;
+            top:300px;
+            left:500px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <div id="box2" class="b"></div>
+    <div id="box3" class="b"></div>
+<script>
+    let b = document.querySelectorAll('.b');
+    class Drag{
+        constructor(id){
+            this.box = document.getElementById(id);
+            this.disX = this.disY = 0;
+        }
+        init(){
+            document.addEventListener('mousedown',this.d = this.down.bind(this));
+        }
+        down(ev){
+            //获取box的绝对位置
+            let {left,top} = this.box.getBoundingClientRect();
+            this.disX = ev.pageX;
+            this.disY = ev.pageY;
+            //让box显示
+            this.box.style.display = 'block';
+            //按下的绝对位置等于移动的位置
+            this.box.style.top = this.disY + 'px';
+            this.box.style.left = this.disX + 'px';
+
+            document.addEventListener('mousemove',this.mv = this.move.bind(this));
+            document.addEventListener('mouseup',this.u = this.up.bind(this));
+            ev.preventDefault();
+        }
+        move(ev){
+            //如果移动的值比按下的值大，那么left，top值就是按下的值；如果按下的值比移动的值大，那么left，top值就是移动的值
+            this.box.style.top = Math.min(ev.pageY,this.disY) + 'px';
+            this.box.style.left = Math.min(ev.pageX,this.disX) + 'px';
+
+            b.forEach((ele)=>{
+                //获取box的绝对位置
+                let {left:l,top:t,bottom:b,right:r} = this.box.getBoundingClientRect();
+                //获取ele的绝对位置
+                let {left:l2,top:t2,bottom:b2,right:r2} = ele.getBoundingClientRect();
+
+                if(l > r2 || b < t2 || t > b2 || r < l2){
+                    ele.style.background = 'yellowgreen';
+                }else{
+                    ele.style.background = 'pink';
+                }
+            });
+
+            //box的宽高就是移动了多少距离，移动了多少距离 = 移动的距离-按下的距离
+            this.box.style.width = Math.abs(ev.pageX - this.disX) + 'px';
+            this.box.style.height = Math.abs(ev.pageY - this.disY) + 'px';
+        }
+        up(){
+            this.box.style.display = 'none';
+            document.removeEventListener('mousemove',this.mv);
+            document.removeEventListener('mouseup',this.u);
+        }
+    }
+    let d = new Drag('box');
+    d.init();
+</script>
+</body>
+</html>
