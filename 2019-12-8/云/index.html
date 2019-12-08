@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/iconfont.css">
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div class="cloud">
+        <div class="head">
+            <div class="title">***云盘</div>
+            <div class="header_img">
+                <img src="./img/header1.jpg" alt="">
+            </div>
+            <div class="user_name"><p>用户名</p></div>
+            <div class="header_detail">
+                <div class="top">
+                    <img src="./img/header1.jpg" alt="" title="点击可进入用户中心">
+                    <span title="点击可进入用户中心">用户名</span>
+                </div>
+                <div class="bottom">
+                    <div class="set">
+                        <img src="./img/set.jpg" alt="">
+                    </div>
+                    <div class="icon iconfont icon-tuichu out"></div>
+                </div>
+            </div>
+        </div>
+        <div class="center">
+            <div class="search">
+                <input type="text" placeholder="请输入搜索词">
+                <span class="icon iconfont icon-fangdajing"></span>
+            </div>
+            <div class="left">
+                <p class="create" id="create">
+                    <img src="./img/create.png" alt="">
+                    <span>新增文件夹</span>
+                </p>
+                <p class="file">
+                    <img src="./img/create.png" alt="">
+                    <span>上传文件</span>
+                </p>
+            </div>
+            <div class="action_button">
+                <div class="button_detail clearfix">
+                    <p>
+                        <img src="./img/download.png" alt="">
+                        <span class="button_text" id="download">下载</span>
+                    </p>
+                    <p>
+                        <img src="./img/download.png" alt="">
+                        <span class="button_text" id="copy">复制</span>
+                    </p>
+                    <p id="move">
+                        <img src="./img/move.png" alt="">
+                        <span class="button_text" id="move">移动</span>
+                    </p>
+                    <p>
+                        <img src="./img/fenxiang.png" alt="">
+                        <span class="button_text" id="share">分享</span>
+                    </p>
+                    <p id="rename">
+                        <img src="./img/ming.png" alt="">
+                        <span class="button_text">重命名</span>
+                    </p>
+                    <p id="del">
+                        <img src="./img/delete.png" alt="">
+                        <span class="button_text">删除</span>
+                    </p>
+                    <img class="ico" src="./img/ico_type.jpg" alt="">
+                    <img class="ico ico1" src="./img/sort_type.png" alt="">
+                    <img class="ico ico2" src="./img/refresh.png" alt="">
+                    <span class="icon iconfont icon-quanping quanping"></span>
+                </div>
+            </div>
+        </div>
+        <div class="main clearfix">
+            <div class="menu">
+                <ul>
+                    <li>
+                        <div class="tree_nav tree_ico open">
+                            <span class="clearfix"><i></i>微云</span>
+                        </div>
+                        <!-- <ul>
+                            <li>
+                                <div class="tree_nav">
+                                    <span><i></i>我的文档</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tree_nav">
+                                    <span><i></i>我的音乐</span>
+                                </div>
+                            </li>
+                        </ul> -->
+                    </li>
+                </ul>
+                <!-- <ul>
+                    <li>
+                        <div class="one_nav">
+                            <i></i>
+                            <span>微云</span>
+                        </div>
+                        <ul class="two_nav">
+                            <li class="two_list">
+                                <i></i>
+                                <span>我的文档</span>
+                            </li>
+                            <li class="two_list">
+                                <i></i>
+                                <span>我的音乐</span>
+                            </li>
+                        </ul>
+                    </li>
+                </ul> -->
+            </div>
+            <div class="content">
+                <div class="main_nav">
+                    <i class="checkAll"></i>
+                    <div class="bread_nav clearfix">
+                        <!-- <a href="javascript:void(0)">我的文档</a>
+                        <a href="javascript:void(0)">音乐</a>
+                        <a href="javascript:void(0)">梁静茹</a>
+                        <span>勇气</span> -->
+                    </div>
+                </div>
+                <div class="content_list" id="content_list">
+                    <div class="floder_empty"></div>
+                    <div id="floders" class="clearfix">
+                        <!-- <div class="folder active">
+                            <img src="./img/folder-b.png" alt="">
+                            <input type="text" value="新建文件夹" placeholder="请设置文件名">
+                            <p>新建文件夹</p>
+                            <i class="checked check_active"></i>
+                        </div> -->
+                    </div>
+                    <div id="drag"></div>
+                </div>
+                <!-- <div class="detail">
+                    <ul class="title">
+                        <li>
+                            <input type="checkbox">
+                            <p>名称</p>
+                        </li>
+                        <li>
+                            <p>创建人</p>
+                        </li>
+                        <li>
+                            <p>创建时间</p>
+                        </li>
+                        <li>
+                            <p>大小</p>
+                        </li>
+                        <li>
+                            <p>版本</p>
+                        </li>
+                        <li>
+                            <p>浏览量</p>
+                        </li>
+                        <li>
+                            <p>下载量</p>
+                        </li>
+                        <li>
+                            <p>描述</p>
+                        </li>
+                    </ul>
+                    <div class="list">
+                        <ul>
+                            <li>
+                                <input type="checkbox">
+                                <img src="./img/folder_jt1.png" alt="">
+                                <span>大小</span>
+                            </li>
+                            <li>大小</li>
+                            <li>大小</li>
+                            <li>大小</li>
+                            <li>大小</li>
+                            <li>大小</li>
+                            <li>大小</li>
+                            <li>大小</li>
+                        </ul>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="move_file">
+            <img src="./img/icon_close.png" alt="">
+            <h2>选择存储位置</h2>
+            <p>我的文档</p>
+            <div class="tree_content">
+                <ul id="tree_list">
+                    <li>
+                        <div class="tree_nav tree_ico open">
+                            <span><i></i>微云</span>
+                        </div>
+                        <!-- <ul>
+                            <li>
+                                <div class="tree_nav tree_ico">
+                                    <span><i></i>我的文档</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tree_nav tree_ico">
+                                    <span><i></i>我的音乐</span>
+                                </div>
+                            </li>
+                        </ul> -->
+                    </li>
+                </ul>
+            </div>
+            <div class="footer">
+                <div class="button">确定</div>
+                <div class="cancel">取消</div>
+            </div>
+        </div>
+    </div>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/sql/data.js"></script>
+<script src="./js/tools.js"></script>
+<script src="./js/folders/folders.js"></script>
+<script src='./js/createFile/createFiles.js'></script>
+<script src='./js/drag/drag.js'></script>
+<script src='./js/deleteRename/deleteRename.js'></script>
+<script src="./js/breadNav/breadNav.js"></script>
+<script src='./js/tree/tree.js'></script>
+<script src='./js/remove/remove.js'></script>
+</body>
+</html>
