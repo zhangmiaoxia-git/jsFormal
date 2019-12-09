@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /*行内样式的权重比id，class的权重大*/
+        #box{
+            /*imprtant的权重是最大的*/
+            width:150px !important; 
+            height:100px;
+            background:red;
+        }
+        .box{
+            width:200px;
+        }
+        div{
+            width:250px;
+        }
+        /*属性选择器*/
+        input[type="text"]{
+            border:1px solid #000;
+        }
+        /*class为a开头或者是a的类*/
+        div[class|="a"]{
+            background:red;
+        }
+        #ul li{
+            background:yellow;
+        }
+        /*ul下的第三个li背景色为红色*/
+        #ul li:nth-child(3){
+            background:red;
+        }
+        /*ul下的倒数第3个子元素背景色为蓝色*/
+        #ul li:nth-last-child(3){
+            background:blue;
+        }
+        /*ul下的倒数第3个元素背景色为粉色*/
+        #ul li:nth-last-of-type(3){
+            background:pink;
+        }
+        /*ul下的第一个元素的背景色为西瓜红*/
+        #ul li:nth-of-type(1){
+            background:lightcoral;
+        }
+        /*box2下的所有p标签中的第二个p标签字体颜色改变（同一类型的标签名）*/
+        #box2 p:nth-of-type(2){
+            color:violet;
+        }
+        /*不是同一类型的标签，倒数第2个标签的文字颜色改变*/
+        #box2 :nth-last-child(2){
+            color:turquoise;
+        }
+        /*选择div中只包含一个元素的div*/
+        div :only-child{
+            border:1px solid #000;
+        }
+        /*给空元素加样式*/
+        :empty{
+            height:20px;
+            background:lightgreen;
+        }
+        #box3{
+            width:150px;
+            height:100px;
+            background:darkorange;
+        }
+        /*: 伪类选择器   可以给元素增加伪元素*/
+        #box3::before{
+            content:'';
+            display:block;
+            width:20px;
+            height:100px;
+            background:darkorchid;
+        }
+    </style>
+</head>
+<body>
+    <div id="box" class="box" style="width:100px"></div> 
+    <input type="text">
+    <input type="button">
+
+    <div id="box2">
+        <p>111</p>
+        <span>1234</span>
+        <span>8974</span>
+        <p>2222</p>
+        <!-- <p>34567</p> -->
+    </div>
+    
+    <div class="aaa">1</div>
+    <div class="a-bc">2</div>
+    <div class="a">3</div>
+    <div class="a">
+        <p>p元素</p>
+    </div>
+
+    <ul id="ul">
+        <li>1</li>
+        <li>2</li>
+        <li class="red">3</li>
+        <li>4</li>
+    </ul>
+
+    <p></p>
+
+    <div id="box3"></div>
+</body>
+</html>

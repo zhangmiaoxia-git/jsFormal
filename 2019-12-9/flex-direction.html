@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        #box{
+            width:350px;
+            display:flex;
+            border:5px solid #000;
+            /*定义主轴方向是x轴*/
+            /* flex-direction:row; */
+            /*x轴翻转*/
+            /* flex-direction:row-reverse; */
+            /*定义主轴方向是y轴*/
+            /* flex-direction:column; */
+            /*y轴翻转*/
+            flex-direction: column-reverse;
+        }
+        span{
+            width:50px;
+            height:30px;
+            background:red
+        }
+
+    </style>
+</head>
+<body>
+    <div id="box">
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+    </div>
+</body>
+</html>

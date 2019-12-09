@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        #box{
+            width:350px;
+            height:100px;
+            display:flex;
+            border:5px solid #000;
+            /*align-items一般与justify-content配合使用，会让元素在盒子中水平垂直居中*/
+            /*在y轴的底部*/
+            /* align-items:flex-end; */
+            /*在y轴的中间*/
+            /* align-items:center; */
+            /*span会按照box的高度，撑满整个box盒子*/
+            align-items:stretch;
+        }
+        span{
+            width:50px;
+            background:red;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="box">
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+    </div>
+</body>
+</html>
