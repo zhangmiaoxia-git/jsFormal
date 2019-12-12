@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style>
+    #bar{
+        width:5px;
+        height:50px;
+        position:relative;
+        background:red;
+        margin-top:10px;
+    }
+    #bar2{
+        width:5px;
+        height:5px;
+        position: absolute;
+        top:0;
+        left:0;
+        background:#000;
+    }
+</style>
+</head>
+<body>
+    <button id="btn1">播放</button>
+    <button id="btn2">暂停</button>
+    <button id="btn3">音量</button>
+    <button id="btn4">进度</button>
+
+    <div id="bar">
+        <div id="bar2"></div>
+    </div>
+    <audio id="au" src="柏松 - 世间美好与你环环相扣.mp3" controls></audio>
+<script>
+    btn1.onclick = function(){
+        au.play();
+    }
+    btn2.onclick = function(){
+        au.pause();
+    }
+
+    //播放时间的变化
+    au.ontimeupdate = function(){
+        //当前播放的时间
+        console.log(au.currentTime);
+        //音频的总长度
+        console.log(au.duration);
+    }
+
+    btn3.onclick = function(){
+        //音频的音量
+        au.volume = 0.2;
+        console.log(au.volume);
+    }
+    btn4.onclick = function(){
+        //设置当前的进度
+        au.currentTime = 110;
+    }
+
+    //控制音量
+    bar2.onmousedown = function(ev){
+        let disY = ev.pageY - bar2.offsetTop;
+        document.onmousemove = function(ev){
+            let t = ev.pageY - disY;
+            if(t<0){
+                t=0;
+            }else if(t>bar.offsetHeight - bar2.offsetHeight){
+                t = bar.offsetHeight - bar2.offsetHeight;
+            }
+
+            //比例
+            let scale = 1 - t/(bar.offsetHeight - bar2.offsetHeight);
+            au.volume = scale;
+            bar2.style.top = t + 'px';
+        }
+
+        document.onmouseup = function(){
+            document.onmousemove = document.onmouseup = null;
+        }
+    }
+</script>
+</body>
+</html>

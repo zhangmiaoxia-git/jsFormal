@@ -1,0 +1,9 @@
+body{
+    background:darkviolet;
+}
+#box,#box2{
+    font-size:80px;
+}
+#box,#box2{
+    float:left;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link media="screen and (max-width:699px)" rel="stylesheet" href="./1.css">
+    <link media="screen and (min-width:700px)" rel="stylesheet" href="./2.css">
+    <style>
+        #box,#box2{
+            width:100px;
+            height:100px;
+            background:limegreen;
+        }
+        #box2{
+            background:lightpink;
+        }
+        /*媒体查询*/
+        /*小于等于699的时候显示一种颜色*/
+        /* @media screen and (max-width:699px){
+            body{
+                background:darkorange;
+            }
+            #box,#box2{
+                font-size:50px;
+            }
+        } */
+        /*大于等于700的时候变成另一种颜色*/
+        /* @media screen and (min-width:700px){
+            body{
+                background:darkviolet;
+            }
+            #box,#box2{
+                font-size:80px;
+            }
+        } */
+    </style>
+</head>
+<body>
+    <div id="box">1234567</div>
+    <div id="box2">9876543</div>
+</body>
+</html>
