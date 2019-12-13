@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    注册的用户名：<input id="user" type="text"><span id="s"></span></br>
+    注册的密码：<input id="pw" type="text">
+    <button id="btn">提交</button>
+<script>
+    //正则规则
+    let re = /^[a-zA-Z][\w-]{5,7}$/;
+
+    //input框聚焦触发的事件
+    user.onfocus = function(){
+        this.style.border = '1px solid black';
+        s.innerText = '';
+    }
+
+    //input框失焦触发的事件
+    user.onblur = function(){
+        let val = this.value.trim();
+        //判断用户名不能为空并且符合规则
+        if(val && re.test(val)){
+            //创建一个XMLHttpRequest对象
+            let xhr = new XMLHttpRequest();
+            //发起请求
+            xhr.open('get','/get?use='+this.value,true);
+            //发送请求
+            xhr.send();
+            //等待加载数据
+            xhr.onload = function(){
+                // console.log(JSON.parse(xhr.responseText));
+                //接收到数据
+                let d = JSON.parse(xhr.responseText);
+                if(d.code === 0){
+                    user.style.border = '1px solid red';
+                }else if(d.code === 1){
+                    user.style.border = '1px solid green';
+                }
+            }
+        }else{
+            s.innerText = '请输入正确格式的数据';
+            this.style.border = '1px solid red';
+        }
+    }
+</script>
+</body>
+</html>

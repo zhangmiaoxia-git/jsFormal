@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    注册的用户名：<input id="user" type="text"></br>
+    注册的密码：<input id="pw" type="password">
+    <button id="btn">提交</button>
+<script>
+    user.onblur = function(){
+        fetch('/get?user='+this.value).then(d=>d.json()).then(data=>{
+            if(data.code === 0){
+                this.style.border = '1px solid red';
+            }else if(data.code === 1){
+                this.style.border = '1px solid green';
+            }
+        });
+    }
+</script>
+</body>
+</html>

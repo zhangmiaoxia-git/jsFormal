@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    注册的用户名：<input id="user" type="text">
+<script>
+    user.onblur = function(){
+        //创建一个XMLHttpRequest对象
+        var xhr = new XMLHttpRequest();
+        //发起请求
+        xhr.open('get','/get?user='+encodeURI(this.value)+'&myName='+Date.now(),true);
+        //发送请求
+        xhr.send();
+        //等待加载数据
+        xhr.onload = function(){
+            console.log(xhr.responseText);
+        }
+    }
+</script>
+</body>
+</html>

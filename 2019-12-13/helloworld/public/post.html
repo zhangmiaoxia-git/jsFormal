@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <form action="/post" method="POST">
+        注册的用户名：<input name="user" type="text"></br>
+        注册的密码：<input name="pw" type="text">
+        <input type="submit" value="提交">
+    </form> -->
+
+    注册的用户名：<input id="user" type="text"><span id="s"></span></br>
+    注册的密码：<input id="pw" type="password">
+    <button id="btn">提交</button>
+<script>
+    user.onblur = function(){
+        //创建一个XMLHttpRequest对象
+        let xhr = new XMLHttpRequest();
+        //发起请求
+        xhr.open('post','/post',true);
+        //设置请求头
+        xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+        //发送请求
+        xhr.send('user='+this.value);
+        //等待加载数据
+        xhr.onload = function(){
+            console.log(xhr.responseText);
+        }
+    }
+</script>
+</body>
+</html>
