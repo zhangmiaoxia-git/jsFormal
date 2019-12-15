@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    注册的用户名：<input id="user" type="text">
+
+    <ul id="ul"></ul>
+<script>
+    user.onblur = function(){
+        // ajax('./data.xml',{
+        //     success:function(data){
+        //         // console.log(data);
+        //         const person = data.getElementsByTagName('person');
+        //         let temp = '';
+        //         for(let i=0;i<person.length;i++){
+        //             temp += `<li>我的名字叫:${person[i].children[0].innerHTML},今年${person[i].children[1].innerHTML}岁,我想说${person[i].children[3].innerHTML}</li>`;
+        //         }
+        //         ul.innerHTML = temp;
+        //     },
+        //     error:function(status){
+        //         console.log(status);
+        //     }
+        // },{
+        //     dataType:'xml',
+        // });
+
+        // ajax('/post',{
+        //     success:function(data){
+        //         console.log(data);
+        //     },
+        //     error:function(status){
+        //         console.log(status);
+        //     }
+        // },{
+        //     method:'post',
+        //     body:'user='+this.value,
+        //     headers:{
+        //         'content-type':'application/x-www-form-urlencoded'
+        //     },
+        //     //post请求的数据时5秒之后才过来，这里设置的是3秒就要请求到数据，如果超过3秒就是超时了
+        //     timeout:3000,
+        //     ontimeout(){
+        //         console.log('超时了');
+        //     }
+        // });
+
+        ajax('/sleep?name='+this.value,{
+            success:function(data){
+                console.log(data);
+            },
+            error:function(status){
+                console.log(status);
+            }
+        },{
+            sync:false,
+        });
+
+        console.log(1222);
+    }
+
+    //封装ajax
+    function ajax(url,callback,opt){
+        //如果opt没有参数就是undefined，所以需要判断一下，如果opt有值，才走myopt
+        var myopt = opt && {
+            method:opt.method || 'get',
+            body:opt.body || '',
+            headers:opt.headers || {},
+            dataType:opt.dataType || 'json',  //数据类型
+            timeout:opt.timeout || 10000, //设置超时时间
+            ontimeout:opt.ontimeout || function(){}, //监听超时回调
+            sync:(opt.sync === undefined)?true:opt.sync  //是否同步
+        }
+
+        //获取参数的长度
+        var len = arguments.length;
+        //创建一个XMLHttpRequest对象
+        var xhr = new XMLHttpRequest();
+        //正则规则（200-207，300-304都是成功的）
+        var re = new RegExp(/20[0-7]|30[0-4]/);
+
+        //判断超时
+        if(opt.sync === true){
+            //设置超时时间
+            xhr.timeout = myopt.timeout;
+            //监听超时
+            xhr.ontimeout = myopt.ontimeout;
+        }
+        console.log(xhr);
+
+        //监听数据，接收数据
+        function ready(){
+            //是否异步
+            if(myopt.sync === true){
+                //监听数据
+                xhr.onreadystatechange = function(){
+                    //接收到数据
+                    if(xhr.readyState === 4){
+                        if(re.test(xhr.status)){
+                            //判断数据类型是json格式还是xml格式
+                            if(myopt.dataType === 'json'){
+                                callback.success && callback.success(eval('('+xhr.responseText+')'));
+                            }else if(myopt.dataType === 'xml'){
+                                callback.success && callback.success(xhr.responseXML); 
+                            }
+                        }else{
+                            callback.error && callback.error(xhr.status);
+                        }
+                    }
+                }
+            }else{
+                //监听数据
+                xhr.onreadystatechange = function(){
+                    //接收到数据
+                    if(xhr.readyState === 4){
+                        if(re.test(xhr.status)){
+                            //判断数据类型是json格式还是xml格式
+                            if(myopt.dataType === 'json'){
+                                callback.success && callback.success(eval('('+xhr.responseText+')'));
+                            }else if(myopt.dataType === 'xml'){
+                                callback.success && callback.success(eval('('+xhr.responseXML+')')); 
+                            }
+                        }else{
+                            callback.error && callback.error(xhr.status);
+                        }
+                    }
+                }
+            }
+        }
+
+        //如果参数有2个，说明是get的方式，并且url是带参数的，如果参数又3个，说明可能是get方式或post方式，get方式是不带参数的
+        if(len === 2){
+            //发起请求
+            xhr.open('get',url,myopt.sync);
+            //发送请求
+            xhr.send();
+            ready();
+        }else if(len === 3){
+            //get方式
+            if(/^get$/i.test(myopt.method)){
+                url = myopt.body?url+'?'+myopt.body:url;
+                // console.log(myopt.sync);
+                // console.log(url+'myrandom='+Date.now());
+                // console.log(url);
+                xhr.open('get',url+'&myrandom='+Date.now(),myopt.sync);
+                ready();
+                xhr.send();
+            }else if(/^post$/i.test(myopt.method)){  //post方式
+                xhr.open('post',url,myopt.sync);
+                for(var attr in myopt.headers){
+                    if(myopt.headers.hasOwnProperty(attr)){
+                        xhr.setRequestHeader(attr,myopt.headers[attr]);
+                    }
+                }
+                xhr.send(myopt.body);
+                ready();
+            }
+        }
+    }
+</script>
+</body>
+</html>

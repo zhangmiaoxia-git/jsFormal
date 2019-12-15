@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="txt">
+    <button id="btn">变</button>
+<script>
+    btn.onclick = function(){
+        let val = txt.value;
+        //eval会被注入其他信息，也就是会xss攻击，所以使用eval的时候，要判断是否符合规则
+        if(/href|src|style|location/.test(val)){
+            alert('请输入正确信息');
+        }else{
+            console.log(eval(`(${txt.value})`));
+        }
+    }
+
+    //eval会把字符串转换为表达式
+    let val = '1';
+    let val2 = '+';
+    let val3 = '2';
+    console.log(eval(val+val2+val3));
+
+    let json = '{"name":1}';
+    console.log(eval('('+json+')'));
+
+    //Function也可以把字符串转换为表达式
+    console.log(new Function('a,b','return (a+b)')(1,2));
+</script>
+</body>
+</html>

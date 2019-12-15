@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    注册的用户名： <input id="user" type="text">
+<script>
+    user.onblur = function(){
+        // ajax('/get?user='+encodeURI(this.value)+'&myrandom='+Date.now(),{
+        //     //成功
+        //     success:function(data){
+        //         console.log(data);
+        //     },
+        //     //失败
+        //     error:function(status){
+        //         console.log(status);
+        //     }
+        // });
+
+        // ajax('/get',{
+        //     //成功
+        //     success:function(data){
+        //         console.log(data);
+        //     },
+        //     //失败
+        //     error:function(status){
+        //         console.log(status);
+        //     }
+        // },{
+        //     method:'GET',
+        //     body:'user='+encodeURI(this.value)
+        // });
+
+        ajax('/POST',{
+            //成功
+            success:function(data){
+                console.log(data);
+            },
+            //失败
+            error:function(status){
+                console.log(status);
+            }
+        },{
+            method:'post',
+            body:'user='+encodeURI(this.value)+'&myrandom='+Date.now(),
+            headers:{
+                'content-type':'application/x-www-form-urlencoded'
+            }
+        });
+    }
+
+    //简易封装ajax
+    function ajax(url,callback,opt){
+        //设置参数
+        //判断opt是否有值，因为2个参数的get方式opt是没有值的，如果不判断会报错
+        var myopt = opt && {
+            method:opt.method || 'get',
+            body:opt.body || '',
+            headers:opt.headers || {}
+        };
+        //获取参数的长度
+        var len = arguments.length;
+        //创建一个XMLHttpRequest对象
+        var xhr = new XMLHttpRequest();
+        //正则规则(200-207,301-304都是成功的)
+        var re = new RegExp(/20[0-7]|30[0-4]/);
+
+        //判断传进来几个参数，如果是2个参数，说明是get的方式，并且url是带参数的方式，如果是3个参数，说明可能是post的方式，也可能是get的方式，3个参数url是不带参数
+        //为了兼容低版本浏览器，这里的onload要换成onreadystatechange，onreadystatechange支持所有浏览器，并且可以拿到具体的信息
+        if(len === 2){
+            //发起请求
+            xhr.open('get',url,true);
+            //发送请求
+            xhr.send();
+            //监听数据
+            //兼容低版本浏览器
+            xhr.onreadystatechange = function(){
+                // console.log(xhr)
+                //接收到数据
+                // console.log(re.test(xhr.status));
+                //只取readystate等于4的信息
+                if(xhr.readyState === 4){
+                    if(re.test(xhr.status)){
+                        //成功的传接收到的数据
+                        //为了兼容低版本浏览器不能使用JSON.parse,所以使用eval
+                        callback.success && callback.success(eval('('+xhr.responseText+')'));
+                    }else{
+                        //失败的传失败的状态码
+                        callback.error && callback.error(xhr.status);
+                    }
+                }
+                
+            }
+        }else if(len === 3){
+            //两种方式，一种是get，一种是post
+            if(/^get$/i.test(myopt.method)){
+                url = myopt.body?url+'?'+myopt.body:url;
+                //发起请求
+                xhr.open('get',url,true);
+                //发送请求
+                xhr.send();
+                //监听数据
+                xhr.onreadystatechange = function(){
+                    //接收到数据
+                    if(xhr.readyState === 4){
+                        if(re.test(xhr.status)){
+                            callback.success && callback.success(eval('('+xhr.responseText+')'));
+                        }else{
+                            callback.error &&
+                            callback.error(xhr.status);
+                        }
+                    }
+                }
+            }else if(/^post$/i.test(myopt.method)){
+                //发起请求
+                xhr.open('post',url,true);
+                //设置请求头
+                for(var attr in myopt.headers){
+                    if(myopt.headers.hasOwnProperty(attr)){
+                        xhr.setRequestHeader(attr,myopt.headers[attr]);
+                    }
+                }
+                //发送请求
+                xhr.send(myopt.body);
+                //监听数据
+                xhr.onreadystatechange = function(){
+                    //接收到数据
+                    //只获取状态为4的最后结果的数据
+                    if(xhr.readyState === 4){
+                        if(re.test(xhr.status)){
+                            callback.success && callback.success(eval('('+xhr.responseText+')'));
+                        }else{
+                            callback.error && callback.error(xhr.status);
+                        }
+                    }
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>

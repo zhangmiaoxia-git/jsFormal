@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    let str = `
+    <?xml version="1.0" encoding="UTF-8"?>
+        <content>
+            <person>
+                <name>小明</name>
+                <age>18</age>
+                <sex>男</sex>
+                <info>我是一个快乐的逗逼青年。</info>
+            </person>
+            <person>
+                <name>小红</name>
+                <age>16</age>
+                <sex>女</sex>
+                <info>有人陪我逛街么？</info>
+            </person>
+            <person>
+                <name>小梅</name>
+                <age>17</age>
+                <sex>女</sex>
+                <info>只要你看到我的笑容，不要你看到我的笑纹</info>
+            </person>
+            <person>
+                <name>小赵</name>
+                <age>19</age>
+                <sex>男</sex>
+                <info>阿里月饼666</info>
+            </person>
+            <person>
+                <name>小码</name>
+                <age>19</age>
+                <sex>男</sex>
+                <info>十一还加班，码农真心伤不起....</info>
+            </person>
+            <person>
+                <name>真胖</name>
+                <age>18</age>
+                <sex>男</sex>
+                <info>永生这个大屌丝,继续互相伤害</info>
+            </person>
+        </content>
+    `;
+    
+    function fn(tag){
+        let ary = [];
+        //正则规则
+        let re = new RegExp(`<${tag}>(([\\u4e00-\\u9fa5a-zA-Z\\d,，\.？。]){1,20})<\/${tag}>`,'g');
+        str.replace(re,function($0,$1){
+            ary.push($1);
+        });
+        return ary;
+    }
+    
+    let aryx = ['name','age','sex','info'];
+    let obj = {};
+    //获取key对应的value值
+    aryx.forEach((item,i)=>{
+        obj[item] = fn(item);
+    });
+    // console.log(obj[aryx[0]]);
+    let aryxx = [];
+    //第一层判断是判断有多少个人，第二层判断都有哪些属性
+    for(let i=0;i<obj[aryx[0]].length;i++){
+        let obj1 = {};
+        for(let j=0;j<aryx.length;j++){
+            // console.log(obj[aryx[j]][i]);
+            obj1[aryx[j]] = obj[aryx[j]][i];
+            // console.log(obj1);
+        }
+        aryxx.push(obj1);
+    }
+    console.log(aryxx,JSON.stringify(aryxx));
+
+    
+</script>
+</body>
+</html>

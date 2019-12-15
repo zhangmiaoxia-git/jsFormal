@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    注册的用户名：<input id="user" type="text"></br>
+    注册的密码：<input id="pw" type="password">
+    <button id="btn">提交</button>
+<script>
+    user.onblur = function(){
+        fetch('/post',{
+            method:'post',  //请求方式post
+            //body是请求的参数，new URLSearchParams 可以将对象类型的参数转换为字符串类型的参数
+            body:''+new URLSearchParams({
+                user:this.value,
+            }),
+            //请求头信息
+            headers:{
+                'content-type':'application/x-www-form-urlencoded',
+            }
+        }).then(d=>d.json()).then(data=>{
+            console.log(data);
+        });
+    }
+</script>
+</body>
+</html>
