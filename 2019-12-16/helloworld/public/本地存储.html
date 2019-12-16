@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="h1"></h1>
+    <div id="box">
+        用户名：<input type="text" id="user"></br>
+        密码：<input type="password" id="pw"></br>
+        <button id="btn">登录</button>
+    </div>
+<script>
+    /*
+        cookie
+            用来存储用户的操作信息
+            document.cookie  读操作
+                读操作注意的是，一次读取会把当前域名下的所有cookie都获取出来，获取到的cookie格式是'key=val; key2=val2'
+            document.cookie=  写操作
+            cookie的生命周期
+                默认的生命周期是当前浏览器关闭，生命就结束
+                expires可以设置cookie的生命周期
+            cookie必须使用服务器环境
+    */
+//    console.log(document.cookie);
+//    document.cookie = 'name=aa';
+//    document.cookie = 'age=13';
+//    console.log(document.cookie);
+    // let o = new Date();
+    // o.setDate(new Date().getDate() + 1);
+    // console.log(o);
+    // document.cookie = 'name=aa; expires='+o;
+
+    let sql = [
+        {
+            user:'aaa',
+            pw:123,
+        },
+        {
+            user:'bbb',
+            pw:321,
+        }
+    ];
+
+    setCookie('user','xy',{
+        setTime:{
+            date:10,
+        }
+    });
+
+    //设置cookie
+    function setCookie(key,val,time){
+        //如果设置了事件，那么cookie需要加生命周期，否则直接设置cookie
+        if(time){
+            let o = new Date();
+            let t;
+            let prop;
+            for(let attr in time.setTime){
+                // console.log(attr[0].toUpperCase());
+                // console.log(attr.substr(1));
+                //获取Date
+                t = attr[0].toUpperCase()+attr.substr(1);
+                // console.log(t);
+                prop = attr;
+            }
+            o['set'+t](new Date()['get'+t]()+time.setTime[prop]);
+            // console.log(o);
+
+            document.cookie = key + '=' + val + '; expires='+o;
+            // console.log(document.cookie);
+        }else{
+            document.cookie = key + '=' + val;
+        }
+    }
+
+    //获取cookie值
+    function getCookie(key){
+        let c = document.cookie;
+        let val;
+        c.split('; ').forEach(item=>{
+            // console.log(item);
+            let ary = item.split('=');
+            // console.log(ary);
+            if(ary[0] === key){
+                val = ary[1];
+            }
+        });
+        // console.log(val);
+        return val;
+    }
+
+    //删除cookie
+    function removeCookie(key,val){
+        setCookie(key,val,{setTime:{date:-1}});
+    }
+
+    console.log(getCookie('user'));
+
+    let c = document.cookie;
+    c.split('; ').forEach(item=>{
+        let ary = item.split('=');
+        if(ary[0] === 'user'){
+            h1.innerHTML = '欢迎'+ary[1]+'回来';
+            box.style.display = 'none';
+        }
+    });
+
+
+    btn.onclick = function(){
+        let val1 = user.value;
+        let val2 = pw.value;
+
+        //判断填写的用户名与sql中的用户名相同
+        let o = sql.find(item=>item.user === val1);
+        //在用户名一致的情况下，判断密码是否一致
+        if(o){
+            if(o.pw === val2*1){
+                alert('登录成功');
+                document.cookie = 'user='+o.user;
+                window.location.reload();
+            }else{
+                alert('用户名或密码错误');
+            }
+        }else{
+            alert('没有此人');
+        }
+    }
+</script>
+</body>
+</html>

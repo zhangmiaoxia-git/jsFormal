@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style>
+    #bar{
+        width:100%;
+        height:5px;
+        position:relative;
+    }
+    #box{
+        width:0;
+        height:5px;
+        position:absolute;
+        top:0;
+        left:0;
+        background:lightpink;
+    }
+</style>
+</head>
+<body>
+    <!-- 传统上传文件 -->
+    <!-- <form action="/upload" method="POST" enctype="multipart/form-data">
+        请选择：<input type="file" name="image">
+        <input type="submit" value="上传">
+    </form> -->
+    <div id="bar">
+        <div id="box"></div>
+    </div>
+    <!-- ajax上传文件 -->
+    请选择：<input type="file" id="file" multiple></br>
+    <button id="btn">上传</button>
+<script>
+    /*
+        FormData能够把files[n]变成二进制的数据
+        使用FormData下的一个方法append可以进行上传，把文件传给给后端
+
+        append(key,value)
+    */
+    btn.onclick = function(){
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4){
+                if(xhr.status === 200){
+                    console.log(xhr.responseText);
+                }
+            }
+        }
+        xhr.open('post','/upload');
+        let fd = new FormData();
+        /*
+            在XMLHttpRequest下有一个upload函数，在这个函数下有个onprogress事件，可以实现查看
+
+            loaded是当前上传的体积，total是总体积
+        */
+        //上传文件进度
+        xhr.upload.onprogress = function(ev){
+            let scale = ev.loaded / ev.total;
+            box.style.width = scale * 100 + '%';
+        }
+        fd.append('image',file.files[0]);
+        xhr.send(fd);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    let fd = new FormData();
+    // console.log(fd);
+
+    // fd.append('user','a');
+    fd.append('user','b');
+    //获取一个key的一个value值
+    // console.log(fd.get('user'));
+    //获取一个key对应的多个value值
+    // console.log(fd.getAll('user'));
+    //判断是否存在user这个key
+    // console.log(fd.has('user'));
+    //设置key为user对应的value值，如果user有对应的value值，则会覆盖上面user对应的value值，如果没有，就是给user添加一个value值
+    // fd.set('user','c');
+    // console.log(fd.get('user'));
+    //删除key为user的值
+    fd.delete('user');
+    console.log(fd.get('user'));
+</script>
+</body>
+</html>

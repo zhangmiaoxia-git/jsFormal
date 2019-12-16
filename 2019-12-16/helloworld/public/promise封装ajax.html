@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    注册的用户名：<input type="text" id="user">
+
+    <ul id="ul"></ul>
+<script>
+    user.onblur = function(){
+        // ajax('/get?user='+this.value)
+        // .then(data=>{
+        //     console.log(data);
+        // });
+
+        ajax('/post',{
+            method:'post',
+            body:'user='+this.value,
+            headers:{
+                'content-type':'application/x-www-form-urlencoded',
+            }
+        })
+        .then(data=>{
+            console.log(data);
+        });
+    }
+
+    //promise封装ajax
+    function ajax(url,opt){
+        return new Promise(function(resolve,reject){
+            var myopt = opt || {};
+            //参数的默认值
+            let defaultObj = {
+                method:'get',
+                body:'',
+                headers:{},
+                dataType:'json',
+                timeout:10000,
+                ontimeout:function(){},
+                sync:true,
+            };
+
+            //传进来的参数
+            for(var attr in opt){
+                defaultObj[attr] = opt[attr];
+            }
+            myopt = defaultObj;
+            
+            var len = arguments.length;
+            var xhr = new XMLHttpRequest();
+            var re = new RegExp(/(20[0-7])|(30[0-4])/);
+
+            //只有异步才能进行设置超时和监听超时
+            if(myopt.sync === true){
+                //设置超时时间
+                xhr.timeout = myopt.timeout;
+                //监听超时
+                xhr.ontimeout = myopt.ontimeout;
+            }
+
+            function ready(){
+                if(myopt.sync === true){
+                    succOrError();
+                }else{
+                    succOrError();
+                }
+            }
+
+            //返回成功或失败的结果
+            function succOrError(){
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState === 4){
+                        if(re.test(xhr.status)){
+                            if(myopt.dataType === 'json'){
+                                resolve(eval('('+xhr.responseText+')'));
+                            }else if(myopt.dataType === 'xml'){
+                                resolve(xhr.responseXML);
+                            }
+                        }else{
+                            reject(xhr.status);
+                        }
+                    }
+                }
+            }
+
+            if(len === 1){
+                ready();
+                xhr.open('get',url,myopt.sync);
+                xhr.send();
+            }else if(len === 2){
+                if(/^get$/i.test(myopt.method)){
+                    ready();
+                    url = myopt.body?url+'?'+myopt.body:(url.includes('?')?url:url+'?');
+                    xhr.open('get',url+'&myrandom='+Date.now(),myopt.sync);
+                    xhr.send();
+                }else if(/^post$/i.test(myopt.method)){
+                    xhr.open('post',url,myopt.sync);
+                    for(var attr in myopt.headers){
+                        if(myopt.headers.hasOwnProperty(attr)){
+                            xhr.setRequestHeader(attr,myopt.headers[attr]);
+                        }
+                    }
+                    xhr.send(myopt.body);
+                    ready();
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
