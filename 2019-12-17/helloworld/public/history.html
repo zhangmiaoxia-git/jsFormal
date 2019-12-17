@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button>111</button>
+    <button>222</button>
+    <button>333</button>
+    <p id="p">第一张图片</p>
+    <input id="btn" type="button" value="后退">
+<script>
+    /*
+        history
+            浏览器的历史记录，能够使用前进后退，还可以伪造一个url地址并且不刷新页面
+
+            back  返回
+            forward  前进
+            go(1)  1:前进  -1:后退
+            pushState  记录url状态
+            replaceState   替换记录
+
+
+            pushState(数据,null,伪造的url)
+
+            注意：伪造的url如果没有服务端配合，那么是不能刷新页面，不然一刷新页面又去找服务器，最后会报404
+    */
+    let ary = ['第一张图片','第二张图片','第三张图片'];
+    const btns = document.querySelectorAll('button');
+
+    //点击切换按钮
+    btns.forEach((item,index)=>{
+        item.onclick = function(){
+            p.innerHTML = ary[index];
+            //存储点击的按钮的索引值，并且伪造一个url
+            window.history.pushState({
+                num:index
+            },'','http://localhost:8888/history.html'+index);
+        }
+    });
+
+    //点击后退按钮
+    btn.onclick = function(){
+        window.history.go(-1);
+    }
+
+    //当操作历史记录的时候触发这个事件
+    window.onpopstate = function(ev){
+        //触发这个事件之后，可以通过ev.state拿到之前存的数据的索引值
+        p.innerHTML = ary[ev.state.num]
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button>1111</button>
+    <button>2222</button>
+    <button>3333</button>
+    <p id="p">第一张图片</p>
+    <input id="btn" type="button" value="后退">
+<script>
+    let ary = ['第一张图片','第二张图片','第三张图片'];
+    const btns = document.querySelectorAll('button');
+
+    //获取hash值
+    let hash = window.location.hash;
+    let index = 0;
+    //判断如果有hash值则直接读取，没有则需要设置一个hash值
+    if(hash){
+        //获取hash值的数字，为了页面中展示的内容是hash值对应的内容
+        index = window.location.hash.match(/page\/(\d)/)[1];
+        console.log(index);
+        p.innerHTML = ary[index];
+    }else{
+        window.location.hash = 'page/0';
+    }
+
+    //点击按钮展示不同的内容
+    btns.forEach((item,index)=>{
+        item.onclick = function(){
+            p.innerHTML = ary[index];
+            window.location.hash = 'page/'+index;
+        }
+    });
+
+    //点击后退
+    btn.onclick = function(){
+        index --;
+        if(index < 0){
+            index = 0;
+        }
+        window.location.hash = 'page/'+index;
+    }
+
+    window.onhashchange = function(){
+        index = window.location.hash.match(/page\/(\d)/)[1];
+        p.innerHTML = ary[index];
+    }
+</script>
+</body>
+</html>

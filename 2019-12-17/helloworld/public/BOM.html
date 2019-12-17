@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box{
+            width:100px;
+            height:100px;
+        }
+    </style>
+</head>
+<body style="height:3000px">
+    <button id="hash">改hash</button>
+    <button id="search">改search</button>
+    <div id="box"></div>
+<script>
+    /*
+        BOM是浏览器对象模型，基本不兼容
+        高版本浏览器兼容的window下的属性：
+            window.innerHeight  浏览器的高度
+            window.pageYOffset  滚动条的距离（只能读不能写）
+            window.scrollTo(x,y)  设置滚动条的距离
+
+            window.location:
+                host  ->  域名
+                hostname -> 域名的名字
+                href => url链接
+                origin -> 源头
+                pathname -> 路径名字（接口）
+                protocol -> 协议
+                port -> 端口号
+                reload -> 刷新页面
+                hash -> 锚信息，哈希值  #之后的参数信息（包含#），修改它不会刷新页面
+                当hash值变化的时候，会触发一个onhashchange事件
+                search -> 查询信息，?到#之间的参数信息（包含?），修改它是会刷新页面的
+
+                不管是改变hash还是改变search都会使浏览器记录用户操作（这样就可以使用返回前进键了）
+            
+            window.navigator.userAgent  用户的内核信息（字符串）（需要注意的是容易被模拟）
+    */
+   //通过用户内核信息可以设置在不同的浏览器中显示不同的样式
+   if(/chrome/i.test(window.navigator.userAgent) && /windows/i.test(window.navigator.userAgent)){
+        box.style.background = 'red';
+   }else if(/firefox/i.test(window.navigator.userAgent)){
+        box.style.background = 'green';
+   }else if(/iphone/i.test(window.navigator.userAgent)){
+        box.style.background = 'yellow';
+   }else if(/android/i.test(window.navigator.userAgent)){
+        box.style.background = 'pink';
+   }
+   //document.onclick = function(){
+    //    console.log(window.pageYOffset);
+    // window.pageYOffset = 0;
+    // document.documentElement.scrollTop = 0;
+        // window.scrollTo(0,0); //设置滚动条的距离
+        //console.log(window.navigator.userAgent);
+   //}
+
+//    let i=0;
+//    hash.onclick = function(){
+//        //写操作
+//        window.location.hash = 'a=y'+i++;
+//        //读操作
+//        console.log(window.location.hash);
+//    }
+
+//    //前进后退触发的是这个事件
+//    window.onhashchange = function(){
+//        console.log(1);
+//    }
+
+//    search.onclick = function(){
+//        window.location.search = 'h=i'+(i++);
+//        console.log(window.location.search);
+//    }
+
+    //一打开页面就会跳转到别的页面
+    // window.location.href = 'http://www.baidu.com';
+</script>
+</body>
+</html>
