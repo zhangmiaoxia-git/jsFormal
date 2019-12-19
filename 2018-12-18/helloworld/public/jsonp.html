@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head id="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            jsonp的先决条件
+                1、全局定义一个函数
+                2、后端的数据要知道定义的函数是什么名字
+                3、后端把数据放到函数中
+                4、通过script标签发送请求，等同于函数调用
+        */  
+        function jsonp(a){
+            console.log(a);
+        }  
+
+        document.onclick = function(){
+            //创建一个script标签
+            let script = document.createElement('script');
+            script.src = 'https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web&sugsid=1461,21082,30210,30328,30284,26350&wd=s&cb=jsonp';
+            head.append(script);
+        }
+    </script>
+</body>
+</html>

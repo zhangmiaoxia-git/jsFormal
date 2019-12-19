@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        html,body{
+            height:100vh;
+        }
+        ul{
+            list-style:none;
+        }
+        input{
+            outline:none;
+        }
+        #box{
+            width:500px;
+            height:500px;
+            border:1px solid #000;
+            margin:0 auto;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+        }
+        input{
+            width:300px;
+        }
+        ul{
+            width:300px;
+            margin-left:-1px;
+            border:1px solid #ccc;
+            border-top:none;
+        }
+        li{
+            width:100%;
+            height:30px;
+            line-height:30px;
+            border-bottom:1px solid #ccc;
+        }
+        li:last-child{
+            border-bottom:none;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <h2>搜索</h2>
+        <input type="text" id="search" autocomplete="off" autofocus>
+        <ul id="ul"></ul>
+    </div>
+<script>
+    function jsonp(data,cb='callback'){
+        return new Promise((resolve,reject)=>{
+            //设置默认值
+            let opt = {
+                url:'',
+                data:{},
+            }
+
+            //如果有传进来参数，那么会走传进来的参数，否则走默认参数
+            Object.assign(opt,data);
+            let options = '';
+            let ary = [];
+            //将参数数组形式转换为字符串形式
+            for(let attr in opt.data){
+                ary.push(attr+'='+opt.data[attr]);
+            }
+            options = ary.join('');
+            
+            //创建一个script标签
+            let script = document.createElement('script');
+            //随机生成一个函数名
+            let fnName = 'jQuery_'+Date.now();
+            //把这个函数放在window下
+            window[fnName] = function(d){
+                resolve(d);
+            }
+            console.log(1234567);
+            //把url以及参数放到src标签中
+            script.src = opt.url + '?' + options + '&' + cb + '=' + fnName;
+            document.getElementsByTagName('head')[0].appendChild(script);
+            script.remove();
+        });
+    }
+    search.onkeyup = function(){
+        jsonp({
+            url:'https://www.baidu.com/sugrec',
+            data:{
+                wd:this.value,
+                prod:'pc'
+            },
+        },'cb')
+        .then(data=>{
+            const {g} = data;
+            let html = '';
+            if(!g){
+                ul.innerHTML = '';
+                return;
+            }
+            g.forEach(({q})=>{
+                html+='<li>'+q+'</li>';
+            });
+            ul.innerHTML = html;
+            ul.onclick = function(ev){
+                if(ev.target.tagName === 'LI'){
+                    window.open('https://www.baidu.com/s?ie=UTF-8&wd='+ev.target.innerText,'_blank');
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

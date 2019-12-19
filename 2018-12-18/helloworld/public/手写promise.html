@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    function myPromise(executor){
+        let that = this;
+        //成功的值
+        that.value = undefined; 
+        //失败的值
+        that.reason = undefined; 
+        //默认状态是pending
+        that.status = 'pending';
+
+        //异步的情况使用事件订阅来处理
+        that.fulfilledCallback = [];
+        that.rejectedCallback = [];
+
+        //成功的函数
+        function fulfilled(value){
+            //成功的话，将pending状态修改为成功状态
+            if(that.status === 'pending'){
+                that.status = 'fulfilled';
+                //当调用成功函数的时候，把传进来的参数赋值给this.value
+                that.value = value;
+                //执行订阅的函数
+                that.fulfilledCallback.forEach(fn=>{
+                    fn();
+                });
+            }
+        }
+
+        //失败的函数
+        function rejected(reason){
+            //失败的话，将pending状态修改为失败状态
+            if(that.status === 'pending'){
+                that.status = 'rejected';
+                //当调用失败函数的时候，把传进来的参数赋值给this.reason
+                that.reason = reason;
+                that.rejectedCallback.forEach(fn=>{
+                    fn();
+                });
+            }
+        }
+
+        try{
+            executor(fulfilled,rejected);
+        }catch(e){
+            rejected(e);
+        }
+        // executor(fulfilled,rejected);
+        
+    }
+    
+    myPromise.prototype.then = function(res,rej){
+        let that = this;
+        //多个then的情况下，需要在then中返回一个promise对象
+        let promise2 = new myPromise(function(resolve2,reject2){
+            //成功
+            if(that.status === 'fulfilled'){
+                try{
+                    let x = res(that.value);
+                    resolve2(x);
+                }catch(e){
+                    resolve2(that.value);
+                }
+            }   
+
+            //失败
+            if(that.status === 'rejected'){
+                try{
+                    let x = rej(that.reason);
+                    reject2(x);
+                }catch(e){
+                    reject2(that.reason);
+                }  
+            }
+
+            //异步的情况下，把成功和失败的函数订阅到对应的池中
+            if(that.status === 'pending'){
+                that.fulfilledCallback.push(function(){
+                    try{
+                        let x = res(that.value);
+                        resolve2(x);
+                    }catch(e){
+                        if(typeof res === 'function'){
+                            reject2(that.reason);
+                        }else{
+                            resolve2(that.value);
+                        }
+                    }
+                });
+
+                that.rejectedCallback.push(function(){
+                    try{
+                        let x = rej(that.reason);
+                        reject2(x);
+                    }catch(e){
+                        reject2(that.reason);
+                    }
+                });
+            }
+        });
+        return promise2;
+    }
+
+    new myPromise(function(resolve,reject){
+        // console.log(resolve())
+        // throw new Error('错了');
+        // resolve(10);
+        setTimeout(()=>{
+            resolve(10);
+        },1000);
+    })
+    .then((d)=>{
+        console.log(d);
+    },(e)=>{
+        console.log(e);
+    })
+    .then((d2)=>{
+        console.log(d2);
+    });
+</script>
+</body>
+</html>

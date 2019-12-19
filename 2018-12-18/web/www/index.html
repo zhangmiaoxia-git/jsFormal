@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../public/css/weibo.css">
+</head>
+<body>
+    <div class="nArea">
+        <!-- 留言 -->
+        <div class="takeComment">
+            <textarea name="textarea" id="text" class="takeTextField"></textarea>
+            <div class="takeSbmComment">
+                <input type="button" id="submit" class="inputs" value="">
+                <span>(可按 Enter 回复)</span>
+            </div>
+        </div>
+        <!-- 留言板 -->
+        <div class="commentOn">
+            <div class="messList" id="div1" style="height:502px">
+                <!-- <div class="reply">
+                    <p class="replyContent">卫士，新款卫士将推出总共14种车身式样。其中， XS旅行款车型售价为32295英镑(约33.6万元)。</p>
+                    <p class="operation">
+                        <span class="replyTime">2018-09-08 16:37:60</span>
+                        <span class="handle">
+                            <a href="javascript:;" class="top">0</a>
+                            <a href="javascript:;" class="down_icon">0</a>
+                            <a href="javascript:;" class="cut">删除</a>
+                        </span>
+                    </p>
+                </div> -->
+            </div>
+            <div class="page" id="page">
+                <!-- <a href="#" class="active">1</a>
+                <a href="#">2</a> -->
+            </div>
+        </div>
+    </div>
+<script>
+    //首先是先请求后端接口，获取数据，如果有数据的话，就展示
+    //请求获取数据接口
+    fetch('/api/weibo?act=get&page=1').then(d=>d.json()).then(data=>{
+        if(data){
+            //如果想要让添加的最新的评论展示在第一个，那么可以使用reverse将数据翻转一下，这个数组就会是倒叙排列
+            data.reverse();
+            data.forEach(item=>{
+                render(item);
+            });
+        }
+    });
+
+    //获取页面
+    fetch('/api/weibo?act=get_page_count').then(d=>d.json()).then(data=>{
+        // console.log(data);
+        let pageNum = '';
+        let num = null;
+        if(data.code === 0){
+            for(let i=1;i<=data.count;i++){
+                pageNum+=`<a href="#">${i}</a>`;
+                num = i;
+            }
+            page.innerHTML = pageNum;
+            let pageTotal = document.querySelectorAll('#page a');
+            pageTotal[0].classList.add('active');
+            pageTotal.forEach((item,i)=>{
+                item.onclick = function(){
+                    for(let i=0;i<pageTotal.length;i++){
+                        pageTotal[i].className = '';
+                    }
+                    item.classList.add('active');
+                    fetch('/api/weibo?act=get&page='+item.innerText*1).then(d=>d.json()).then(data=>{
+                        data.reverse();
+                        data.forEach(item=>{
+                            render(item);
+                        });
+                    });
+                }
+            });
+        }else if(data.code === -1){
+            alert(data.msg+'，页码未获取到');
+        }
+    });
+
+    //点击提交评论，提交添加的评论
+    submit.onclick = function(){
+        //获取填写的评论内容
+        let {value} = text;
+
+        //请求添加评论的接口，添加成功之后渲染在页面中
+        fetch('/api/weibo?act=add&content='+value).then(d=>d.json()).then(data=>{
+            //判断后端接口返回的状态是否是成功，如果是成功，那么直接
+            if(data.code === 0){
+                //在这个方法中后端返回的data是没有content的，所以需要在data对象中增加一个content属性，把value赋值给content
+                data.content = value;
+                render(data);
+                //清空填写的评论
+                text.value = '';
+            }
+        });
+    }
+
+    //处理月日时分秒，如果是小于10的，需要在前面加0
+    function toDou(n){
+        return n<10?'0'+n:''+n;
+    }
+
+    //渲染数据
+    function render(data){
+        //格式化时间
+        let o = new Date(data.time);
+        //获取年份
+        let year = o.getFullYear();
+        //获取月份
+        let mon = o.getMonth()+1;
+        //获取日
+        let day = o.getDate();
+        //获取时
+        let hours = o.getHours();
+        //获取分
+        let minute = o.getMinutes();
+        //获取秒
+        let second = o.getSeconds();
+
+        //渲染
+        div1.innerHTML = `
+            <div class="reply" data-id="${data.id}">
+                <p class="replyContent">${data.content}</p>
+                <p class="operation">
+                    <span class="replyTime">${year}-${toDou(mon)}-${toDou(day)} ${toDou(hours)}:${toDou(minute)}:${toDou(second)}</span>
+                    <span class="handle">
+                        <a href="javascript:;" class="top">${data.like}</a>
+                        <a href="javascript:;" class="down_icon">${data.dislike}</a>
+                        <a href="javascript:;" class="cut">删除</a>
+                    </span>
+                </p>
+            </div>
+        ` + div1.innerHTML;
+        let point = document.querySelectorAll('.handle a');
+        point.forEach((item,i)=>{
+            let id = item.parentNode.parentNode.parentNode.dataset.id;
+            item.onclick = function(){
+                if(item.className === 'top'){
+                    fetch('/api/weibo?act=like&id='+id).then(d=>d.json()).then(data=>{
+                        if(data.code === 0){
+                            alert(data.msg);
+                        }
+                    });
+                }else if(item.className === 'down_icon'){
+                    fetch('/api/weibo?act=dislike&id='+id).then(d=>d.json()).then(data=>{
+                        if(data.code === 0){
+                            alert(data.msg);
+                        }
+                    });
+                }else if(item.className === 'cut'){
+                    fetch('/api/weibo?act=del&id='+id).then(d=>d.json()).then(data=>{
+                        if(data.code === 0){
+                            alert(data.msg);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    //点赞
+    // let point = document.querySelector('#div1 div');
+    // console.log(point);
+    // point.forEach((item,i)=>{
+    //     console.log(item);
+    // });
+    // let handle = document.querySelectorAll('.handle a');
+    // console.log(handle);
+    // fetch('/api/weibo?act=like&id=').then().then();
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
