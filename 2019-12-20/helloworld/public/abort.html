@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="send">发送</button>
+    <button id="abort">中断</button>
+    <script>
+        let xhr = null;
+        send.onclick = function(){
+            xhr = new XMLHttpRequest;
+            xhr.open('get','/sleep?name=lilei');
+            xhr.send();
+            xhr.onload = function(){
+                console.log(xhr.responseText);
+            }
+            xhr.onabort = function(){
+                console.log('触发了');
+            }
+        }
+        abort.onclick = function(){
+            xhr.abort();
+        }
+    </script>
+</body>
+</html>
