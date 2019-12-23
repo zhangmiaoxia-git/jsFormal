@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #adddir,#rename_box{
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn">新建文件夹</button>
+    <input type="text" id="adddir">
+
+    <button id="rebtn">重命名</button>
+    <div id="rename_box">
+        <input type="text" id="oldname">
+        <input type="text" id="newname">
+        <button id="rename">确定替换</button>
+    </div>
+<script>
+    btn.onclick = function(){
+        adddir.style.display = 'block';
+    }
+    adddir.onblur = async function(){
+        //获取文件夹名字
+        let val = adddir.value;
+        //请求接口
+        let data = await fetch('http://localhost:80/add?mkdirname='+val).then(d=>d.json());
+        if(data.code === 1){
+            alert(data.msg);
+            adddir.style.display = 'none';
+            adddir.value = '';
+        }
+    }
+
+    //重命名
+    rebtn.onclick = function(){
+        rename_box.style.display = 'block';
+        rename.onclick = async function(){
+            //获取旧文件夹名字
+            let v1 = oldname.value;
+            //获取要修改的文件夹名字
+            let v2 = newname.value;
+
+            //请求接口
+            let data = await fetch('http://localhost:80/rename',{
+                method:'post',
+                body:`oldname=${v1}&newname=${v2}`,
+                headers:{
+                    'Content-type':'application/x-www-form-urlencoded'
+                }
+            }).then(d=>d.json());
+
+            if(data.code === 1){
+                alert(data.msg);
+                rename_box.style.display = 'none';
+            }
+        }
+    }
+</script>
+</body>
+</html>

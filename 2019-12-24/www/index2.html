@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+<style type="text/css">
+body,
+h1 {
+	margin: 0;
+}
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+input {
+	outline: none;
+}
+table {
+	border-collapse: collapse;
+	border: #bbb;
+}
+body {
+	width: 100%;
+	height: 100%;
+	/*background: url(img/2.jpg) no-repeat;*/
+}
+.tBody {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	margin-top: 30px;
+	padding: 20px 30px 40px;
+	background-color: rgba(255,255,255,.6);
+}
+.title {
+	text-align: center;
+	color: #fca113;
+	text-shadow: 0 0 2px #fcf913;
+	line-height: 50px;
+}
+table {
+	background-color: #fff;
+}
+th {
+	background-color: #ddd;
+}
+tr {
+	height: 30px;
+}
+ul {
+	padding: 5px 0;
+	width: 600px;
+	text-align: center;
+}
+td{
+	text-align: center;
+}
+td input {
+	margin: 0 2px;
+}
+li {
+	padding: 5px 0;
+	overflow: hidden;
+}
+label {
+	display: inline-block;
+}
+input[type="text"] {
+	border: 1px solid #ccc;
+	width: 80px;
+	height: 20px;
+}
+/*.active {
+	background-color: #f7cb75;
+}*/
+/*#tab tbody tr:hover {
+	background-color: #f7cb75;
+}*/
+</style>
+</head>
+<body>
+<section class="tBody">
+	<h1 class="title"></h1>
+	<ul id="header">
+		<li class="addPre">
+			<label>名字： <input type="text" id="name1" /></label>
+			<label>年龄： <input type="text" id="age" /></label>
+			<input type="button" value="添加" id="add" />
+		</li>
+		<li>
+			<span>排序</span>
+			<select id="s1">
+				<option value="price">年龄</option>
+				<option value="id">编号</option>
+			</select>
+			<select id="s2">
+				<option value="2">从高到底</option>
+				<option value="1">从低到高</option>
+			</select>
+			<input type="button" value="提交" id="stBtn"/>
+			<input type="button" value="批量删除" id="rm" />
+		</li>
+	</ul>
+	<table id="tab" width="600" align="center" border="1">
+		<thead>
+			<th>全选<input type="checkbox" id="checkAll"></th>
+			<th index="id">编号</th>
+			<th>商品</th>
+			<th index="price">年龄</th>
+			<th>操作</th>
+		</thead>
+		<tbody>
+			<!-- <tr>
+				<td><input type="checkbox"></td>
+				<td>1</td>
+				<td>露露</td>
+				<td>12</td>
+				<td>
+					<input type="button" value="删除">
+					<input type="button" value="上移">
+					<input type="button" value="下移">
+				</td>
+			</tr> -->
+			
+		</tbody>
+	</table>	
+</section>
+</body>
+<script>
+let tbody =  document.querySelector('tbody')
+
+function fn (data) {
+	let html = ''
+	data.forEach(e => {
+		html+=`
+			<tr>
+				<td><input type="checkbox" class="checkbox"></td>
+				<td>${e.id}</td>
+				<td>${e.name}</td>
+				<td>${e.age}</td>
+				<td>
+					<input type="button" value="删除" class="btn1">
+					<input type="button" data-id="${e.id}" value="上移" class="btn2">
+					<input type="button" value="下移" class="btn3">
+				</td>
+			</tr>`
+	});
+	tbody.innerHTML=html;
+
+    let btn2 = document.querySelectorAll('.btn2');
+    btn2.forEach((ele,i)=>{
+        ele.onclick = async function(){
+            let data = await fetch('/up?id='+ele.dataset.id).then(d=>d.json());
+            if(data.code === 0){
+                alert(data.msg);
+            }else if(data.code === 1){
+                fn(data.data);
+            }
+        }
+    });
+
+    fetch('/getdata').then(d=>d.json()).then(d=>{
+        fn(d.ary);
+    });
+
+    add.onclick = async function(){
+        let v1 = name1.value;
+        let v2 = age.value;
+        let d = await fetch('/add?name='+v1+'&age='+v2).then(d=>d.json());
+        if(d.code === 0){
+            alert(d.msg);
+        }else if(d.code === 1){
+            alert(d.msg);
+            fn(d.response);
+        }else if(d.code === 2){
+            alert(d.msg);
+        }
+    }
+
+
+
+
+
+
+}
+
+
+</script>
+</html>
