@@ -75,6 +75,7 @@
             <button id="login">登录</button>
         </div>
     </div>
+<script src="axios.js"></script>
 <script>
     //错误提示框
     function delogFn(val){
@@ -109,26 +110,22 @@
         //获取用户名
         let v = this.value.trim();
         if(v){
+            //axios的post请求方式需要将传输的参数转换为对象类型的
+            const params = new URLSearchParams();
+            params.append('user',v);
             //请求用户名验证接口
-            let data = await fetch('/getname',{
-                method:'post',
-                body:''+new URLSearchParams({
-                    user:v
-                }),
-                headers:{
-                    'Content-Type':'application/x-www-form-urlencoded'
+            let data = await axios.post('/getname',params).then(({data})=>{
+                if(data.code == 0){
+                    user.style.border = '1px solid green';
+                    pw.style.border = '1px solid green';
+                }else if(data.code == 1){
+                    user.style.border = '1px solid red';
+                    delogFn(data.msg);
+                }else if(data.code == 2){
+                    user.style.border = '1px solid red';
+                    delogFn(data.msg);
                 }
-            }).then(d=>d.json());
-            if(data.code == 0){
-                user.style.border = '1px solid green';
-                pw.style.border = '1px solid green';
-            }else if(data.code == 1){
-                user.style.border = '1px solid red';
-                delogFn(data.msg);
-            }else if(data.code == 2){
-                user.style.border = '1px solid red';
-                delogFn(data.msg);
-            }
+            })
         }else{
             delogFn('请输入用户名');
         }

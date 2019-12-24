@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script src="axios.js"></script>
+<script>
+    //请求拦截
+    // axios.interceptors.request.use(async function(config){
+    //     // console.log('请求拦截');
+    //     // console.log(config);
+    //     let u = localStorage.getItem('session_id');
+    //     //先判断用户是否登录过，如果没有登录过就直接跳转到首页
+    //     if(u){
+    //         //如果用户已经登录，判断有效期是否已过，那么需要请求是否登录接口验证
+    //         let data = await fetch('/islogin').then(d=>d.json());
+    //         if(data.code == 0){
+    //             return config;
+    //         }else{
+    //             location.href = '/';
+    //         }
+    //     }else{
+    //         location.href = '/';
+    //     }
+    // },function(error){
+    //     //返回错误信息
+    //     return Promise.reject(error);
+    // });
+
+    // //响应拦截
+    // axios.interceptors.response.use(function(config){
+    //     config.user = config.data.user;
+    //     // console.log(config);
+    //     return config;
+    // },function(error){
+    //     return Promise.reject(error  );
+    // });
+
+    const instance = axios.create();
+    let m = instance.interceptors.request.use((config)=>{
+        console.log('被拦截');
+        return config;
+    });
+
+    document.onclick = function(){
+        axios.get('/a').then(({user})=>{
+            console.log(user);
+        });
+        instance.get('/b').then((d)=>{
+            console.log(d);
+            instance.interceptors.request.eject(m);
+        });
+    }
+</script>
+</body>
+</html>
