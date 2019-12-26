@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #img{
+            display:none;
+        }
+        #btn1,#btn2,#btn3{
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    登录：<input type="text" id="user">
+    <hr>
+    <div id="box">
+        <button id="btn1">按钮1</button>
+        <button id="btn2">按钮2</button>
+        <button id="btn3">按钮3</button>
+    </div>
+    <img id="img" src="./1.gif" alt="">
+<script src="axios.js"></script>
+<script>
+    //请求拦截（全局）
+    axios.interceptors.request.use(config => {
+        img.style.display = 'block';
+        console.log(config);
+        if(config.url === '/getary'){
+            // console.log(123456);
+            //获取localStorage中存储的type，判断权限
+            let type = localStorage.getItem('type');
+            console.log(type);
+            if(type >= 1){
+                return config;
+            }else{
+                console.log('权限不够');
+                config.url = '';  //破坏url
+            }
+        }
+        console.log(config);
+        return config;
+    },error => {
+        return Promise.reject(error);
+    });
+
+
+    //响应拦截（全局）
+    axios.interceptors.response.use(response => {
+        img.style.display = 'none';
+        // console.log(response.data);
+        //获取type
+        const {type} = response.data;
+        console.log(type);
+        //判断权限，权限不同，展示不同的数据
+        if(type !== undefined){
+            if(type === 0){
+                btn1.style.display = 'inline-block';
+            }else if(type === 1){
+                btn1.style.display = btn2.style.display = 'inline-block';
+            }else if(type >= 9){
+                btn1.style.display = btn2.style.display = btn3.style.display = 'inline-block';
+            }
+            //将type存在localStorage中，为了请求的时候判断权限级别，可以通过type判断用户是否可以登录
+            localStorage.setItem('type',type);
+        }else{
+            //没有权限就删除type
+            localStorage.removeItem('type');
+        }
+        return response;
+    },error => {
+        return Promise.reject(error);
+    });
+
+    //验证用户名
+    user.onblur = function(){
+        axios.post('/login2',{name:this.value}).then(d=>d.data).then(d=>{
+            console.log(d);
+        });
+    }
+
+    //局部拦截
+    const instance = axios.create();
+
+    instance.interceptors.response.use(response=>{
+        console.log(response);
+    });
+
+    //登录
+    btn1.onclick = function(){
+        let postData = {name:'haha'};
+        axios.post('/login',postData).then(data=>{
+            console.log(data);
+        });
+    }
+
+    btn2.onclick = function(){
+        axios.get('/getary').then(d=>{
+            console.log(d);
+        });
+    }
+
+    btn3.onclick = function(){
+        instance.get('/noloading').then(d=>{
+            console.log(d);
+        });
+    }
+
+    
+</script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="/public/css/weibo.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="nArea">
+    <!--留言-->
+    <div class="takeComment">
+        <textarea name="textarea" class="takeTextField" id="text"></textarea>
+        <div class="takeSbmComment">
+            <input type="button" id="submit" class="inputs" value=""/>
+            <span>(可按 Enter 回复)</span>
+        </div>
+    </div>
+    <!--已留-->
+    <div class="commentOn">
+        <div class="messList" id="div1" style="height:502px">
+            <!-- <div class="reply">
+                <p class="replyContent">卫士，新款卫士将推出总共14种车身式样。其中， XS旅行款车型售价为32295英镑(约33.6万元)。</p>
+                <p class="operation">
+                    <span class="replyTime">2018-09-08 16:37:60</span>
+                    <span class="handle">
+                        <a href="javascript:;" class="top">0</a>
+                        <a href="javascript:;" class="down_icon">0</a>
+                        <a href="javascript:;" class="cut">删除</a>
+                    </span>
+                </p>
+            </div> -->
+        </div>
+        <div class="page" id="page">
+            <!-- <a href="#" class="active">1</a>
+            <a href="#" >2</a> -->
+        </div>
+    </div>
+</div>
+<script src="../public/js/axios.min.js"></script>
+<script>
+    //添加数据
+    submit.onclick = function(){
+        //获取填写的内容
+        let {value} = text;
+        axios.get('/api/weibo?act=add&content='+value).then(({data})=>{
+            if(data.code === 0){
+                //请求第一页的数据
+                pageNum = 1;
+                pageFn(pageNum);
+                //清空
+                text.value = '';
+            }
+        });
+    }
+
+    //设置默认的页码
+    let pageNum = 1;
+    //获取第一页的数据
+    function pageFn(num=1){
+        //请求数据展示接口
+        axios.get('/api/weibo?act=get&page='+num).then(({data})=>{
+            render(data);
+        });
+    }
+    pageFn(pageNum);
+
+    //渲染数据
+    function render(data){
+        let html = '';
+        if(data){
+            data.forEach(ele=>{
+                let {content,dislike,id,like,time} = ele;
+                let date = new Date(time);
+                //获取年份
+                let year = date.getFullYear();
+                //获取月份
+                let month = date.getMonth()+1;
+                //获取日期
+                let day = date.getDate();
+                //获取小时
+                let hourse = date.getHours();
+                //获取分
+                let minute = date.getMinutes();
+                //获取秒
+                let second = date.getSeconds();
+
+                html += `<div class="reply">
+                    <p class="replyContent">${content}</p>
+                    <p class="operation">
+                        <span class="replyTime">${year}-${toDate(month)}-${toDate(day)} ${toDate(hourse)}:${toDate(minute)}:${toDate(second)}</span>
+                        <span class="handle" data-id="${id}">
+                            <a href="javascript:;" class="top">${like}</a>
+                            <a href="javascript:;" class="down_icon">${dislike}</a>
+                            <a href="javascript:;" class="cut">删除</a>
+                        </span>
+                    </p>
+                </div>`;
+            });
+            //获取页码
+            createPage();
+            div1.innerHTML = html;
+        }
+    }
+
+    //处理时间
+    function toDate(num){
+        return num<10?'0'+num:''+num;
+    }
+
+    //展示页码
+    function createPage(){
+        //请求获取页码接口
+        axios.get('/api/weibo?act=get_page_count').then(({data})=>{
+            if(data.code === 0){
+                let temp = '';
+                for(let i=0;i<data.count;i++){
+                    temp += `<a href="#" class="${i===(pageNum-1)?'active':''}">${i+1}</a>`;
+                }
+                page.innerHTML = temp;
+            }
+        });
+    }
+
+    //点击页码
+    page.onclick = function(ev){
+        //获取当前的点击项
+        let ele = ev.target;
+        if(ele.tagName === 'A'){
+            //修改pageNum
+            pageNum = ele.innerText;
+            //请求当前页数据
+            pageFn(pageNum);
+        }
+    }
+
+    //点赞，踩，删除
+    div1.onclick = function(ev){
+        let ele = ev.target;
+        const {id} = ele.parentNode.dataset;
+        if(ele.className === 'top'){
+            axios.get('/api/weibo?act=like&id='+id).then(({data})=>{
+                if(data.code === 0){
+                    ele.innerText = ++ ele.innerText;
+                }
+            });
+        }else if(ele.className === 'down_icon'){
+            axios.get('/api/weibo?act=dislike&id='+id).then(({data})=>{
+                if(data.code === 0){
+                    ele.innerText = ++ ele.innerText;
+                }
+            });
+        }else if(ele.className === 'cut'){
+            axios.get('/api/weibo?act=del&id='+id).then(({data})=>{
+                if(data.code === 0){
+                    if(ele.parentNode.parentNode.parentNode.parentNode.children.length === 1){
+                        pageNum --;
+                    }
+                    pageFn(pageNum);
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>
