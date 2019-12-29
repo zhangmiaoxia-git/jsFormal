@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button>{{num}}</button>
+        <h1>{{hw}}</h1>
+        <ul>
+            <li v-for="(val,key) in ary">{{val}}:{{key}}</li>
+        </ul>
+    </div>
+<script src="./vue.min.js"></script>
+<script>
+    let v = new Vue({
+        el:'#app',
+        data:{
+            num:0,
+            hw:'hello world!',
+            ary:['vue11','vue22','vue33']
+        }
+    });
+    setTimeout(()=>{
+        v.ary.push('vue44');
+    },3000);
+</script>
+</body>
+</html>
