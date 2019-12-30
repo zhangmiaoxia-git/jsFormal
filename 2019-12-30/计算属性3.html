@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        全选中：<input type="radio" value="全选中" v-model="val">
+        已选中：<input type="radio" value="已选中" v-model="val">
+        未选中：<input type="radio" value="未选中" v-model="val">
+        <h4>当前选择的是{{val}}</h4>
+        <ul>
+            <li v-for="(val,key) in setAry">
+                <span>{{val.title}}:{{val.checked}}</span>
+            </li>
+        </ul>
+    </div>
+<script src="vue.min.js"></script>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            val:'全选中',
+            ary:[
+                {
+                    id:0,
+                    checked:true,
+                    title:'123'
+                },
+                {
+                    id:1,
+                    checked:false,
+                    title:'abc',
+                },
+                {
+                    id:2,
+                    checked:false,
+                    title:'456'
+                }
+            ]
+        },
+        computed:{
+            setAry(){
+                const {val,ary} = this;
+                return ary.filter((item)=>{
+                    switch(val){
+                        case '全选中':
+                            return item;
+                        case '已选中':
+                            return item.checked;
+                        case '未选中':
+                            return !item.checked;
+                        default:
+                            return item;
+                    }
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>
