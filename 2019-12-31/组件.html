@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- <myapp></myapp> -->
+        <btn></btn>
+        <pp></pp>
+    </div>
+<script src="vue.min.js"></script>
+<script>
+    
+
+    const btn = {
+        template:`<button @click="click">按钮{{num}}</button>`,
+        data(){
+            return {
+                num:1
+            }
+        },
+        methods:{
+            click(){
+                alert(123)
+            }
+        }
+    }
+
+    const pp = {
+        template:`<div>
+            <div>1234</div>
+            <btn></btn>
+        </div>`,
+        components:{
+            btn
+        }
+    }
+    
+
+    // Vue.component('myapp',{
+    //     // template:`<div>{{num}}<span>12345678</span></div>`,
+    //     // template:`<button @click="click">按钮{{num}}</button>`,
+    //     data(){
+    //         return {
+    //             num:0
+    //         }
+    //     },
+    //     methods:{
+    //         click(){
+    //             alert(1);
+    //         }
+    //     }
+    // });
+    // Vue.component('btn',btn);
+    // Vue.component('pp',pp);
+
+
+    new Vue({
+        el:"#app",
+        data:{
+            
+        },
+        components:{
+            btn,
+            pp
+        }
+    });
+
+    
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        [v-cloak]{
+            display:none;
+        }
+    </style>
+</head>
+<body>  
+    <div id="app">
+        <button v-cloak @click="++num">父级的按钮{{num}}</button>
+        <btn :pnum="num" page="1" :ary="ary"></btn>
+    </div>
+<script src="vue.min.js"></script>
+<script>
+    /*
+        父子组件的传递
+            1、子组件上写一个v-bind:自定义属性="父级中的数据"
+            2、子组件上定义一个props属性，用来接收子组件的参数，属性可以为数组，也可以为对象
+                如果是数组  ['自定义的行间属性']
+            3、直接用{{}}+props中的名字就可以了
+
+    */
+    const btn = {
+        template:`
+            <div>
+                <button>按钮{{pnum}}  {{page}}</button>   
+                <ul>
+                    <li v-for="val in ary">{{val}}</li>
+                </ul> 
+            </div>
+        `,
+        props:['pnum','page','ary']
+    }
+    new Vue({
+        el:'#app',
+        data:{
+            num:0,
+            ary:[1,2,3,4,5]
+        },
+        components:{
+            btn
+        }
+    });
+</script>
+</body>
+</html>

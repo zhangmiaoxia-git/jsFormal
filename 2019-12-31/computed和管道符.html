@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input 
+            type="text"
+            v-model.number="val"
+        >
+        <!-- <p>{{revers}}</p> -->
+        <p>{{val}}</p>
+        <p>{{val | todoule}}</p>
+    </div>
+<script src="vue.min.js"></script>
+<script>
+    /*
+        computed和管道符都是数据的第二次处理，但是管道符是基于管道符之前的值进行二次处理
+        管道符全局注册了一个，局部注册了一个，那么会使用局部的
+    */
+    //全局注册
+    Vue.filter('todoule',function(val){
+        return val<10?'0'+val:''+val;
+    });
+
+    new Vue({
+        el:'#app',
+        data:{
+            val:'珠峰培训'
+        },
+        // computed:{
+        //     revers(){
+        //         return this.val.split('').reverse().join('');
+        //     }
+        // }
+        filters:{
+            todoule(val){
+                return 0;
+            }
+        }
+    });
+</script>
+</body>
+</html>
