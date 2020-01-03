@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h1>父元素</h1>
+        <button @click="++num">父元素按钮{{num}}</button>
+        <hr/>
+        <templ :nn="num" :yourname="name"></templ>
+    </div>
+
+    <template id="templ">
+        <div>
+            <h5>子元素</h5>
+            <button>子元素按钮{{nn+1}}</button>
+            <p>我的名字叫:{{yourname}}</p>
+        </div>
+    </template>
+<script src="vue.min.js"></script>
+<script>
+    const templ = {
+        template:'#templ',
+        // props:['nn']
+        props:{
+            nn:{
+                //检测数据类型
+                type:Number,
+                default:0
+            },
+            yourname:{
+                required:true,
+                //自定义验证函数
+                validator:function(value){
+                    return /[\u4e00-u9fa5]+/.test(value);
+                }
+            }
+        }
+    }
+
+
+
+    new Vue({
+        el:'#app',
+        data:{
+            num:0,
+            name:'小红'
+        },
+        components:{
+            templ
+        }
+    });
+</script>
+</body>
+</html>

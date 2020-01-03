@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div v-color="'green'">{{val}}</div>
+        <input type="text" v-focus value="1234">
+        <aa></aa>
+    </div>
+
+    <template id="templ">
+        <div v-size="50">1234567867890</div>
+    </template>
+<script src="vue.min.js"></script>
+<script>
+    //全局注册自定义指令
+    Vue.directive('color',function(el,val){
+        el.style.color = val.value?val.value:'red';
+    });
+
+    //全局注册
+    Vue.directive('focus',{
+        inserted(el){
+            el.select();
+        }
+    });
+
+    new Vue({
+        el:'#app',
+        data:{
+            val:'vue的最后'
+        },
+        components:{
+            aa:{
+                template:'#templ',
+                //局部注册一个自定义指令
+                directives:{
+                    size(el,val){
+                        el.style.fontSize = val.value?val.value+'px':'12px';
+                    }
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
