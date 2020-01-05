@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <ppa :data="ary">
+            <template #cdata="childrenData">
+                <!-- {{childrenData}} -->
+                <h2>我的名字叫:{{childrenData.nn}}</h2>
+                <p>我的年龄是:{{childrenData.age}}</p>
+                <p>我的编号是:{{childrenData.id}}</p>
+            </template>
+        </ppa> 
+    </div>
+
+    <template id="ppa">
+        <div>
+            <ul>
+                <li v-for="(val,key) in data">
+                    <slot
+                        name="cdata"
+                        :nn="val.name"
+                        :age="val.age"
+                        :id="val.id"
+                    >{{val.name}}</slot>
+                </li>
+            </ul>
+        </div>
+    </template>
+<script src="vue.min.js"></script>
+<script>
+    /*
+        如果有多个插槽的情况下，最好使用template语法
+
+        作用域插槽
+            在子级的slot中
+                1、定义一个name="唯一标识符"
+                2、通过v-bind传入使用的数据
+            在父级template中
+                1、v-slot:子级的name标识符="子级定义的名字"
+                2、使用自定义的名字.xx
+    */
+    const ppa = {
+        template:'#ppa',
+        props:['data']
+    }
+
+    new Vue({
+        el:'#app',
+        data:{
+            ary:[
+                {
+                    id:0,
+                    name:'小花',
+                    age:18
+                },
+                {
+                    id:1,
+                    name:'小红',
+                    age:19
+                },
+                {
+                    id:2,
+                    name:'小美',
+                    age:20
+                }
+            ]
+        },
+        components:{
+            ppa
+        }
+    });
+</script>
+</body>
+</html>

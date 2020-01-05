@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        /* 初始的位置 */
+        .v-enter,.v-leave-to{
+            opacity:0;
+            transform:translateX(300px);
+        }
+        /* 运动的过程 */
+        .v-enter-active,.v-leave-active{
+            transition:.5s;
+        }
+        /* 运动结束 */
+        .v-enter-to,.v-leave{
+            opacity:1;
+            transform:translateX(0);
+        }
+
+        .n-enter,.n-leave-to{
+            opacity:0;
+            transform:translateY(300px);
+        }
+        .n-enter-active,.n-leave-active{
+            transition:.5s;
+        }
+        .n-enter-to,.n-leave{
+            opacity:1;
+            transform:translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="onoff=!onoff">点击</button>
+        <transition>
+            <delog v-show="onoff"></delog>
+        </transition>
+        <hr/>
+        <button @click="onoff2 = !onoff2">点击</button>
+        <transition name="n">
+            <div v-show="onoff2">12345</div>
+        </transition>
+    </div>
+
+    <template id="delog">
+        <div>你好</div>
+    </template>
+<script src="vue.min.js"></script>
+<script>
+    const delog = {
+        template:'#delog'
+    }
+
+    new Vue({
+        el:'#app',
+        data:{
+            onoff:false,
+            onoff2:false
+        },
+        components:{
+            delog
+        }
+    });
+</script>
+</body>
+</html>

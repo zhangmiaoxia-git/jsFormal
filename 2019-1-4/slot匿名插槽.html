@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box{
+            width:100px;
+            height: 100px;
+            background: hotpink;
+        }
+        
+        .box2{
+            width:100px;
+            height: 100px;
+            background:skyblue;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <ppa>
+            <div class="box2">世界</div>
+        </ppa>
+    </div>
+
+    <template id="ppa">
+        <div>
+            <slot>
+                <div class="box"></div>
+            </slot>
+        </div>
+    </template>
+<script src="vue.min.js"></script>
+<script>
+    /*
+        如果设置一个插槽，那么插槽中的内容是可以被替换的，插槽可以解决开发中不灵活的问题
+
+        插槽有
+            匿名插槽
+                子组件中定义slot
+                父组件中给调用的子组件双标签内填入结构
+                此时插槽中的内容就被替换了
+            具名插槽
+            作用域插槽
+
+    */
+    const ppa = {
+        template:'#ppa'
+    }
+    new Vue({
+        el:'#app',
+        components:{
+            ppa
+        }
+    });
+</script>
+</body>
+</html>

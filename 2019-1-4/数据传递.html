@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <ppa></ppa>
+    </div>
+
+    <template id="ppa">
+        <div>{{ary2}}</div>
+    </template>
+<script src="vue.min.js"></script>
+<script src="ppa.js"></script>
+<script>
+    /*
+        this.$parnet可以拿到父组件的实例，拿到父组件的实例就可以拿到父级的数据
+
+        父组件设置参数
+            provide:{
+                ary:[1,2,3]
+            }
+        子组件接收参数
+            inject['ary2']
+    */
+    new Vue({
+        el:'#app',
+        data:{
+            num:0
+        },
+        components:{
+            ppa
+        },
+        provide:{
+            ary2:[1,2,3]
+        }
+    });
+</script>
+</body>
+</html>

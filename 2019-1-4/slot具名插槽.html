@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <ppa>
+            <div slot="head">我的头部</div>
+            <div slot="body">我的身体</div>
+            <div slot="foot">我的脚</div>
+        </ppa>
+    </div>
+
+    <template id="ppa">
+        <div>
+            <slot name="head">
+                <div>头部</div>
+            </slot>
+            <slot name="body">
+                <div>身体</div>
+            </slot>
+            <slot name="foot">
+                <div>脚</div>
+            </slot>
+        </div>
+    </template>
+<script src="vue.min.js"></script>
+<script>
+    /*
+        在有多个插槽的情况下，使用具名插槽，如果使用匿名插槽，那么内容结果会重复
+
+        具名插槽
+            在slot标签中设置一个name属性，值为随意
+            在插入替换内容的时候，在替换标签中定义一个slot的属性值和要替换的name对应
+    */
+    const ppa = {
+        template:'#ppa'
+    }
+    new Vue({
+        el:'#app',
+        components:{
+            ppa
+        }
+    });
+</script>
+</body>
+</html>

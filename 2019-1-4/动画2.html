@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+        }
+        #box{
+            width:20px;
+            height:20px;
+            background-color: skyblue;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="onoff = !onoff">点击</button>
+        <transition
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @after-enter="afterEnter"
+        >
+            <delog v-show="onoff"></delog>
+        </transition>
+        
+    </div>
+
+    <template id="delog">
+        <div id="box"></div>
+    </template>
+<script src="vue.min.js"></script>
+<script>
+    const delog = {
+        template:'#delog'
+    }
+    new Vue({
+        el:'#app',
+        data:{
+            onoff:false
+        },
+        methods:{
+            beforeEnter(ele){
+                ele.style.opacity = '1';
+                ele.style.transform="translate(0,0)";
+            },
+            enter(ele,done){
+                ele.offsetTop;
+                ele.style.transition = '.5s';
+                ele.style.transform = 'translate(200px,400px)';
+                done();
+            },
+            afterEnter(ele){
+                ele.style.opacity = '.2';
+                this.onoff = false;
+            }
+        },
+        components:{
+            delog
+        }
+    });
+</script>
+</body>
+</html>
